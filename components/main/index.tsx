@@ -22,6 +22,9 @@ export default function IntroComp() {
       <S.OverlaidContainer>
         <S.ThreeContainer>
           <Canvas>
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <directionalLight intensity={0.5} />
             <ThreeScene scrollPos={scrollPos} />
           </Canvas>
         </S.ThreeContainer>

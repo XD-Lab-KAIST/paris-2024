@@ -15,7 +15,7 @@ export default function useScroll(containerRef: any) {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
       console.log(scrollTop, scrollHeight, clientHeight);
-      setScroll(scrollTop / windowHeightRef.current);
+      setScroll(scrollTop / (scrollHeight - clientHeight));
     };
 
     if (!containerRef.current) return;
