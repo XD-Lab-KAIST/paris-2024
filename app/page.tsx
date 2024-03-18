@@ -1,5 +1,5 @@
-import ParticlesComp from "@/components/particles";
+import MainComp from "@/components/main";
 
 export default function Home() {
-  return <ParticlesComp />;
+  return <MainComp />;
 }
