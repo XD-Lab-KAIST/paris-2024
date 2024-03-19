@@ -6,18 +6,31 @@ import { useSpring, a, easings } from "@react-spring/three";
 
 import { TextureLoader } from "three";
 
-export default function ThreeScene({ scrollPos }: any) {
+const INITIAL_SCALE = 0.01;
+
+export default function ThreeScene({ scrollPos, setVideoIdx }: any) {
   const meshRef: any = useRef();
 
   //viewport
-  const { viewport } = useThree();
-  console.log(viewport);
-  const scaler = useMemo(() => 0.1 + scrollPos ** 2, [scrollPos]);
+  const { viewport, camera } = useThree();
 
+  /**
+   * Angle
+   */
+  useFrame(() => {
+    //get current camera angle
+    const angle = camera.rotation;
+    console.log(angle);
+  });
+
+  /**
+   * SCALE ADJUST
+   */
+  const scaler = useMemo(() => INITIAL_SCALE + scrollPos ** 2, [scrollPos]);
   const { position, rotation, scale } = useSpring({
-    from: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [0.1, 0.1, 0.1] },
+    from: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [INITIAL_SCALE, INITIAL_SCALE, INITIAL_SCALE] },
     to: {
-      position: [0, -(viewport.height / 2) * scrollPos, 0],
+      position: [0, 0, 0],
       rotation: [0, 0, 0],
       scale: [scaler, scaler, scaler],
     },
@@ -35,9 +48,11 @@ export default function ThreeScene({ scrollPos }: any) {
   return (
     <>
       <a.mesh position={position.to((x, y, z) => [x, y, z])} rotation={rotation.to((x, y, z) => [x, y, z])} scale={scale.to((x, y, z) => [x, y, z])}>
-        <sphereGeometry args={[1, 32, 32]} />
+        {/* <sphereGeometry args={[1.5, 32, 32]} /> */}
+        <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="hotpink" />
       </a.mesh>
+      <OrbitControls />
     </>
   );
 }
