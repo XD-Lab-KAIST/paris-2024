@@ -26,7 +26,8 @@ export default function VideoComp({ videoIdx }: any) {
           ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
           key={i}
           style={{
-            opacity: videoIdx === i ? 1 : 0,
+            opacity: videoIdx >= i ? 1 : 0,
+            transform: videoIdx === i ? "scale(1)" : "scale(0.9)",
           }}
         >
           <source src={`/video/${VID_ARR[i]}`} type="video/mp4" />

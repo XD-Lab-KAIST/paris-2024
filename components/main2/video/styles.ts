@@ -20,6 +20,6 @@ export const VideoContainer = styled.div`
 
     margin: auto;
 
-    transition: opacity 0.5s;
+    transition: opacity 0.5s, transform 1s;
   }
 `;

@@ -21,7 +21,7 @@ export default function IntroComp() {
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
           <directionalLight intensity={0.5} />
-          <ScrollControls pages={5}>
+          <ScrollControls pages={50}>
             <ThreeScene setVideoIdx={setVideoIdx} />
           </ScrollControls>
         </Canvas>
