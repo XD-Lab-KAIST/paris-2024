@@ -21,6 +21,8 @@ export default function IntroComp() {
     }
   }, [scrollPos]);
 
+  console.log(videoIdx);
+
   return (
     <S.Container ref={containerRef}>
       <S.ScrollContainer

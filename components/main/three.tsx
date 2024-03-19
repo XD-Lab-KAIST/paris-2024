@@ -20,7 +20,14 @@ export default function ThreeScene({ scrollPos, setVideoIdx }: any) {
   useFrame(() => {
     //get current camera angle
     const angle = camera.rotation;
-    console.log(angle);
+    if (angle.y > 0.5) {
+      setVideoIdx(1);
+    } else if (angle.y < -0.5) {
+      console.log("31");
+      setVideoIdx(2);
+    } else {
+      setVideoIdx(0);
+    }
   });
 
   /**
