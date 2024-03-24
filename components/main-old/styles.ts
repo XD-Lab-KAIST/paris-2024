@@ -4,7 +4,6 @@ import { FlexCenterStyle, WholeContainer } from "@/styles/common";
 export const Container = styled.div`
   ${FlexCenterStyle}
   ${WholeContainer}
-  background: black;
 
   overflow-y: scroll !important;
 

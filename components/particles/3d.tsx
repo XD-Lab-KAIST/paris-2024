@@ -31,7 +31,7 @@ function GPGPUParticles() {
   const baseGeometryRef = useRef();
   const particlesRef = useRef();
 
-  const gltf = useGLTF("/3d/sphere_test2.glb");
+  const gltf = useGLTF("/3d/EarthShell_vertexColor.gltf");
 
   useEffect(() => {
     if (!gltf) return;

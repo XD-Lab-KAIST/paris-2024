@@ -1,65 +1,41 @@
-import React, { useRef, useState, useEffect, useMemo } from "react";
-import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import React, { forwardRef, useRef, useState, useEffect, useMemo } from "react";
+import useRefs from "react-use-refs";
 
+import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
+import { useScroll, ScrollControls, OrbitControls, useGLTF } from "@react-three/drei";
 import { useSpring, a, easings } from "@react-spring/three";
 
 import { TextureLoader } from "three";
 
 const INITIAL_SCALE = 0.01;
 
-export default function ThreeScene({ scrollPos, setVideoIdx }: any) {
-  const meshRef: any = useRef();
+export default function ThreeScene({ setVideoIdx }: any) {
+  const scroll = useScroll();
+  const { width, height } = useThree((state) => state.viewport);
 
-  //viewport
-  const { viewport, camera } = useThree();
+  const [box] = useRefs<any>();
 
-  /**
-   * Angle
-   */
-  useFrame(() => {
-    //get current camera angle
-    const angle = camera.rotation;
-    if (angle.y > 0.5) {
-      setVideoIdx(1);
-    } else if (angle.y < -0.5) {
-      console.log("31");
-      setVideoIdx(2);
-    } else {
-      setVideoIdx(0);
-    }
-  });
+  useFrame((state, delta) => {
+    const s = scroll.range(0, 1 / 4);
 
-  /**
-   * SCALE ADJUST
-   */
-  const scaler = useMemo(() => INITIAL_SCALE + scrollPos ** 2, [scrollPos]);
-  const { position, rotation, scale } = useSpring({
-    from: { position: [0, 0, 0], rotation: [0, 0, 0], scale: [INITIAL_SCALE, INITIAL_SCALE, INITIAL_SCALE] },
-    to: {
-      position: [0, 0, 0],
-      rotation: [0, 0, 0],
-      scale: [scaler, scaler, scaler],
-    },
+    box.current.scale.x = box.current.scale.y = box.current.scale.z = s + 0.1;
 
-    config: {
-      tension: 170, // Controls the speed of the animation. Higher values make it faster.
-      friction: 12, // Controls the bounciness. Lower values make it bouncier.
-      mass: 1, // Mass of the object being animated. Affects the inertia of the animation.
-      // You can adjust these values to achieve the desired bouncy effect.
-      clamp: false, // When true, the spring will not overshoot. For bounciness, it's typically false.
-      precision: 0.01, // The precision of the animation. Smaller values run the animation longer.
-    },
+    const r = scroll.range(1 / 4, 1);
+    box.current.rotation.y = r * 5;
+
+    const y = scroll.range(2 / 5, 1 / 2);
+    box.current.position.y = -y * height * 0.4;
+
+    const a = scroll.range(1 / 2, 1) * 2;
+    setVideoIdx(-1 + Math.ceil(a * 3));
   });
 
   return (
     <>
-      <a.mesh position={position.to((x, y, z) => [x, y, z])} rotation={rotation.to((x, y, z) => [x, y, z])} scale={scale.to((x, y, z) => [x, y, z])}>
-        {/* <sphereGeometry args={[1.5, 32, 32]} /> */}
+      <mesh ref={box}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="hotpink" />
-      </a.mesh>
-      <OrbitControls />
+      </mesh>
     </>
   );
 }
