@@ -4,8 +4,8 @@ import { useRef, useState, useEffect } from "react";
 import * as S from "./styles";
 import useScroll from "@/utils/hooks/useScroll";
 
-import ThreeScene from "./three-model";
-import VideoComp from "./video";
+import ThreeScene from "@/foundations/main/three";
+import VideoComp from "@/foundations/main/video";
 
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
@@ -20,7 +20,6 @@ export default function IntroComp() {
         <Canvas>
           <ambientLight />
           <pointLight position={[10, 10, 10]} />
-          <directionalLight intensity={3} color="pink" />
 
           <ScrollControls pages={50}>
             <ThreeScene setVideoIdx={setVideoIdx} />
