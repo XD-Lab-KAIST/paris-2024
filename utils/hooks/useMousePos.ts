@@ -17,7 +17,7 @@ export default function useMousePos() {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [windowWidth, windowHeight]);
 
   return mousePos;
 }

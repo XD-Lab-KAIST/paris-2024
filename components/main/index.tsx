@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from "react";
 import * as S from "./styles";
-import useScroll from "@/utils/hooks/useScroll";
+import usePreventBackOnScroll from "@/utils/hooks/usePreventBackOnScroll";
 
 import ThreeScene from "@/foundations/main/three";
 import VideoComp from "@/foundations/main/video";
@@ -12,6 +12,8 @@ import { ScrollControls } from "@react-three/drei";
 
 export default function IntroComp() {
   const [videoIdx, setVideoIdx] = useState(-1);
+
+  usePreventBackOnScroll();
 
   return (
     <S.Container>
