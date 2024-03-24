@@ -7,6 +7,13 @@ export const VideoContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+`;
+
+export const SingleVideo = styled.div`
+  ${WholeContainer}
+  ${FlexCenterStyle}
+
+
 
   video {
     width: 100%;
@@ -21,5 +28,6 @@ export const VideoContainer = styled.div`
     margin: auto;
 
     transition: opacity 0.5s, transform 1s;
+    // mix-blend-mode: screen;
   }
 `;

@@ -21,18 +21,25 @@ export default function VideoComp({ videoIdx }: any) {
   return (
     <S.VideoContainer>
       {new Array(3).fill(0).map((_, i) => (
-        <video
-          autoPlay
-          ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
-          key={i}
-          style={{
-            opacity: videoIdx >= i ? 1 : 0,
-            transform: videoIdx === i ? "scale(1)" : "scale(0.9)",
-          }}
-        >
-          <source src={`/video/${VID_ARR[i]}`} type="video/mp4" />
-        </video>
+        <SingleVideoEl key={i} i={i} videoIdx={videoIdx} vidRef0={vidRef0} vidRef1={vidRef1} vidRef2={vidRef2} />
       ))}
     </S.VideoContainer>
+  );
+}
+
+function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2 }: any) {
+  return (
+    <S.SingleVideo>
+      <video
+        autoPlay
+        ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
+        style={{
+          opacity: videoIdx >= i ? 1 : 0,
+          transform: videoIdx === i ? "scale(1)" : "scale(0.9)",
+        }}
+      >
+        <source src={`/video/${VID_ARR[i]}`} type="video/mp4" />
+      </video>
+    </S.SingleVideo>
   );
 }

@@ -21,7 +21,7 @@ export default function IntroComp() {
         <VideoComp videoIdx={videoIdx} />
         <Canvas>
           <ambientLight />
-          <pointLight position={[10, 10, 10]} />
+          {/* <pointLight position={[10, 10, 10]} /> */}
 
           <ScrollControls pages={50}>
             <ThreeScene setVideoIdx={setVideoIdx} />

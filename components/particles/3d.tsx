@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
+import useMousePos from "@/utils/hooks/useMousePos";
+
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer";
 import * as THREE from "three";
-import GUI from "lil-gui";
 
 import * as S from "./styles";
 
@@ -24,6 +24,7 @@ extend({ OrbitControls });
 
 function GPGPUParticles() {
   const [windowWidth, windowHeight] = useResize();
+  const mousePos = useMousePos();
 
   const { gl, scene, camera, size } = useThree();
   const [gpgpu, setGpgpu] = useState<any>(null);
@@ -36,9 +37,9 @@ function GPGPUParticles() {
   useEffect(() => {
     if (!gltf) return;
 
-    console.log(gltf);
-
     const baseGeometry: any = {};
+
+    //scale up
     baseGeometry.instance = gltf.scene.children[0]?.geometry;
     baseGeometry.count = baseGeometry.instance.attributes.position.count;
 
@@ -72,8 +73,10 @@ function GPGPUParticles() {
     gpgpu.particlesVariable.material.uniforms.uDeltaTime = new THREE.Uniform(0);
     gpgpu.particlesVariable.material.uniforms.uBase = new THREE.Uniform(baseParticlesTexture);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(0.5);
-    gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(2);
+    gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(2.0);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(0.5);
+    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3());
+    gpgpu.particlesVariable.material.uniforms.uDisplacementIntensity = new THREE.Uniform(0.5);
 
     gpgpu.computation.init();
 
@@ -132,18 +135,18 @@ function GPGPUParticles() {
    * Animation
    */
 
-  const clock = useRef(new THREE.Clock());
-  let previousTime = 0;
+  let previousTimeRef = useRef(0);
 
   useFrame((state, delta) => {
-    const elapsedTime = clock.current.getElapsedTime();
-    const deltaTime = elapsedTime - previousTime;
-    previousTime = elapsedTime;
+    const elapsedTime = state.clock.getElapsedTime() * 10;
+    const deltaTime = elapsedTime - previousTimeRef.current;
+    previousTimeRef.current = elapsedTime;
 
     // GPGPU Update
     if (!gpgpu) return;
     gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;
     gpgpu.particlesVariable.material.uniforms.uDeltaTime.value = deltaTime;
+    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3(mousePos.x, mousePos.y, 0));
     gpgpu.computation.compute();
 
     if (!material) return;
@@ -155,11 +158,15 @@ function GPGPUParticles() {
 
 function App() {
   return (
-    <Canvas gl={{ antialias: true }}>
+    <Canvas
+      gl={{ antialias: true }}
+      //camera location
+      camera={{ position: [0, 0, 3] }}
+    >
       <color attach="background" args={["#000"]} />
       <ambientLight />
 
-      <OrbitControls />
+      {/* <OrbitControls /> */}
       <GPGPUParticles />
     </Canvas>
   );
