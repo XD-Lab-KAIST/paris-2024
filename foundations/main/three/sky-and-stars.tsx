@@ -51,8 +51,8 @@ export default function SkyAndStars({ scrollPos }: any) {
         )}
       </group>
 
-      <Stars radius={100} depth={50} count={4000} factor={4} saturation={0} fade animated />
-      {scrollPos >= 1 / 4 && <Environment preset={ENVIRONMENTS_ARR[envArrIdx]} />}
+      <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade animated />
+      {scrollPos >= 0.3 && <Environment preset={"dawn"} />}
       {/* {scrollPos >= 0.056 && <Sparkles count={100} colors={["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]} size={1} fade animated fadeOut />} */}
     </>
   );

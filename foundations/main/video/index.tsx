@@ -14,7 +14,38 @@ export default function VideoComp({ videoIdx, cycleIdx }: any) {
     if (videoIdx !== -1 && targetRef && targetRef.current !== null) {
       targetRef.current?.play();
     }
+    //other refs stop
+    try {
+      if (videoIdx === 0) {
+        vidRef1.current?.pause();
+        vidRef2.current?.pause();
+      }
+      if (videoIdx === 1) {
+        vidRef0.current?.pause();
+        vidRef2.current?.pause();
+      }
+      if (videoIdx === 2) {
+        vidRef0.current?.pause();
+        vidRef1.current?.pause();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }, [videoIdx]);
+
+  //playback rate
+  useEffect(() => {
+    const playbackRate = Math.min(1 + cycleIdx * 0.2, 4);
+    try {
+      if (vidRef0.current && vidRef1.current && vidRef2.current) {
+        vidRef0.current.playbackRate = playbackRate;
+        vidRef1.current.playbackRate = playbackRate;
+        vidRef2.current.playbackRate = playbackRate;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [cycleIdx]);
 
   return (
     <S.VideoContainer>
@@ -30,6 +61,7 @@ function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2, cycleIdx }: any
     <S.SingleVideo>
       <video
         autoPlay
+        loop
         ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
         style={{
           opacity: videoIdx >= i ? 1 : 0,

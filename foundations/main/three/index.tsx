@@ -24,28 +24,25 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
   //scroll value
 
-  console.log(mousePos);
+  console.log(scrollPos);
 
   useFrame((state, delta) => {
     setScrollPos(scroll.range(0, 1));
-    const s = scroll.range(1 / 20, 1 / 6);
+    const s1 = scroll.range(1 / 20, 1 / 6);
+    const s2 = scroll.range(1 / 6, 2 / 5);
+    const s = s1 - s2 * 0.5;
+    console.log(s1, s2);
 
     group.current.scale.x = group.current.scale.y = group.current.scale.z = s * 9;
 
     const r = scroll.range(0, 1 / 3);
     group.current.rotation.z = r ** 2 * 20;
 
-    const y = scroll.range(1 / 3, 1 / 2);
+    const y = scroll.range(1 / 5, 2 / 5);
     group.current.position.y = -y * height * 0.3;
 
     group.current.rotation.y = (mousePos.x - 0.5) * Math.PI;
     group.current.rotation.x = (mousePos.y - 0.5) * Math.PI;
-
-    //camera  --> accordingly to mousepos
-    // const angle = Math.PI * 2 * mousePos.x;
-    // const R = 1;
-    // camera.position.x = R * Math.cos(angle);
-    // camera.position.y = R * Math.sin(angle);
   });
 
   useEffect(() => {
@@ -66,8 +63,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
   return (
     <>
-      {/* <Fisheye> */}
-      <directionalLight intensity={3} color={new THREE.Color().setHSL(Math.min(scrollPos * 4, 1), 1, 0.5)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />
+      <CustomLight scrollPos={scrollPos} />
       <group ref={group}>
         <primitive object={gltf.scene} />
       </group>
@@ -79,4 +75,17 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
       {/* <Environment preset={"dawn"} /> */}
     </>
   );
+}
+
+function CustomLight({ scrollPos }: any) {
+  const hue = useMemo(() => {
+    if (scrollPos < 1 / 4) {
+      return scrollPos * 4;
+    } else if (1 / 4 <= scrollPos && scrollPos <= 0.3) {
+      return ((scrollPos - 1 / 4) * 100) % 1;
+    }
+    return 1;
+  }, [scrollPos]);
+
+  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
 }
