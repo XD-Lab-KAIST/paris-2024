@@ -5,7 +5,7 @@ import useRefs from "react-use-refs";
 
 const VID_ARR = ["Mountain.mp4", "Skeleton.mp4", "Treewater.mp4"];
 
-export default function VideoComp({ videoIdx }: any) {
+export default function VideoComp({ videoIdx, cycleIdx }: any) {
   const [vidRef0, vidRef1, vidRef2] = useRefs<HTMLVideoElement>(null);
 
   //on video indx change play
@@ -16,18 +16,16 @@ export default function VideoComp({ videoIdx }: any) {
     }
   }, [videoIdx]);
 
-  console.log(videoIdx);
-
   return (
     <S.VideoContainer>
       {new Array(3).fill(0).map((_, i) => (
-        <SingleVideoEl key={i} i={i} videoIdx={videoIdx} vidRef0={vidRef0} vidRef1={vidRef1} vidRef2={vidRef2} />
+        <SingleVideoEl key={i} i={i} videoIdx={videoIdx} vidRef0={vidRef0} vidRef1={vidRef1} vidRef2={vidRef2} cycleIdx={cycleIdx} />
       ))}
     </S.VideoContainer>
   );
 }
 
-function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2 }: any) {
+function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2, cycleIdx }: any) {
   return (
     <S.SingleVideo>
       <video
@@ -36,6 +34,7 @@ function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2 }: any) {
         style={{
           opacity: videoIdx >= i ? 1 : 0,
           transform: videoIdx === i ? "scale(1)" : "scale(0.9)",
+          transition: cycleIdx >= 5 ? "" : `opacity ${0.5 / (cycleIdx + 1)}s, transform ${1 / (cycleIdx + 1)}s`,
         }}
       >
         <source src={`/video/${VID_ARR[i]}`} type="video/mp4" />

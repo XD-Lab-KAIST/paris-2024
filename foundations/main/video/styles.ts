@@ -26,8 +26,5 @@ export const SingleVideo = styled.div`
     bottom: 0;
 
     margin: auto;
-
-    transition: opacity 0.5s, transform 1s;
-    // mix-blend-mode: screen;
   }
 `;

@@ -12,19 +12,20 @@ import { ScrollControls } from "@react-three/drei";
 
 export default function IntroComp() {
   const [videoIdx, setVideoIdx] = useState(-1);
+  const [cycleIdx, setCycleIdx] = useState(0);
 
   usePreventBackOnScroll();
 
   return (
     <S.Container>
       <S.ThreeContainer>
-        <VideoComp videoIdx={videoIdx} />
+        <VideoComp videoIdx={videoIdx} cycleIdx={cycleIdx} />
         <Canvas>
           <ambientLight />
           {/* <pointLight position={[10, 10, 10]} /> */}
 
-          <ScrollControls pages={50}>
-            <ThreeScene setVideoIdx={setVideoIdx} />
+          <ScrollControls pages={150}>
+            <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} />
           </ScrollControls>
         </Canvas>
       </S.ThreeContainer>
