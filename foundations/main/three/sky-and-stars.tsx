@@ -29,11 +29,16 @@ const ENVIRONMENTS_ARR = [
 ];
 
 export default function SkyAndStars({ scrollPos }: any) {
-  const [group, earth] = useRefs<any>();
+  const [group, cloud] = useRefs<any>();
+  const { size } = useThree();
 
   useEffect(() => {
-    if (group.current && group.current.material) {
-      group.current.material.opacity = 1 - scrollPos * 5;
+    const START = 0.2;
+    const END = 0.3;
+    if (scrollPos >= START && scrollPos <= END) {
+      const pos = (scrollPos - START) * (1 / (END - START));
+      console.log(pos, scrollPos);
+      cloud.current.position.x = size.width * 0.03 * (-0.5 + pos);
     }
   }, [scrollPos]);
 
@@ -50,9 +55,12 @@ export default function SkyAndStars({ scrollPos }: any) {
           />
         )}
       </group>
+      <group position={[-100, 0, 2]} ref={cloud}>
+        <Cloud seed={3} scale={2} volume={5} />
+      </group>
 
       <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade animated />
-      {scrollPos >= 0.3 && <Environment preset={"dawn"} />}
+      {scrollPos >= 0.25 && <Environment preset={"dawn"} />}
       {/* {scrollPos >= 0.056 && <Sparkles count={100} colors={["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]} size={1} fade animated fadeOut />} */}
     </>
   );

@@ -14,7 +14,7 @@ export default function useScroll(containerRef: any) {
   useEffect(() => {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
-      console.log(scrollTop, scrollHeight, clientHeight);
+
       setScroll(scrollTop / (scrollHeight - clientHeight));
     };
 
