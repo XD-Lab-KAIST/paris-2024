@@ -26,14 +26,14 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
   useFrame((state, delta) => {
     setScrollPos(scroll.range(0, 1));
-    const s1 = scroll.range(1 / 20, 1 / 6);
-    const s2 = scroll.range(1 / 6, 0.3);
-    const s = s1 - s2 * 0.6;
+    const s1 = scroll.range(1 / 20, 1 / 7);
+    const s2 = scroll.range(1 / 7, 0.253);
+    const s = s1 - s2 * 0.7;
 
-    group.current.scale.x = group.current.scale.y = group.current.scale.z = s * 9;
+    group.current.scale.x = group.current.scale.y = group.current.scale.z = s * 11;
 
     const r = scroll.range(0, 1);
-    group.current.rotation.z = r * 20;
+    group.current.rotation.z = r * 30;
 
     const y = scroll.range(0.25, 0.253);
     group.current.position.y = -y * height * 0.4;
@@ -42,17 +42,18 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
     group.current.rotation.x = (mousePos.y - 0.5) * Math.PI;
   });
 
+  const CUT_IDX = 0.97;
   useEffect(() => {
     if (scrollPos < 2 / 5 || scrollPos == 1) {
       setVideoIdx(-1);
-    } else if (scrollPos <= 0.98) {
-      let idx = 0.98 - ((scrollPos - 2 / 5) * 5) / 3;
+    } else if (scrollPos <= CUT_IDX) {
+      let idx = CUT_IDX - ((scrollPos - 2 / 5) * 5) / 3;
       const x = Math.floor(Math.log2(1 / idx));
       setCycleIdx(x);
       let vidIdx = Math.floor((idx - Math.pow(0.5, x + 1)) * Math.pow(2, x + 1) * 3);
       setVideoIdx(2 - vidIdx);
     } else {
-      const idx = (scrollPos - 0.98) * 1000000;
+      const idx = (scrollPos - CUT_IDX) * 1000000;
       setVideoIdx(idx % 3);
     }
   }, [scrollPos]);
@@ -80,5 +81,5 @@ function CustomLight({ scrollPos }: any) {
     return 1;
   }, [scrollPos]);
 
-  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
+  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5 + scrollPos * 2)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
 }
