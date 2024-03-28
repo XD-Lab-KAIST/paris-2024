@@ -1,5 +1,6 @@
 uniform vec2 uResolution;
 uniform float uSize;
+uniform float uTime;
 uniform sampler2D uParticlesTexture;
 
 attribute vec2 aParticlesUv;
@@ -27,5 +28,6 @@ void main()
     gl_PointSize *= (1.0 / - viewPosition.z);
 
     // Varyings
-    vColor = vec3(aColor);
+    // vColor = vec3(aColor.r + cos((uTime + particle.x * 1.7 + particle.z + 0.7) * 1.1), aColor.gb);
+    vColor = vec3(aColor * 0.3);
 }

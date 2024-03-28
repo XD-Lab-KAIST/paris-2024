@@ -152,7 +152,7 @@ void main(){
         // particle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
 
         //Decay
-        particle.a += uDeltaTime * 0.3;
+        particle.a += uDeltaTime * 0.7;
     }
     
     gl_FragColor = particle;

@@ -22,7 +22,7 @@ const PIXEL_RATIO = 2;
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
 
-function GPGPUParticles() {
+export default function GPGPUParticles() {
   const [windowWidth, windowHeight] = useResize();
   const mousePos = useMousePos();
 
@@ -62,16 +62,6 @@ function GPGPUParticles() {
       baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1];
       baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2];
       baseParticlesTexture.image.data[i4 + 3] = Math.random() * 2;
-
-      // baseParticlesTexture.image.data[i4 + 4] = baseGeometry.instance.attributes.position.array[i3 + 0];
-      // baseParticlesTexture.image.data[i4 + 5] = baseGeometry.instance.attributes.position.array[i3 + 1];
-      // baseParticlesTexture.image.data[i4 + 6] = baseGeometry.instance.attributes.position.array[i3 + 2] - 0.1;
-      // baseParticlesTexture.image.data[i4 + 7] = Math.random() * 2;
-
-      // baseParticlesTexture.image.data[i4 + 8] = baseGeometry.instance.attributes.position.array[i3 + 0];
-      // baseParticlesTexture.image.data[i4 + 9] = baseGeometry.instance.attributes.position.array[i3 + 1];
-      // baseParticlesTexture.image.data[i4 + 10] = baseGeometry.instance.attributes.position.array[i3 + 2] + 0.1;
-      // baseParticlesTexture.image.data[i4 + 11] = Math.random() * 2;
     }
 
     // Particles variable
@@ -134,6 +124,7 @@ function GPGPUParticles() {
         uSize: new THREE.Uniform(0.008),
         uResolution: new THREE.Uniform(new THREE.Vector2(size.width * gl.getPixelRatio(), size.height * gl.getPixelRatio())),
         uParticlesTexture: new THREE.Uniform(),
+        uTime: new THREE.Uniform(0),
       },
     });
 
@@ -160,27 +151,10 @@ function GPGPUParticles() {
 
     if (!material) return;
     material.uniforms.uParticlesTexture.value = gpgpu.computation.getCurrentRenderTarget(gpgpu.particlesVariable).texture;
+    material.uniforms.uTime.value = elapsedTime;
 
     console.log(material.uniforms.uParticlesTexture.value);
   });
 
   return <>{geometry && material && <points args={[geometry, material]} />}</>;
 }
-
-function App() {
-  return (
-    <Canvas
-      gl={{ antialias: true }}
-      //camera location
-      camera={{ position: [0, 0, 3] }}
-    >
-      <color attach="background" args={["#000"]} />
-      <ambientLight />
-
-      {/* <OrbitControls /> */}
-      <GPGPUParticles />
-    </Canvas>
-  );
-}
-
-export default App;
