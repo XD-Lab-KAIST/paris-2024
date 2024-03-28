@@ -7,7 +7,7 @@ import useMousePos from "@/utils/hooks/useMousePos";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer";
 import * as THREE from "three";
 
-import * as S from "./styles";
+import * as S from "../../components/particles/styles";
 
 // Import shaders
 import particlesVertexShader from "./shaders/particles/vertex.glsl";

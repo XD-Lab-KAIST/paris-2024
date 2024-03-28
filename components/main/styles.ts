@@ -7,6 +7,7 @@ export const Container = styled.div`
   background: black;
 
   overflow-y: scroll !important;
+  cursor: none;
 
   canvas {
     width: 100%;

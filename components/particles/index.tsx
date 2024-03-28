@@ -1,7 +1,7 @@
 "use client";
 import * as S from "./styles";
 
-import GPGPUParticles from "./Particles";
+import GPGPUParticles from "@/foundations/particles";
 import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
 
 export default function Container() {

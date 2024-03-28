@@ -29,11 +29,11 @@ export default function SkyAndStars({ scrollPos }: any) {
         )}
       </group>
       <group position={[-100, 0, 2]} ref={cloud}>
-        <Cloud seed={3} scale={2} volume={5} />
+        <Cloud seed={3} scale={1.4} volume={5} />
       </group>
 
       <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade animated />
-      {scrollPos >= 0.25 && <Environment preset={"dawn"} />}
+      {scrollPos >= 0.25 && <Environment preset={"city"} />}
       {/* {scrollPos >= 0.056 && <Sparkles count={100} colors={["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]} size={1} fade animated fadeOut />} */}
     </>
   );

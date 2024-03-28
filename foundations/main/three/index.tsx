@@ -7,6 +7,8 @@ import * as THREE from "three";
 
 import SkyAndStars from "./sky-and-stars";
 import PostProcessing from "./post-processing";
+import Text from "./text";
+import GPGPUParticles from "@/foundations/particles";
 
 import useMousePos from "@/utils/hooks/useMousePos";
 
@@ -25,17 +27,18 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
   //scroll value
 
   useFrame((state, delta) => {
-    setScrollPos(scroll.range(0, 1));
+    const pos = scroll.range(0, 1);
+    setScrollPos(pos);
     const s1 = scroll.range(1 / 20, 1 / 7);
-    const s2 = scroll.range(1 / 7, 0.253);
-    const s = s1 - s2 * 0.7;
+    const s2 = scroll.range(1 / 7, 0.23);
+    const s = s1 - s2 * 0.75;
 
-    group.current.scale.x = group.current.scale.y = group.current.scale.z = s * 11;
+    group.current.scale.x = group.current.scale.y = group.current.scale.z = s * 13;
 
     const r = scroll.range(0, 1);
     group.current.rotation.z = r * 30;
 
-    const y = scroll.range(0.25, 0.253);
+    const y = pos > 0.25 ? (pos > 0.35 ? 1 : (pos - 0.25) * 10) : 0;
     group.current.position.y = -y * height * 0.4;
 
     group.current.rotation.y = (mousePos.x - 0.5) * Math.PI;
@@ -69,6 +72,8 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} />
+      <Text scrollPos={scrollPos} />
+      {/* <GPGPUParticles /> */}
     </>
   );
 }
@@ -76,10 +81,10 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 function CustomLight({ scrollPos }: any) {
   const hue = useMemo(() => {
     if (scrollPos < 1 / 4) {
-      return scrollPos * 4;
+      return (scrollPos * 12) % 1;
     }
     return 1;
   }, [scrollPos]);
 
-  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5 + scrollPos * 2)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
+  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5 + scrollPos * 3)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
 }
