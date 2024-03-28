@@ -118,7 +118,8 @@ void main(){
 
 
     float displacementIntensity = distance(particle.xy * 0.35, (uModelCursor.xy) * 2.0 - 1.0);
-    displacementIntensity = smoothstep(0.0, 0.3, displacementIntensity);
+    float radius = 0.15 + 0.04 * (sin(time * 17.7) + cos(time * 21.3 + 4.7));
+    displacementIntensity = smoothstep(0.0, radius, pow(displacementIntensity, 1.1));
     // displacementIntensity = 1.0 - smoothstep(0.0, 1.0, displacementIntensity);
 
     //Dead & Alive
@@ -130,7 +131,7 @@ void main(){
         float strength = simplexNoise4d(vec4(base.xyz * 0.2, time + 1.0));
         float influence = 1.0;
         if(displacementIntensity < 1.0){
-          influence = (uFlowFieldInfluence - 0.5) * (-8.0) * displacementIntensity;
+          influence = (uFlowFieldInfluence) * (-3.0) * displacementIntensity;
         } 
 
         // float influence = (uFlowFieldInfluence - 0.5) * (-2.0);

@@ -62,6 +62,16 @@ function GPGPUParticles() {
       baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1];
       baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2];
       baseParticlesTexture.image.data[i4 + 3] = Math.random() * 2;
+
+      // baseParticlesTexture.image.data[i4 + 4] = baseGeometry.instance.attributes.position.array[i3 + 0];
+      // baseParticlesTexture.image.data[i4 + 5] = baseGeometry.instance.attributes.position.array[i3 + 1];
+      // baseParticlesTexture.image.data[i4 + 6] = baseGeometry.instance.attributes.position.array[i3 + 2] - 0.1;
+      // baseParticlesTexture.image.data[i4 + 7] = Math.random() * 2;
+
+      // baseParticlesTexture.image.data[i4 + 8] = baseGeometry.instance.attributes.position.array[i3 + 0];
+      // baseParticlesTexture.image.data[i4 + 9] = baseGeometry.instance.attributes.position.array[i3 + 1];
+      // baseParticlesTexture.image.data[i4 + 10] = baseGeometry.instance.attributes.position.array[i3 + 2] + 0.1;
+      // baseParticlesTexture.image.data[i4 + 11] = Math.random() * 2;
     }
 
     // Particles variable
@@ -72,7 +82,7 @@ function GPGPUParticles() {
     gpgpu.particlesVariable.material.uniforms.uTime = new THREE.Uniform(0);
     gpgpu.particlesVariable.material.uniforms.uDeltaTime = new THREE.Uniform(0);
     gpgpu.particlesVariable.material.uniforms.uBase = new THREE.Uniform(baseParticlesTexture);
-    gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(1.0);
+    gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(0.5);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(10.0);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(1.0);
     gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3());
@@ -121,7 +131,7 @@ function GPGPUParticles() {
       vertexShader: particlesVertexShader,
       fragmentShader: particlesFragmentShader,
       uniforms: {
-        uSize: new THREE.Uniform(0.005),
+        uSize: new THREE.Uniform(0.008),
         uResolution: new THREE.Uniform(new THREE.Vector2(size.width * gl.getPixelRatio(), size.height * gl.getPixelRatio())),
         uParticlesTexture: new THREE.Uniform(),
       },
