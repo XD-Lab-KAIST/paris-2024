@@ -107,19 +107,19 @@ uniform float uFlowFieldStrength;
 uniform float uFlowFieldFrequency;
 
 uniform vec3 uModelCursor;
-uniform float uDisplacementIntensity;
 
 
 void main(){
-    float time = uTime * 0.03;
+    float time = uTime * 0.2;
     vec2 uv = gl_FragCoord.xy / resolution.xy;
     vec4 particle = texture(uParticles, uv);
     vec4 copiedParticle = particle;
     vec4 base = texture(uBase, uv);
 
-    float displacementIntensity = distance(normalize(particle.xyz), normalize(uModelCursor));
-    displacementIntensity = 2.0 - smoothstep(0.0, 2.0, displacementIntensity);
 
+    float displacementIntensity = distance(particle.xy * 0.35, (uModelCursor.xy) * 2.0 - 1.0);
+    displacementIntensity = smoothstep(0.0, 0.3, displacementIntensity);
+    // displacementIntensity = 1.0 - smoothstep(0.0, 1.0, displacementIntensity);
 
     //Dead & Alive
     if(particle.a >= 1.0){
@@ -128,7 +128,12 @@ void main(){
     } else{
         //Strength
         float strength = simplexNoise4d(vec4(base.xyz * 0.2, time + 1.0));
-        float influence = (uFlowFieldInfluence - 0.5) * (-2.0) * displacementIntensity;
+        float influence = 1.0;
+        if(displacementIntensity < 1.0){
+          influence = (uFlowFieldInfluence - 0.5) * (-8.0) * displacementIntensity;
+        } 
+
+        // float influence = (uFlowFieldInfluence - 0.5) * (-2.0);
         strength = smoothstep(influence, 1.0, strength);
 
         //Flow Field
@@ -141,11 +146,12 @@ void main(){
 
 
         copiedParticle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
-        particle.xyz = mix(particle.xyz, copiedParticle.xyz, 0.4);
+        particle.xyz = mix(particle.xyz, copiedParticle.xyz, 0.5);
 
+        // particle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
 
         //Decay
-        particle.a += uDeltaTime * 0.01;
+        particle.a += uDeltaTime * 0.3;
     }
     
     gl_FragColor = particle;
