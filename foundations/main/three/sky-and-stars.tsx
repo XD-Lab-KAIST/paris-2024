@@ -13,7 +13,6 @@ export default function SkyAndStars({ scrollPos }: any) {
     const END = 0.29;
     if (scrollPos >= START && scrollPos <= END) {
       const pos = (scrollPos - START) * (1 / (END - START));
-      console.log(pos, scrollPos);
       cloud.current.position.x = size.width * 0.03 * (-0.5 + pos);
     }
   }, [scrollPos]);

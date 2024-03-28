@@ -7,13 +7,11 @@ const THRESHOLD = 1;
 export default function PostProcessing({ scrollPos }: any) {
   const bloomIntensity = useMemo(() => {
     if (scrollPos < 0.25) return 2;
-    else if (scrollPos > 0.4) return -6;
+    else if (scrollPos > 0.4) return -3;
     else {
-      return 2 - (scrollPos - 0.25) * (8 / 0.15);
+      return 2 - (scrollPos - 0.25) * (5 / 0.15);
     }
   }, [scrollPos]);
-
-  console.log(scrollPos, bloomIntensity);
 
   return (
     <>
