@@ -14,6 +14,8 @@ import useMousePos from "@/utils/hooks/useMousePos";
 
 const INITIAL_SCALE = 0.01;
 
+const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
+
 export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) {
   const scroll = useScroll();
   const mousePos = useMousePos();
@@ -45,7 +47,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
     group.current.rotation.x = (mousePos.y - 0.5) * Math.PI;
   });
 
-  const CUT_IDX = 0.97;
+  const CUT_IDX = 0.95;
   useEffect(() => {
     if (scrollPos < 2 / 5 || scrollPos == 1) {
       setVideoIdx(-1);
@@ -58,6 +60,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
     } else {
       const idx = (scrollPos - CUT_IDX) * 1000000;
       setVideoIdx(idx % 3);
+      setCycleIdx(10);
     }
   }, [scrollPos]);
 
@@ -65,7 +68,6 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
   return (
     <>
-      <CustomLight scrollPos={scrollPos} />
       <group ref={group}>
         <primitive object={gltf.scene} />
       </group>
@@ -76,15 +78,4 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
       {/* <GPGPUParticles /> */}
     </>
   );
-}
-
-function CustomLight({ scrollPos }: any) {
-  const hue = useMemo(() => {
-    if (scrollPos < 1 / 4) {
-      return (scrollPos * 12) % 1;
-    }
-    return 1;
-  }, [scrollPos]);
-
-  return <directionalLight intensity={3} color={new THREE.Color().setHSL(hue, 1, 0.5 + scrollPos * 3)} position={[0, 5 * Math.sin(scrollPos * Math.PI), 5 * Math.cos(scrollPos * Math.PI)]} />;
 }

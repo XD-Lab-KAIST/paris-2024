@@ -1,46 +1,93 @@
-import React, { forwardRef, useRef, useState, useEffect, useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import * as THREE from "three";
-import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Text3D, Center } from "@react-three/drei";
-
-const INTERVAL = 0.0005;
-const FONT_PATH = "/fonts/Roboto_Regular.json";
-
 import { textGenerator, TEXTS } from "./constant";
 
-export default function Text({ scrollPos }: any) {
+import { useControls } from "leva";
+
+const FONT_PATH = "/fonts/Roboto_Regular.json";
+const material = new THREE.MeshStandardMaterial({ color: new THREE.Color("hsl(180, 10%, 95%)"), roughness: 0, metalness: 1 });
+
+const TextComponent = React.memo(({ scrollPos }: any) => {
+  const { viewport } = useThree();
+  const groupPosition = useMemo(() => [0, -scrollPos * 100 * viewport.height * 0.3, 0], [scrollPos, viewport.height]);
+
   // textGenerator();
 
-  const showOn = useCallback(
-    (loc: number) => {
-      return scrollPos >= loc - INTERVAL && scrollPos <= loc + INTERVAL;
+  const controlParams = useControls({
+    bevelSize: {
+      value: 0.1,
+      min: 0,
+      max: 1,
+      step: 0.01,
     },
-    [scrollPos]
-  );
+    bevelThickness: {
+      value: 0.02,
+      min: 0,
+      max: 0.2,
+      step: 0.001,
+    },
+    height: {
+      value: 0.005,
+      min: 0,
+      max: 0.1,
+      step: 0.001,
+    },
+    bevelSegments: {
+      value: 1,
+      min: 0,
+      max: 10,
+      step: 1,
+    },
+    curveSegments: {
+      value: 3,
+      min: 0,
+      max: 10,
+      step: 1,
+    },
+    scaleIntensity: {
+      value: 2,
+      min: 0,
+      max: 3,
+      step: 0.01,
+    },
+    letterSpacing: {
+      value: -0.2,
+      min: -1,
+      max: 1,
+      step: 0.01,
+    },
+    rotationIntensity: {
+      value: 10,
+      min: 0,
+      max: 30,
+      step: 1,
+    },
+  });
 
-  const { viewport } = useThree();
+  return <group position={groupPosition}>{scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} scrollPos={scrollPos} />)}</group>;
+});
+
+const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) => {
+  const pos = useMemo(() => [el.position[0] * viewport.width * 0.8, (el.position[1] + el.show * 100) * viewport.height * 0.3, el.position[2] * viewport.width * 0.1 - 10], [viewport, el]);
 
   return (
-    <>
-      {TEXTS.map((el, i) => (
-        <>
-          {showOn(el.show) && (
-            <Center key={i} position={[el.position[0] * viewport.width * 0.3, el.position[1] * viewport.height * 0.3, el.position[2] * viewport.width * 0.1]}>
-              <Text3D
-                color={new THREE.Color(1, 1, 0)}
-                scale={el.fontSize * 0.3}
-                // position={[0.1 * viewport.width, 0, 0]}
-                rotation={[0, 0, 0]}
-                position={[el.position[0] * viewport.width * 0.3, el.position[1] * viewport.height * 0.7, el.position[2] * viewport.width * 0.3]}
-                font={FONT_PATH}
-              >
-                {el.text}
-                <meshPhongMaterial attach="material" />
-              </Text3D>
-            </Center>
-          )}
-        </>
-      ))}
-    </>
+    <Center position={pos}>
+      <Text3D
+        bevelEnabled
+        {...controlParams}
+        scale={el.fontSize * controlParams.scaleIntensity}
+        //letter spacing
+
+        rotation={[0, Math.PI * (el.show - 0.1) * controlParams.rotationIntensity * (scrollPos - 0.1), 0]}
+        font={FONT_PATH}
+      >
+        {el.text.toLowerCase()}
+        <primitive object={material} />
+      </Text3D>
+    </Center>
   );
-}
+});
+
+export default TextComponent;

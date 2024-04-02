@@ -16,18 +16,27 @@ export default function VideoComp({ videoIdx, cycleIdx }: any) {
     }
     //other refs stop
     try {
-      if (videoIdx === 0) {
-        vidRef1.current?.pause();
-        vidRef2.current?.pause();
-      }
-      if (videoIdx === 1) {
-        vidRef0.current?.pause();
-        vidRef2.current?.pause();
-      }
-      if (videoIdx === 2) {
-        vidRef0.current?.pause();
-        vidRef1.current?.pause();
-      }
+      // console.log(videoIdx);
+      // if (videoIdx === 0) {
+      //   vidRef1.current?.pause();
+      //   vidRef2.current?.pause();
+      //   vidRef0.current?.play();
+      //   console.log("24");
+      // }
+      // if (videoIdx === 1) {
+      //   vidRef0.current?.pause();
+      //   vidRef2.current?.pause();
+      //   vidRef1.current?.play();
+      // }
+      // if (videoIdx === 2) {
+      //   vidRef0.current?.pause();
+      //   vidRef1.current?.pause();
+      //   vidRef2.current?.play();
+      // } else {
+      //   vidRef0.current?.pause();
+      //   vidRef1.current?.pause();
+      //   vidRef2.current?.pause();
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -35,7 +44,7 @@ export default function VideoComp({ videoIdx, cycleIdx }: any) {
 
   //playback rate
   useEffect(() => {
-    const playbackRate = Math.min(1 + cycleIdx * 0.2, 4);
+    const playbackRate = Math.min(1 + cycleIdx * 0.3, 4);
     try {
       if (vidRef0.current && vidRef1.current && vidRef2.current) {
         vidRef0.current.playbackRate = playbackRate;
@@ -65,7 +74,7 @@ function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2, cycleIdx }: any
         ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
         style={{
           opacity: videoIdx >= i ? 1 : 0,
-          transform: videoIdx === i ? "scale(1)" : "scale(0.9)",
+          transform: videoIdx === i || cycleIdx >= 5 ? "scale(1)" : "scale(0.9)",
           transition: cycleIdx >= 5 ? "" : `opacity ${0.5 / (cycleIdx + 1)}s, transform ${1 / (cycleIdx + 1)}s`,
         }}
       >
