@@ -17,13 +17,13 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
 
   const controlParams = useControls({
     bevelSize: {
-      value: 0.1,
+      value: 0.05,
       min: 0,
       max: 1,
       step: 0.01,
     },
     bevelThickness: {
-      value: 0.02,
+      value: 0.05,
       min: 0,
       max: 0.2,
       step: 0.001,
@@ -35,7 +35,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
       step: 0.001,
     },
     bevelSegments: {
-      value: 1,
+      value: 5,
       min: 0,
       max: 10,
       step: 1,
@@ -59,7 +59,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
       step: 0.01,
     },
     rotationIntensity: {
-      value: 10,
+      value: 12,
       min: 0,
       max: 30,
       step: 1,
@@ -70,7 +70,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
 });
 
 const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) => {
-  const pos = useMemo(() => [el.position[0] * viewport.width * 0.8, (el.position[1] + el.show * 100) * viewport.height * 0.3, el.position[2] * viewport.width * 0.1 - 10], [viewport, el]);
+  const pos = useMemo(() => [el.position[0] * viewport.width * 1, (el.position[1] + el.show * 100) * viewport.height * 0.3, el.position[2] * viewport.width * 0.1 - 8], [viewport, el]);
 
   return (
     <Center position={pos}>

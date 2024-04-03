@@ -44,7 +44,7 @@ export default function VideoComp({ videoIdx, cycleIdx }: any) {
 
   //playback rate
   useEffect(() => {
-    const playbackRate = Math.min(1 + cycleIdx * 0.3, 4);
+    const playbackRate = Math.min(1 + cycleIdx * 0.4, 4);
     try {
       if (vidRef0.current && vidRef1.current && vidRef2.current) {
         vidRef0.current.playbackRate = playbackRate;
