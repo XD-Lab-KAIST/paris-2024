@@ -1,10 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
 import { Text3D, Center } from "@react-three/drei";
 import { textGenerator, TEXTS } from "./constant";
 
 import { useControls } from "leva";
+
+import useMousePos from "@/utils/hooks/useMousePos";
 
 const FONT_PATH = "/fonts/Roboto_Regular.json";
 const material = new THREE.MeshStandardMaterial({ color: new THREE.Color("hsl(180, 10%, 95%)"), roughness: 0, metalness: 1 });
@@ -15,6 +17,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
 
   // textGenerator();
 
+  const mousePos = useMousePos();
   const controlParams = useControls({
     bevelSize: {
       value: 0.05,
@@ -66,7 +69,19 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
     },
   });
 
-  return <group position={groupPosition}>{scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} scrollPos={scrollPos} />)}</group>;
+  const groupRef = useRef();
+
+  // useFrame(() => {
+  //   if (!groupRef.current || !groupRef.current.rotation) return;
+  //   groupRef.current.rotation.y = (mousePos.x - 0.5) * 0.1;
+  //   // groupRef.current.rotation.x = mousePos.y * 0.5;
+  // });
+
+  return (
+    <group position={groupPosition} ref={groupRef}>
+      {scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} scrollPos={scrollPos} />)}
+    </group>
+  );
 });
 
 const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) => {

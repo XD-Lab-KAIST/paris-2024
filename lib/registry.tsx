@@ -113,6 +113,12 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'coming-soon';
     src: url('/assets/fonts/ComingSoon-Regular.ttf');
   }
+
+
+  @font-face{
+    font-family: "BebasNeue";
+    src: url('/assets/fonts/BebasNeue-Regular.ttf');
+  }
   
 
 

@@ -13,9 +13,9 @@
 /.next/
 /out/
 
-/public/*
-/public/video/*
-/public/3d/*
+# /public/*
+# /public/video/*
+# /public/3d/*
 
 # production
 /build

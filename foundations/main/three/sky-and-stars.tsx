@@ -12,8 +12,6 @@ export default function SkyAndStars({ scrollPos }: any) {
   const [group, cloud] = useRefs<any>();
   const { size } = useThree();
 
-  console.log(scrollPos);
-
   useEffect(() => {
     if (scrollPos >= START && scrollPos <= END) {
       const pos = (scrollPos - START) * (1 / (END - START));
@@ -54,7 +52,8 @@ export default function SkyAndStars({ scrollPos }: any) {
         </group> */}
       </group>
 
-      <Stars radius={100} depth={50} count={2000} factor={4} saturation={0} fade animated />
+      <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade animated />
+      {/* <Environment preset={"forest"} background={false} /> */}
       <Environment preset={"city"} background={false} />
       {/* {scrollPos >= 0.056 && <Sparkles count={100} colors={["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]} size={1} fade animated fadeOut />} */}
     </>
