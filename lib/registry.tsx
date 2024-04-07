@@ -117,7 +117,7 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face{
     font-family: "BebasNeue";
-    src: url('/assets/fonts/BebasNeue-Regular.ttf');
+    src: url('/fonts/BebasNeue-Regular.ttf');
   }
   
 

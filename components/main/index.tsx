@@ -7,6 +7,9 @@ import usePreventTouchSideEffects from "@/utils/hooks/usePreventTouchSideEffects
 import ThreeScene from "@/foundations/main/three";
 import VideoComp from "@/foundations/main/video";
 
+import UI from "@/foundations/main/ui";
+import Intro from "@/foundations/main/intro";
+
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 
@@ -18,9 +21,11 @@ export default function MainComp() {
 
   const [isIntro, setIsIntro] = useState(true);
 
+  const [uiState, setUIState] = useState(0);
+
   return (
     <S.Container>
-      <Intro isIntro={isIntro} setIsIntro={setIsIntro} />
+      <Intro isIntro={isIntro} setIsIntro={setIsIntro} setUIState={setUIState} />
       <S.ThreeContainer>
         <VideoComp videoIdx={videoIdx} cycleIdx={cycleIdx} />
         <Canvas
@@ -30,24 +35,12 @@ export default function MainComp() {
           {/* <ambientLight /> */}
 
           <ScrollControls pages={150}>
-            <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} />
+            <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
           </ScrollControls>
         </Canvas>
       </S.ThreeContainer>
-    </S.Container>
-  );
-}
 
-function Intro({ isIntro, setIsIntro }: any) {
-  return (
-    <S.Intro
-      onClick={() => setIsIntro(false)}
-      style={{
-        opacity: isIntro ? 1 : 0,
-        pointerEvents: isIntro ? "all" : "none",
-      }}
-    >
-      <h1>Uncharted Territory</h1>
-    </S.Intro>
+      <UI uiState={uiState} />
+    </S.Container>
   );
 }

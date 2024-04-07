@@ -39,16 +39,3 @@ export const ThreeContainer = styled.div`
   top: 0;
   left: 0;
 `;
-
-export const Intro = styled.div`
-  ${FlexCenterStyle}
-  ${WholeContainer}
-  z-index: 10;
-  background: black;
-  color: white;
-  cursor: pointer;
-
-  h1 {
-    font-family: BebasNeue;
-  }
-`;

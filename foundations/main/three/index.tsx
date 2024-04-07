@@ -16,7 +16,7 @@ const INITIAL_SCALE = 0.01;
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
 
-export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) {
+export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUIState }: any) {
   const scroll = useScroll();
   const mousePos = useMousePos();
 
@@ -49,6 +49,8 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx }: any) 
 
   const CUT_IDX = 0.95;
   useEffect(() => {
+    if (scrollPos > 0.01) setUIState(3);
+
     if (scrollPos < 2 / 5 || scrollPos == 1) {
       setVideoIdx(-1);
     } else if (scrollPos <= CUT_IDX) {
