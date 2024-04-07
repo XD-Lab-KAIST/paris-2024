@@ -5,7 +5,7 @@ import useRefs from "react-use-refs";
 
 const VID_ARR = ["Mountain.mp4", "Skeleton.mp4", "Treewater.mp4"];
 
-export default function VideoComp({ videoIdx, cycleIdx }: any) {
+export default function VideoComp({ videoIdx, cycleIdx, setVideoIdx }: any) {
   const [vidRef0, vidRef1, vidRef2] = useRefs<HTMLVideoElement>(null);
 
   //on video indx change play
@@ -59,18 +59,21 @@ export default function VideoComp({ videoIdx, cycleIdx }: any) {
   return (
     <S.VideoContainer>
       {new Array(3).fill(0).map((_, i) => (
-        <SingleVideoEl key={i} i={i} videoIdx={videoIdx} vidRef0={vidRef0} vidRef1={vidRef1} vidRef2={vidRef2} cycleIdx={cycleIdx} />
+        <SingleVideoEl key={i} i={i} videoIdx={videoIdx} setVideoIdx={setVideoIdx} vidRef0={vidRef0} vidRef1={vidRef1} vidRef2={vidRef2} cycleIdx={cycleIdx} />
       ))}
     </S.VideoContainer>
   );
 }
 
-function SingleVideoEl({ i, videoIdx, vidRef0, vidRef1, vidRef2, cycleIdx }: any) {
+function SingleVideoEl({ i, videoIdx, setVideoIdx, vidRef0, vidRef1, vidRef2, cycleIdx }: any) {
   return (
     <S.SingleVideo>
       <video
         autoPlay
-        loop
+        // loop
+        onEnded={() => {
+          setVideoIdx((prev: number) => (prev + 1) % 3);
+        }}
         ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
         style={{
           opacity: videoIdx >= i ? 1 : 0,

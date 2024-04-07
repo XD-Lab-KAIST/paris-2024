@@ -20,27 +20,31 @@ export default function MainComp() {
   // usePreventTouchSideEffects();
 
   const [isIntro, setIsIntro] = useState(true);
-
   const [uiState, setUIState] = useState(0);
+
+  const scrollRef = useRef();
+
+  function handleReset() {
+    //page reload
+    window.location.reload();
+  }
 
   return (
     <S.Container>
       <Intro isIntro={isIntro} setIsIntro={setIsIntro} setUIState={setUIState} />
       <S.ThreeContainer>
-        <VideoComp videoIdx={videoIdx} cycleIdx={cycleIdx} />
+        <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} />
         <Canvas
           //camera near far
           camera={{ near: 0.01, far: 1000 }}
         >
-          {/* <ambientLight /> */}
-
           <ScrollControls pages={150}>
             <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
           </ScrollControls>
         </Canvas>
       </S.ThreeContainer>
 
-      <UI uiState={uiState} />
+      <UI uiState={uiState} handleReset={handleReset} />
     </S.Container>
   );
 }
