@@ -7,7 +7,6 @@ export const UIContainer = styled.div`
   pointer-events: none;
   z-index: 15;
 
-  font-family: Raleway;
   color: white;
   font-weight: 300;
   font-size: 2vw;

@@ -1,24 +1,31 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo } from "react";
-
-const TEXTS = ["Move Around Trackpad", "Click to Enter", "Scroll Down", "Scroll Down"];
+import useMousePos from "@/utils/hooks/useMousePos";
 
 export default function Intro({ isIntro, setIsIntro, setUIState }: any) {
   const [shownLetters, setShownLetters] = useState(0);
 
   //if shownletters is equal to the length of the string, then set isIntro to false
   useEffect(() => {
-    if (shownLetters === "Uncharted Territory".length) {
+    if (shownLetters >= "Uncharted Territory".length - 2) {
       setUIState(1);
     }
   }, [shownLetters]);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  function handleClick() {
+    setTimeout(() => {
+      setFadeOut(true);
+    }, 200);
+    setTimeout(() => {
+      setIsIntro(false);
+      setUIState(2);
+    }, 1800);
+  }
 
   return (
     <S.Intro
-      onClick={() => {
-        setIsIntro(false);
-        setUIState(2);
-      }}
+      onClick={handleClick}
       style={{
         opacity: isIntro ? 1 : 0,
         pointerEvents: isIntro ? "all" : "none",
@@ -26,25 +33,63 @@ export default function Intro({ isIntro, setIsIntro, setUIState }: any) {
     >
       <h1>
         {"Uncharted Territory".split("").map((letter: string, idx: number) => (
-          <Item key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
+          <Item fadeOut={fadeOut} idx={idx} key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
         ))}
       </h1>
+      <MouseTrackingEl />
     </S.Intro>
   );
 }
 
-function Item({ letter, showed }: any) {
+function MouseTrackingEl() {
+  const mousePos = useMousePos();
+
+  return (
+    <>
+      <S.MouseEl
+        style={{
+          left: `${mousePos.x * 100}%`,
+          top: `${mousePos.y * 100}%`,
+        }}
+      />
+    </>
+  );
+}
+
+function Item({ fadeOut, idx, letter, showed }: any) {
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    let timeout: any = null;
+    if (fadeOut) {
+      const timeout = setTimeout(() => {
+        setShow(false);
+      }, idx * 50);
+    }
+    return () => {
+      timeout && clearTimeout(timeout);
+    };
+  }, [fadeOut]);
+
+  useEffect(() => {
+    if (show) {
+      showed();
+    }
+  }, [show]);
 
   return (
     <span
       style={{
         opacity: show ? 1 : 0,
-        transition: "opacity 0.5s",
+        transform: show ? "translateY(0)" : "translateY(100%)",
       }}
       onMouseEnter={() => {
-        setShow(true);
-        showed();
+        setTimeout(() => {
+          setShow(true);
+        }, 250);
+      }}
+      onMouseLeave={() => {
+        setShow(false);
       }}
     >
       {letter}

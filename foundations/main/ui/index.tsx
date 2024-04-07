@@ -1,46 +1,60 @@
 import * as S from "./styles";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 const TEXTS = ["Move Around Trackpad", "Click to Enter", "Scroll Down", "Scroll Down"];
 
 export default function UI({ uiState }: any) {
   const targetText = useMemo(() => TEXTS[uiState], [uiState]);
+  const [isChanging, setIsChanging] = useState(false);
   const [displayText, setDisplayText] = useState("Move Around Trackpad");
 
-  //when targettext changes, gradually move the displaytext to targettext
-  //for example: current displayText 'Apple', transition to 'Banana'
-  //Apple -> Aaple -> Baple -> Banle -> Banana
+  useEffect(() => {
+    if (targetText !== "Move Around Trackpad") setIsChanging(true);
+    const timeout1 = setTimeout(() => {
+      setDisplayText(targetText);
+    }, 500);
+    const timeout2 = setTimeout(() => {
+      setIsChanging(false);
+    }, 800);
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    };
+  }, [targetText]);
+
+  const scrollTimeoutRef = useRef<any>(null);
 
   useEffect(() => {
-    if (displayText !== targetText) {
-      // Calculate the total time based on the length difference, ensuring it's between 1s and 2s.
-      let totalTime = Math.min(Math.max(Math.abs(targetText.length - displayText.length) * 100, 1000), 2000);
-      let currentIndex = 0;
+    //scrolling detection: when scrolling ischanging true, when not scrolling for more than 10s ischanging false
+    //focus on performance
 
-      // Calculate the time interval for updating each character.
-      let intervalTime = totalTime / Math.max(targetText.length, displayText.length);
+    const handleScroll = () => {
+      console.log("32");
+      setIsChanging(true);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsChanging(false);
+      }, 10000);
+    };
 
-      // Clear existing interval if any.
-      const interval = setInterval(() => {
-        // Determine the next display text by either adding or trimming characters.
-        const nextDisplayText = targetText.slice(0, currentIndex + 1) || "";
-        setDisplayText(nextDisplayText);
-        currentIndex++;
+    document.addEventListener("wheel", handleScroll);
 
-        // If the entire text is displayed, clear the interval.
-        if (nextDisplayText === targetText) {
-          clearInterval(interval);
-        }
-      }, intervalTime);
-
-      // Clean up the interval on component unmount or when the targetText changes again.
-      return () => clearInterval(interval);
-    }
-  }, [targetText, displayText]);
+    return () => {
+      document.removeEventListener("wheel", handleScroll);
+    };
+  }, []);
 
   return (
     <S.UIContainer>
-      <S.UIText>{displayText}</S.UIText>
+      <S.UIText
+        style={{
+          opacity: isChanging ? 0 : 1,
+          transform: isChanging ? "translateY(10px)" : "translateY(0)",
+          transition: "all 0.5s",
+        }}
+      >
+        {displayText}
+      </S.UIText>
     </S.UIContainer>
   );
 }

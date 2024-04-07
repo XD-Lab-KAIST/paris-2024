@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useResize from "./useResize";
 
 export default function useMousePos() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({ x: -0.5, y: -0.5 });
   const [windowWidth, windowHeight] = useResize();
 
   useEffect(() => {
