@@ -95,7 +95,7 @@ const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) =>
         scale={el.fontSize * controlParams.scaleIntensity}
         //letter spacing
 
-        rotation={[0, Math.PI * (el.show - 0.1) * controlParams.rotationIntensity * (scrollPos - 0.1), 0]}
+        // rotation={[0, Math.PI * (el.show - 0.1) * controlParams.rotationIntensity * (scrollPos - 0.1), 0]}
         font={FONT_PATH}
       >
         {el.text.toLowerCase()}

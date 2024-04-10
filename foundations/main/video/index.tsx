@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 import useRefs from "react-use-refs";
 
-const VID_ARR = ["Mountain.mp4", "Skeleton.mp4", "Treewater.mp4"];
+const VID_ARR = ["Skeleton.mp4", "Mountain.mp4", "Treewater.mp4"];
 
 export default function VideoComp({ videoIdx, cycleIdx, setVideoIdx }: any) {
   const [vidRef0, vidRef1, vidRef2] = useRefs<HTMLVideoElement>(null);
@@ -14,29 +14,20 @@ export default function VideoComp({ videoIdx, cycleIdx, setVideoIdx }: any) {
     if (videoIdx !== -1 && targetRef && targetRef.current !== null) {
       targetRef.current?.play();
     }
+
     //other refs stop
     try {
-      // console.log(videoIdx);
-      // if (videoIdx === 0) {
-      //   vidRef1.current?.pause();
-      //   vidRef2.current?.pause();
-      //   vidRef0.current?.play();
-      //   console.log("24");
-      // }
-      // if (videoIdx === 1) {
-      //   vidRef0.current?.pause();
-      //   vidRef2.current?.pause();
-      //   vidRef1.current?.play();
-      // }
-      // if (videoIdx === 2) {
-      //   vidRef0.current?.pause();
-      //   vidRef1.current?.pause();
-      //   vidRef2.current?.play();
-      // } else {
-      //   vidRef0.current?.pause();
-      //   vidRef1.current?.pause();
-      //   vidRef2.current?.pause();
-      // }
+      if (videoIdx === -1) {
+        //stop all videos
+        vidRef0.current?.pause();
+        vidRef1.current?.pause();
+        vidRef2.current?.pause();
+
+        //reset all videos
+        vidRef0.current.currentTime = 0;
+        vidRef1.current.currentTime = 0;
+        vidRef2.current.currentTime = 0;
+      }
     } catch (e) {
       console.log(e);
     }
@@ -72,7 +63,8 @@ function SingleVideoEl({ i, videoIdx, setVideoIdx, vidRef0, vidRef1, vidRef2, cy
         autoPlay
         // loop
         onEnded={() => {
-          setVideoIdx((prev: number) => (prev + 1) % 3);
+          console.log("75");
+          setVideoIdx((prev: number) => (prev === -1 ? -1 : (prev + 1) % 3));
         }}
         ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
         style={{

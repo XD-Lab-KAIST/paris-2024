@@ -65,28 +65,31 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   
-    &::-webkit-scrollbar {
-      display: none !important;
-      -webkit-appearance: none;
-      width: 0 !important;
-      height: 0;
-    }
+
+    
+
+    // &::-webkit-scrollbar {
+    //   display: none !important;
+    //   -webkit-appearance: none;
+    //   width: 0 !important;
+    //   height: 0;
+    // }
   
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
+    // &::-webkit-scrollbar-track {
+    //   background: transparent;
+    // }
   
-    &::-webkit-scrollbar-thumb {
-      background: transparent;
-      background-color: transparent;
-      outline: none;
-    }
+    // &::-webkit-scrollbar-thumb {
+    //   background: transparent;
+    //   background-color: transparent;
+    //   outline: none;
+    // }
   
 
-    /* width */
+    // /* width */
   
-    -ms-overflow-style: none;
-    scrollbar-width: none !important;
+    // -ms-overflow-style: none;
+    // scrollbar-width: none !important;
   }
 
   a {

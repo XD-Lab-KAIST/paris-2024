@@ -1,15 +1,15 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
 
-const TEXTS = ["Move Around Trackpad", "Click to Enter", "Scroll Down", "Scroll Down"];
+const TEXTS = ["Move Around the Trackpad", "Click to Enter", "Scroll Down", "Scroll Down"];
 
 export default function UI({ uiState, handleReset }: any) {
   const targetText = useMemo(() => TEXTS[uiState], [uiState]);
   const [isChanging, setIsChanging] = useState(false);
-  const [displayText, setDisplayText] = useState("Move Around Trackpad");
+  const [displayText, setDisplayText] = useState("Move Around the Trackpad");
 
   useEffect(() => {
-    if (targetText !== "Move Around Trackpad") setIsChanging(true);
+    if (targetText !== "Move Around the Trackpad") setIsChanging(true);
     const timeout1 = setTimeout(() => {
       setDisplayText(targetText);
     }, 500);
