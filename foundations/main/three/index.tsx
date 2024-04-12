@@ -48,6 +48,9 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
   });
 
   const CUT_IDX = 0.95;
+
+  console.log(scrollPos, videoIdx);
+
   useEffect(() => {
     if (scrollPos > 0.01) setUIState(3);
 
@@ -61,7 +64,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
       setVideoIdx(2 - vidIdx);
     } else {
       const idx = (scrollPos - CUT_IDX) * 1000000;
-      setVideoIdx(idx % 3);
+      setVideoIdx(Math.floor(idx % 3));
       setCycleIdx(10);
     }
   }, [scrollPos]);
