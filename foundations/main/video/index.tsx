@@ -18,6 +18,7 @@ export default function VideoComp({ videoIdx, cycleIdx, setVideoIdx }: any) {
     //other refs stop
     try {
       if (videoIdx === -1) {
+        if (!vidRef0.current || !vidRef1.current || !vidRef2.current) return;
         //stop all videos
         vidRef0.current?.pause();
         vidRef1.current?.pause();

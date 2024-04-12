@@ -44,7 +44,6 @@ export default function MainComp() {
       } else {
         //stop
         if (!audioRef.current) return;
-
         handleGradualPause(audioRef.current);
       }
     } catch (e) {
@@ -85,5 +84,5 @@ function handleGradualPause(audio: any) {
       audio.pause();
       clearInterval(interval);
     }
-  }, 100);
+  }, 10);
 }
