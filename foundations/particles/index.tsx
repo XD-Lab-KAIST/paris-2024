@@ -40,7 +40,7 @@ export default function GPGPUParticles() {
     const baseGeometry: any = {};
 
     //scale up
-    baseGeometry.instance = gltf.scene.children[0]?.geometry;
+    baseGeometry.instance = (gltf.scene.children[0] as any).geometry;
     baseGeometry.count = baseGeometry.instance.attributes.position.count;
 
     baseGeometryRef.current = baseGeometry;
@@ -123,7 +123,7 @@ export default function GPGPUParticles() {
       uniforms: {
         uSize: new THREE.Uniform(0.008),
         uResolution: new THREE.Uniform(new THREE.Vector2(size.width * gl.getPixelRatio(), size.height * gl.getPixelRatio())),
-        uParticlesTexture: new THREE.Uniform(),
+        uParticlesTexture: new THREE.Uniform(0),
         uTime: new THREE.Uniform(0),
       },
     });
