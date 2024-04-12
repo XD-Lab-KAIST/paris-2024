@@ -79,25 +79,17 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
 
   return (
     <group position={new THREE.Vector3(groupPosition[0], groupPosition[1], groupPosition[2])} ref={groupRef}>
-      {scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} scrollPos={scrollPos} />)}
+      {scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} />)}
     </group>
   );
 });
 
-const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) => {
+const SingleEl = React.memo(({ viewport, el, controlParams }: any) => {
   const pos = useMemo(() => [el.position[0] * viewport.width * 1, (el.position[1] + el.show * 100) * viewport.height * 0.3, el.position[2] * viewport.width * 0.1 - 8], [viewport, el]);
 
   return (
     <Center position={new THREE.Vector3(pos[0], pos[1], pos[2])}>
-      <Text3D
-        bevelEnabled
-        {...controlParams}
-        scale={el.fontSize * controlParams.scaleIntensity}
-        //letter spacing
-
-        // rotation={[0, Math.PI * (el.show - 0.1) * controlParams.rotationIntensity * (scrollPos - 0.1), 0]}
-        font={FONT_PATH}
-      >
+      <Text3D bevelEnabled {...controlParams} scale={el.fontSize * controlParams.scaleIntensity} font={FONT_PATH}>
         {el.text.toLowerCase()}
         <primitive object={material} />
       </Text3D>

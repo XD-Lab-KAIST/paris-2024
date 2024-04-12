@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, createContext, useContext } from "react";
 import * as S from "./styles";
 import usePreventTouchSideEffects from "@/utils/hooks/usePreventTouchSideEffects";
 
@@ -15,7 +15,15 @@ import { ScrollControls } from "@react-three/drei";
 
 import { Leva } from "leva";
 
+export const ScrollContext = createContext({
+  scrollPos: 0,
+  setScrollPos: (arg: any) => {},
+});
+
 export default function MainComp() {
+  const [scrollPos, setScrollPos] = useState(0);
+  const contextValue: any = { scrollPos, setScrollPos };
+
   const [videoIdx, setVideoIdx] = useState(-1);
   const [cycleIdx, setCycleIdx] = useState(0);
 
@@ -52,24 +60,26 @@ export default function MainComp() {
   }, [isIntro]);
 
   return (
-    <S.Container>
-      <Intro isIntro={isIntro} setIsIntro={setIsIntro} uiState={uiState} setUIState={setUIState} />
-      <S.ThreeContainer>
-        <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} />
-        <Canvas
-          //camera near far
-          camera={{ near: 0.01, far: 1000 }}
-        >
-          <ScrollControls pages={150}>
-            <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
-          </ScrollControls>
-        </Canvas>
-      </S.ThreeContainer>
+    <ScrollContext.Provider value={contextValue}>
+      <S.Container>
+        <Intro isIntro={isIntro} setIsIntro={setIsIntro} uiState={uiState} setUIState={setUIState} />
+        <S.ThreeContainer>
+          <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} />
+          <Canvas
+            //camera near far
+            camera={{ near: 0.01, far: 1000 }}
+          >
+            <ScrollControls pages={150}>
+              <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
+            </ScrollControls>
+          </Canvas>
+        </S.ThreeContainer>
 
-      <UI uiState={uiState} handleReset={handleReset} />
+        <UI uiState={uiState} handleReset={handleReset} />
 
-      <audio ref={audioRef} src="/audio/audio.mp3" loop />
-      <Leva collapsed={true} hidden={true} />
-    </S.Container>
+        <audio ref={audioRef} src="/audio/audio.mp3" loop />
+        <Leva collapsed={true} hidden={true} />
+      </S.Container>
+    </ScrollContext.Provider>
   );
 }

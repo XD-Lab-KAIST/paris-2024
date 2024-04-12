@@ -1,4 +1,5 @@
-import React, { forwardRef, useRef, useState, useEffect, useMemo } from "react";
+import React, { forwardRef, useRef, useState, useEffect, useMemo, useContext } from "react";
+import { ScrollContext } from "@/components/main";
 import useRefs from "react-use-refs";
 
 import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
@@ -17,10 +18,10 @@ const INITIAL_SCALE = 0.01;
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
 
 export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUIState }: any) {
+  const { scrollPos, setScrollPos } = useContext(ScrollContext);
   const scroll = useScroll();
   const mousePos = useMousePos();
 
-  const [scrollPos, setScrollPos] = useState(0);
   const [group, earth] = useRefs<any>();
 
   const { width, height } = useThree((state) => state.viewport);
@@ -48,8 +49,6 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
   });
 
   const CUT_IDX = 0.95;
-
-  console.log(scrollPos, videoIdx);
 
   useEffect(() => {
     if (scrollPos > 0.01) setUIState(3);
@@ -80,7 +79,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} />
       <Text scrollPos={scrollPos} />
-      {/* <GPGPUParticles /> */}
+      {scrollPos === 1 && <GPGPUParticles />}
     </>
   );
 }
