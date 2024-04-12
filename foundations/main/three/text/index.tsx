@@ -78,7 +78,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
   // });
 
   return (
-    <group position={groupPosition} ref={groupRef}>
+    <group position={new THREE.Vector3(groupPosition[0], groupPosition[1], groupPosition[2])} ref={groupRef}>
       {scrollPos <= 0.4 && TEXTS.map((el, i) => <SingleEl controlParams={controlParams} key={i} viewport={viewport} el={el} scrollPos={scrollPos} />)}
     </group>
   );
@@ -88,7 +88,7 @@ const SingleEl = React.memo(({ viewport, el, scrollPos, controlParams }: any) =>
   const pos = useMemo(() => [el.position[0] * viewport.width * 1, (el.position[1] + el.show * 100) * viewport.height * 0.3, el.position[2] * viewport.width * 0.1 - 8], [viewport, el]);
 
   return (
-    <Center position={pos}>
+    <Center position={new THREE.Vector3(pos[0], pos[1], pos[2])}>
       <Text3D
         bevelEnabled
         {...controlParams}
