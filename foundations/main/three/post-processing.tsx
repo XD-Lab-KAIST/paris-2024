@@ -7,7 +7,7 @@ const THRESHOLD = 1;
 export default function PostProcessing({ scrollPos }: any) {
   return (
     <>
-      <EffectComposer>{scrollPos >= 0.98 && scrollPos <= 0.999 ? <Glitch duration={[0.1, 1]} threshold={THRESHOLD} /> : <></>}</EffectComposer>
+      <EffectComposer>{scrollPos >= 0.98 && scrollPos <= 0.999 ? <Glitch /> : <></>}</EffectComposer>
     </>
   );
 }
