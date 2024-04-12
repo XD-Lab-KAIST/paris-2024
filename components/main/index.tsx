@@ -34,13 +34,18 @@ export default function MainComp() {
 
   useEffect(() => {
     try {
-      if (isIntro) {
+      if (!isIntro) {
         //move to start
         if (!audioRef.current) return;
 
+        audioRef.current.volume = 1;
         audioRef.current.currentTime = 0;
         audioRef.current.play();
       } else {
+        //stop
+        if (!audioRef.current) return;
+
+        handleGradualPause(audioRef.current);
       }
     } catch (e) {
       console.log(e);
@@ -64,8 +69,20 @@ export default function MainComp() {
 
       <UI uiState={uiState} handleReset={handleReset} />
 
-      <audio ref={audioRef} src="/audio/audio.mp3" autoPlay loop />
+      <audio ref={audioRef} src="/audio/audio.mp3" loop />
       <Leva collapsed={true} hidden={true} />
     </S.Container>
   );
+}
+
+function handleGradualPause(audio: any) {
+  //audio volume -0.01 for 10ms
+
+  const interval = setInterval(() => {
+    audio.volume -= 0.01;
+    if (audio.volume <= 0) {
+      audio.pause();
+      clearInterval(interval);
+    }
+  }, 10);
 }

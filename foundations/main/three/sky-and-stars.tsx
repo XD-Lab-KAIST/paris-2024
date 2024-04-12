@@ -33,7 +33,7 @@ export default function SkyAndStars({ scrollPos }: any) {
 
   return (
     <>
-      <CustomLight />
+      <CustomLight scrollPos={scrollPos} />
       <group>
         {scrollPos < 0.056 && (
           <Sky
@@ -62,14 +62,21 @@ const LIGHT_END = 0.4;
 
 const LIGHT = new THREE.Color().setHSL(0.5, 1, 0.5);
 
-function CustomLight() {
+function CustomLight({ scrollPos }: any) {
   const { width, height } = useThree((state) => state.viewport);
+
+  const relativeScrollPos = useMemo(() => {
+    return Math.max(scrollPos, 0.4);
+  }, [scrollPos]);
 
   return (
     <>
-      <directionalLight intensity={5} color={new THREE.Color().setHSL(0.5, 1, 0.8)} position={[0, height * 0.3, width * 0.185]} />
-      <directionalLight intensity={4} color={new THREE.Color().setHSL(0.3, 1, 0.6)} position={[-width * 0.17, -height * 0.17, width * 0.12]} />
-      <directionalLight intensity={1} color={new THREE.Color().setHSL(0.9, 1, 0.1)} position={[width * 0.25, -height * 0.3, width * 0.25]} />
+      <directionalLight intensity={5} color={new THREE.Color().setHSL(206 / 360, 1, 0.8)} position={[0, height * 0.3, width * 0.185]} />
+      <directionalLight intensity={4 * relativeScrollPos} color={new THREE.Color().setHSL(240 / 360, 1, 0.6)} position={[-width * 0.13, -height * 0.12, width * 0.18]} />
+      <directionalLight intensity={1 * relativeScrollPos} color={new THREE.Color().setHSL(235 / 360, 1, 0.1)} position={[width * 0.25, -height * 0.3, width * 0.3]} />
+
+      <directionalLight intensity={3 * relativeScrollPos} color={new THREE.Color().setHSL(240 / 360, 1, 0.3)} position={[-width * 0.13, height * 0.04, width * 0.1]} />
+      <directionalLight intensity={2 * relativeScrollPos} color={new THREE.Color().setHSL(235 / 360, 1, 0.7)} position={[width * 0.17, -height * 0.0, width * 0.25]} />
     </>
   );
 }

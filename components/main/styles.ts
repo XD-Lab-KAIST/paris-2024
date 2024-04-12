@@ -14,6 +14,28 @@ export const Container = styled.div`
     width: 100%;
     height: 100%;
   }
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    -webkit-appearance: none;
+    width: 0 !important;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    background-color: transparent;
+    outline: none;
+  }
+
+  /* width */
+
+  -ms-overflow-style: none;
+  scrollbar-width: none !important;
 `;
 
 export const ScrollContainer = styled.div`
