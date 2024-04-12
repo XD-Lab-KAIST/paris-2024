@@ -79,10 +79,11 @@ function handleGradualPause(audio: any) {
   //audio volume -0.01 for 10ms
 
   const interval = setInterval(() => {
+    console.log(audio.volume);
     audio.volume -= 0.01;
-    if (audio.volume <= 0) {
+    if (audio.volume <= 0.05) {
       audio.pause();
       clearInterval(interval);
     }
-  }, 10);
+  }, 100);
 }
