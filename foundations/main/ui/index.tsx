@@ -1,5 +1,6 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
+import Sidebar from "./sidebar";
 
 const TEXTS = ["Move Around the Trackpad", "Click to Enter", "Scroll Down", "Scroll Down"];
 
@@ -61,6 +62,7 @@ export default function UI({ uiState, handleReset }: any) {
       >
         {displayText}
       </S.UIText>
+      <Sidebar />
     </S.UIContainer>
   );
 }
