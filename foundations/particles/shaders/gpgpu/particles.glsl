@@ -120,7 +120,6 @@ void main(){
     float displacementIntensity = distance(particle.xy * 0.35, (uModelCursor.xy) * 2.0 - 1.0);
     float radius = 0.15 + 0.04 * (sin(time * 17.7) + cos(time * 21.3 + 4.7));
     displacementIntensity = smoothstep(0.0, radius, pow(displacementIntensity, 1.1));
-    // displacementIntensity = 1.0 - smoothstep(0.0, 1.0, displacementIntensity);
 
     //Dead & Alive
     if(particle.a >= 1.0){

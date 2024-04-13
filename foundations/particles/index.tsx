@@ -17,7 +17,7 @@ import gpgpuParticlesShader from "./shaders/gpgpu/particles.glsl";
 //useResize
 import useResize from "@/utils/hooks/useResize";
 
-const PIXEL_RATIO = 2;
+const SCALE = 2;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -58,9 +58,9 @@ export default function GPGPUParticles() {
       const i4 = i * 4;
 
       // Position based on geometry
-      baseParticlesTexture.image.data[i4 + 0] = baseGeometry.instance.attributes.position.array[i3 + 0];
-      baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1];
-      baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2];
+      baseParticlesTexture.image.data[i4 + 0] = baseGeometry.instance.attributes.position.array[i3 + 0] * SCALE;
+      baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
+      baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
       baseParticlesTexture.image.data[i4 + 3] = Math.random() * 2;
     }
 
@@ -74,7 +74,7 @@ export default function GPGPUParticles() {
     gpgpu.particlesVariable.material.uniforms.uBase = new THREE.Uniform(baseParticlesTexture);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(0.5);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(10.0);
-    gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(1.0);
+    gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(2.0);
     gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3());
 
     gpgpu.computation.init();
