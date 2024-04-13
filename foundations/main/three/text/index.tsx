@@ -8,7 +8,12 @@ import { useControls } from "leva";
 
 import useMousePos from "@/utils/hooks/useMousePos";
 
-const FONT_PATH = "/fonts/Roboto_Regular.json";
+// const FONT_PATH = "/fonts/Roboto_Regular.json";
+// const FONT_PATH = "/fonts/Baskerville.json";
+// const FONT_PATH = "/fonts/Garamond.json";
+// const FONT_PATH = "/fonts/Playfair.json";
+const FONT_PATH = "/fonts/Poiret.json";
+
 const material = new THREE.MeshStandardMaterial({ color: new THREE.Color("hsl(180, 10%, 95%)"), roughness: 0, metalness: 1 });
 
 const TextComponent = React.memo(({ scrollPos }: any) => {

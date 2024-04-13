@@ -69,7 +69,14 @@ export default function MainComp() {
             //camera near far
             camera={{ near: 0.01, far: 1000 }}
           >
-            <ScrollControls pages={150}>
+            <ScrollControls
+              pages={150}
+              //stylye scrollbar hide
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+              }}
+            >
               <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
             </ScrollControls>
           </Canvas>

@@ -152,8 +152,6 @@ export default function GPGPUParticles() {
     if (!material) return;
     material.uniforms.uParticlesTexture.value = gpgpu.computation.getCurrentRenderTarget(gpgpu.particlesVariable).texture;
     material.uniforms.uTime.value = elapsedTime;
-
-    console.log(material.uniforms.uParticlesTexture.value);
   });
 
   return <>{geometry && material && <points args={[geometry, material]} />}</>;

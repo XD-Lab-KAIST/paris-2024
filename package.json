@@ -24,7 +24,8 @@
     "react-use-refs": "^1.0.1",
     "styled-components": "^6.1.8",
     "three": "^0.162.0",
-    "three-stdlib": "^2.29.6"
+    "three-stdlib": "^2.29.6",
+    "tone": "^14.7.77"
   },
   "devDependencies": {
     "@types/node": "^20",

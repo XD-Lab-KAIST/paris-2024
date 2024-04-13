@@ -33,20 +33,8 @@ export const Container = styled.div`
   }
 
   /* width */
-
   -ms-overflow-style: none;
   scrollbar-width: none !important;
-`;
-
-export const ScrollContainer = styled.div`
-  width: 100%;
-  height: 500vh;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  background: transparent;
 `;
 
 export const OverlaidContainer = styled.div`
@@ -60,4 +48,25 @@ export const ThreeContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+    -webkit-appearance: none;
+    width: 0 !important;
+    height: 0;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    background-color: transparent;
+    outline: none;
+  }
+
+  /* width */
+  -ms-overflow-style: none;
+  scrollbar-width: none !important;
 `;
