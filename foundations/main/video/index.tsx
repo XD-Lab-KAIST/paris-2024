@@ -9,7 +9,7 @@ const VID_ARR = ["Skeleton.mp4", "Mountain.mp4", "Treewater.mp4"];
 export default function VideoComp({ videoIdx, cycleIdx, setVideoIdx }: any) {
   const [vidRef0, vidRef1, vidRef2] = useRefs<HTMLVideoElement>(null);
 
-  // useTone({ videoIdx, cycleIdx });
+  useTone({ videoIdx, cycleIdx });
 
   //on video indx change play
   useEffect(() => {
