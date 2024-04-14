@@ -28,6 +28,7 @@ void main()
     gl_PointSize *= (1.0 / - viewPosition.z);
 
     // Varyings
-    // vColor = vec3(aColor.r + cos((uTime + particle.x * 1.7 + particle.z + 0.7) * 1.1), aColor.gb);
-    vColor = vec3(aColor * 0.3);
+    vColor = vec3(aColor.r + cos((uTime + particle.x * 1.7 + particle.z + 0.7) * 1.1), aColor.gb);
+    vColor = vec3(aColor * (0.6) + 0.3 * cos(uTime * 5.0 + particle.x));
+        // vColor = vec3(aColor * (0.3));
 }

@@ -55,6 +55,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
 
   useEffect(() => {
     if (scrollPos > 0.01) setUIState(3);
+    if (scrollPos === 1) setUIState(5);
 
     if (scrollPos < START_IDX || scrollPos == 1) {
       setVideoIdx(-1);

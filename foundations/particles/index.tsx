@@ -17,7 +17,7 @@ import gpgpuParticlesShader from "./shaders/gpgpu/particles.glsl";
 //useResize
 import useResize from "@/utils/hooks/useResize";
 
-const SCALE = 2;
+const SCALE = 3;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -61,7 +61,12 @@ export default function GPGPUParticles() {
       baseParticlesTexture.image.data[i4 + 0] = baseGeometry.instance.attributes.position.array[i3 + 0] * SCALE;
       baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
       baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
-      baseParticlesTexture.image.data[i4 + 3] = Math.random() * 2;
+      baseParticlesTexture.image.data[i4 + 3] = Math.random() * 10;
+
+      // baseParticlesTexture.image.data[i4 + 4] = (baseGeometry.instance.attributes.position.array[i3 + 0] + 0.01) * SCALE;
+      // baseParticlesTexture.image.data[i4 + 5] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
+      // baseParticlesTexture.image.data[i4 + 6] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
+      // baseParticlesTexture.image.data[i4 + 7] = Math.random() * 2;
     }
 
     // Particles variable
@@ -121,7 +126,7 @@ export default function GPGPUParticles() {
       vertexShader: particlesVertexShader,
       fragmentShader: particlesFragmentShader,
       uniforms: {
-        uSize: new THREE.Uniform(0.008),
+        uSize: new THREE.Uniform(0.013),
         uResolution: new THREE.Uniform(new THREE.Vector2(size.width * gl.getPixelRatio(), size.height * gl.getPixelRatio())),
         uParticlesTexture: new THREE.Uniform(0),
         uTime: new THREE.Uniform(0),

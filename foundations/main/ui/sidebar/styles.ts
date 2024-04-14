@@ -8,12 +8,13 @@ export const Sidebar = styled.div`
   width: 0.5vw;
   mix-blend-mode: normal;
   //   background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.5vw;
-  box-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5), 0 0 1vw rgba(255, 255, 255, 0.5);
+  border-radius: 0.25vw;
+  box-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5), 0 0 1vw rgba(255, 255, 255, 0.3);
 `;
 
 export const Element = styled.div`
   ${FlexCenterStyle}
+  mix-blend-mode: normal;
   position: absolute;
   top: 0;
   width: 1.5vw;
