@@ -41,7 +41,7 @@ export default function UI({ uiState, handleReset }: any) {
       if (resetRef.current) clearTimeout(resetRef.current);
       resetRef.current = setTimeout(() => {
         handleReset();
-      }, 1000 * 1000);
+      }, 100 * 1000);
     };
 
     document.addEventListener("wheel", handleScroll);
