@@ -55,14 +55,13 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
 
   useEffect(() => {
     if (scrollPos > 0.01) setUIState(3);
-    if (scrollPos === 1) setUIState(5);
+    if (scrollPos === 1) setUIState(4);
 
     if (scrollPos < START_IDX || scrollPos == 1) {
       setVideoIdx(-1);
     } else if (scrollPos <= CUT_IDX) {
       let idx = CUT_IDX - (scrollPos - START_IDX) * (CUT_IDX / (CUT_IDX - START_IDX));
       const x = Math.floor(Math.log2(1 / idx));
-      console.log(idx, x);
       setCycleIdx(x);
       let vidIdx = Math.floor((idx - Math.pow(0.5, x + 1)) * Math.pow(2, x + 1) * 3);
       setVideoIdx(2 - vidIdx);
@@ -72,8 +71,6 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
       setCycleIdx(10);
     }
   }, [scrollPos]);
-
-  console.log(videoIdx, scrollPos);
 
   const gltf = useGLTF("/3d/EarthShell_vertexColor.gltf");
 

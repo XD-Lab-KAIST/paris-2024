@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, createContext, useContext } from "react";
+import useRefs from "react-use-refs";
 import * as S from "./styles";
 import usePreventTouchSideEffects from "@/utils/hooks/usePreventTouchSideEffects";
 
@@ -38,26 +39,58 @@ export default function MainComp() {
     window.location.reload();
   }
 
-  const audioRef: any = useRef();
+  const [audioRef1, audioRef2, audioRef3] = useRefs<any>();
+  const [playAudioIntervalRef, pauseAudioIntervalRef] = useRefs<any>();
+
+  function playAudioEl(audioEl: any) {
+    if (!audioEl) return;
+    audioEl.play();
+    //incrementally increase the volume
+    if (playAudioIntervalRef.current) clearInterval(playAudioIntervalRef.current);
+    playAudioIntervalRef.current = setInterval(() => {
+      audioEl.volume = Math.min(1, audioEl.volume + 0.01);
+      if (audioEl.volume === 1) clearInterval(playAudioIntervalRef.current);
+    }, 10);
+  }
+
+  function pauseAudioEl(audioEl: any) {
+    if (!audioEl) return;
+    //check if audioEl is playing
+    if (audioEl.paused) return;
+
+    if (pauseAudioIntervalRef.current) clearInterval(pauseAudioIntervalRef.current);
+    pauseAudioIntervalRef.current = setInterval(() => {
+      console.log("61", audioEl, audioEl.volume);
+      audioEl.volume = Math.max(0, audioEl.volume - 0.01);
+      if (audioEl.volume < 0.05) {
+        clearInterval(pauseAudioIntervalRef.current);
+        audioEl.pause();
+      }
+    }, 10);
+  }
 
   useEffect(() => {
     try {
-      if (!isIntro) {
-        //move to start
-        if (!audioRef.current) return;
+      console.log(uiState);
+      if (uiState <= 1) {
+        playAudioEl(audioRef1.current);
+        if (audioRef1.current) audioRef1.current.currentTime = 0;
+        pauseAudioEl(audioRef2.current);
+        pauseAudioEl(audioRef3.current);
+      } else if (uiState >= 2 && uiState <= 3) {
+        playAudioEl(audioRef2.current);
 
-        audioRef.current.volume = 1;
-        audioRef.current.currentTime = 0;
-        audioRef.current.play();
-      } else {
-        //stop
-        if (!audioRef.current) return;
-        audioRef.current.pause();
+        pauseAudioEl(audioRef1.current);
+        pauseAudioEl(audioRef3.current);
+      } else if (uiState === 4) {
+        playAudioEl(audioRef3.current);
+        pauseAudioEl(audioRef1.current);
+        pauseAudioEl(audioRef2.current);
       }
     } catch (e) {
       console.log(e);
     }
-  }, [isIntro]);
+  }, [uiState]);
 
   return (
     <ScrollContext.Provider value={contextValue}>
@@ -84,7 +117,9 @@ export default function MainComp() {
 
         <UI uiState={uiState} handleReset={handleReset} />
 
-        <audio ref={audioRef} src="/audio/audio.mp3" loop />
+        <audio ref={audioRef1} src="/audio/audio1.mp3" loop />
+        <audio ref={audioRef2} src="/audio/audio2.mp3" loop />
+        <audio ref={audioRef3} src="/audio/audio3.mp3" loop />
         <Leva collapsed={true} hidden={true} />
       </S.Container>
     </ScrollContext.Provider>

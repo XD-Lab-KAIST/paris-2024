@@ -36,7 +36,6 @@ export function textGenerator() {
     texts.push({ text, show, fontSize, position });
   }
 
-  console.log(texts);
   return texts;
 }
 
