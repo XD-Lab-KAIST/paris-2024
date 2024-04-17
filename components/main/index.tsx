@@ -60,7 +60,6 @@ export default function MainComp() {
 
     if (pauseAudioIntervalRef.current) clearInterval(pauseAudioIntervalRef.current);
     pauseAudioIntervalRef.current = setInterval(() => {
-      console.log("61", audioEl, audioEl.volume);
       audioEl.volume = Math.max(0, audioEl.volume - 0.01);
       if (audioEl.volume < 0.05) {
         clearInterval(pauseAudioIntervalRef.current);
@@ -71,7 +70,6 @@ export default function MainComp() {
 
   useEffect(() => {
     try {
-      console.log(uiState);
       if (uiState <= 1) {
         playAudioEl(audioRef1.current);
         if (audioRef1.current) audioRef1.current.currentTime = 0;
