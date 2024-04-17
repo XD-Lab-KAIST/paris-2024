@@ -1,4 +1,5 @@
 varying vec3 vColor;
+varying float vOpacity;
 
 void main()
 {

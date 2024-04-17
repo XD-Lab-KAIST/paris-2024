@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect, createContext, useContext } from "react";
 import useRefs from "react-use-refs";
 import * as S from "./styles";
-import usePreventTouchSideEffects from "@/utils/hooks/usePreventTouchSideEffects";
 
 import ThreeScene from "@/foundations/main/three";
 import VideoComp from "@/foundations/main/video";

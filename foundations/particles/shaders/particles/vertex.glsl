@@ -8,6 +8,7 @@ attribute vec3 aColor;
 attribute float aSize;
 
 varying vec3 vColor;
+varying float vOpacity;
 
 void main()
 {
@@ -27,8 +28,17 @@ void main()
     gl_PointSize = size * aSize * uSize * uResolution.y;
     gl_PointSize *= (1.0 / - viewPosition.z);
 
-    // Varyings
-    vColor = vec3(aColor.r + cos((uTime + particle.x * 1.7 + particle.z + 0.7) * 1.1), aColor.gb);
-    vColor = vec3(aColor * (0.6) + 0.3 * cos(uTime * 1.0 + particle.x));
-        // vColor = vec3(aColor * (0.3));
+
+    //Time adjustment
+    float timeAdjuster = min(uTime, 10.0) * 0.1;
+
+
+    gl_PointSize *= (0.5 * timeAdjuster);
+    vColor = vec3(aColor * (0.6) + 0.3 * cos(uTime * 1.0 + particle.x) * timeAdjuster);
+    vColor = vec3(aColor * 0.3 * timeAdjuster);
+
+    // vColor = vec3(aColor.r + cos((uTime + particle.x * 1.7 + particle.z + 0.7) * 1.1), aColor.gb);
+    // vColor = vec3(aColor * (0.3));
+
+    vOpacity = 0.4;
 }

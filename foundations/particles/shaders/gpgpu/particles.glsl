@@ -153,6 +153,7 @@ void main(){
         //Decay
         particle.a += uDeltaTime * 0.7;
     }
-    
+  
+
     gl_FragColor = particle;
 }

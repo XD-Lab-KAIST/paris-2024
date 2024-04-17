@@ -5,6 +5,8 @@ export const Container = styled.div`
   ${FlexCenterStyle}
   ${WholeContainer}
 
+  background: black;
+
   canvas {
     width: 100%;
     height: 100%;

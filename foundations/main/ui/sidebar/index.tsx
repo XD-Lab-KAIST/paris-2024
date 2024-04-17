@@ -27,7 +27,7 @@ export default function Sidebar() {
     >
       <S.Element
         style={{
-          transform: `translateY(${scrollPos * 50}vh)`,
+          transform: `translateY(${scrollPos ** 2 * 50}vh)`,
         }}
       />
     </S.Sidebar>

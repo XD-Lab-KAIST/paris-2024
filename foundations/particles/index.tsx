@@ -140,12 +140,22 @@ export default function GPGPUParticles() {
    * Animation
    */
 
+  const [startingTimeRecorded, setStartingTimeRecorded] = useState(false);
+  let startingTimeRef = useRef(0);
   let previousTimeRef = useRef(0);
 
+  //get the starting time
+
   useFrame((state, delta) => {
-    const elapsedTime = state.clock.getElapsedTime();
+    if (!startingTimeRecorded) {
+      startingTimeRef.current = state.clock.getElapsedTime();
+      setStartingTimeRecorded(true);
+    }
+    const elapsedTime = state.clock.getElapsedTime() - startingTimeRef.current;
     const deltaTime = elapsedTime - previousTimeRef.current;
     previousTimeRef.current = elapsedTime;
+
+    console.log(elapsedTime);
 
     // GPGPU Update
     if (!gpgpu) return;
