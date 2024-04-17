@@ -30,7 +30,7 @@ void main()
 
 
     //Time adjustment
-    float timeAdjuster = min(uTime, 10.0) * 0.1;
+    float timeAdjuster = min(uTime, 5.0) * 0.2;
 
 
     gl_PointSize *= (0.5 * timeAdjuster);
