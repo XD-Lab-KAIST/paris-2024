@@ -27,8 +27,6 @@ export default function MainComp() {
   const [videoIdx, setVideoIdx] = useState(-1);
   const [cycleIdx, setCycleIdx] = useState(0);
 
-  // usePreventTouchSideEffects();
-
   const [isIntro, setIsIntro] = useState(true);
   const [uiState, setUIState] = useState(0);
 
@@ -107,7 +105,7 @@ export default function MainComp() {
                 msOverflowStyle: "none",
               }}
             >
-              <ThreeScene videoIdx={videoIdx} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
+              <ThreeScene videoIdx={videoIdx} isIntro={isIntro} setVideoIdx={setVideoIdx} setCycleIdx={setCycleIdx} setUIState={setUIState} />
             </ScrollControls>
           </Canvas>
         </S.ThreeContainer>

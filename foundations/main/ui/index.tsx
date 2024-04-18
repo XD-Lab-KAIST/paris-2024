@@ -2,7 +2,7 @@ import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
 import Sidebar from "./sidebar";
 import Credits from "./credits";
-import useMousePos from "@/utils/hooks/useMousePos";
+import { useMousePosThrottle } from "@/utils/hooks/useMousePos";
 
 const TEXTS = ["Move Around the Trackpad", "Click to Enter", "Scroll Up and Down", "Scroll Up and Down", "Move around the Trackpad"];
 
@@ -28,7 +28,8 @@ export default function UI({ uiState, handleReset }: any) {
   const scrollTimeoutRef = useRef<any>(null);
   const resetRef = useRef<any>(null);
 
-  const mousePos = useMousePos();
+  const mousePos = useMousePosThrottle();
+  console.log(mousePos);
 
   useEffect(() => {
     //scrolling detection: when scrolling ischanging true, when not scrolling for more than 10s ischanging false

@@ -15,7 +15,7 @@ import useMousePos from "@/utils/hooks/useMousePos";
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
 
-export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUIState }: any) {
+export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUIState }: any) {
   const { scrollPos, setScrollPos } = useContext(ScrollContext);
   const scroll = useScroll();
   const mousePos = useMousePos();
@@ -79,7 +79,7 @@ export default function ThreeScene({ videoIdx, setVideoIdx, setCycleIdx, setUISt
       <group ref={group}>{scrollPos < 1 ? <primitive object={gltf.scene} /> : <></>}</group>
 
       <PostProcessing scrollPos={scrollPos} />
-      <SkyAndStars scrollPos={scrollPos} />
+      <SkyAndStars scrollPos={scrollPos} isIntro={isIntro} />
       <Text scrollPos={scrollPos} />
       {scrollPos === 1 && <GPGPUParticles />}
     </>
