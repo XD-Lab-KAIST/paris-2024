@@ -33,24 +33,25 @@ export default function UI({ uiState, handleReset }: any) {
   useEffect(() => {
     //scrolling detection: when scrolling ischanging true, when not scrolling for more than 10s ischanging false
     //focus on performance
-    if (uiState !== 3) return;
-    const handleScroll = () => {
-      setIsChanging(true);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsChanging(false);
-      }, 10000);
+    if (uiState === 3) {
+      const handleScroll = () => {
+        setIsChanging(true);
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(() => {
+          setIsChanging(false);
+        }, 10000);
 
-      if (resetRef.current) clearTimeout(resetRef.current);
-      resetRef.current = setTimeout(() => {
-        handleReset();
-      }, 100 * 1000);
-    };
+        if (resetRef.current) clearTimeout(resetRef.current);
+        resetRef.current = setTimeout(() => {
+          handleReset();
+        }, 100 * 1000);
+      };
 
-    document.addEventListener("wheel", handleScroll);
-    return () => {
-      document.removeEventListener("wheel", handleScroll);
-    };
+      document.addEventListener("wheel", handleScroll);
+      return () => {
+        document.removeEventListener("wheel", handleScroll);
+      };
+    }
   }, [uiState]);
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function UI({ uiState, handleReset }: any) {
           >
             <span className="material-symbols-outlined">info</span>
           </S.InfoIcon>
-          <Credits showCredits={showCredits} setShowCredits={setShowCredits} />
+          <Credits showCredits={showCredits} setShowCredits={setShowCredits} setIsChanging={setIsChanging} />
         </>
       )}
     </>

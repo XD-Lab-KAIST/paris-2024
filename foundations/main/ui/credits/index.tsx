@@ -4,7 +4,18 @@ import useMousePos from "@/utils/hooks/useMousePos";
 
 const TEXT = `This work is a web-based interactive artwork that symbolically represents various aspects of the Anthropocene. It unfolds themes symbolic of the Anthropocene such as drought, wildfires, and the Holocene extinction, allowing audiences to interact with and relate to the narrative of the artwork by manipulating the Earth. Although the interaction with the artwork can be intuitive and playful through a simple UI, the scenes that unfold are dreamlike yet sorrowful. Humanity has indiscriminately exploited the Earth as if it were an object to be used, but as a result, we are living in a state of high instability and uncertainty. By interacting with this work, we hope viewers will imagine what the Earth might look like if we do not make an effort, placing it in uncharted territory.`;
 
-export default function Credits({ showCredits = true, setShowCredits = () => {} }: any) {
+export default function Credits({ showCredits = true, setShowCredits = () => {}, setIsChanging = () => {} }: any) {
+  const mousePos = useMousePos();
+
+  const scrollTimeoutRef = useRef<any>(null);
+  useEffect(() => {
+    setIsChanging(true);
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      setIsChanging(false);
+    }, 7 * 1000);
+  }, [mousePos]);
+
   return (
     <S.Container
       style={{
@@ -31,14 +42,12 @@ export default function Credits({ showCredits = true, setShowCredits = () => {} 
         X
       </S.Cancel>
 
-      {showCredits && <MouseTrackingEl />}
+      <MouseTrackingEl mousePos={mousePos} />
     </S.Container>
   );
 }
 
-function MouseTrackingEl() {
-  const mousePos = useMousePos();
-
+function MouseTrackingEl({ mousePos }: any) {
   return (
     <>
       <S.MouseEl
