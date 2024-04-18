@@ -17,12 +17,11 @@ export default function SkyAndStars({ scrollPos }: any) {
     if (scrollPos >= START && scrollPos <= END) {
       const pos = (scrollPos - START) * (1 / (END - START));
       cloud.current.position.x = -size.width * 0;
-      // cloud.current.position.y = size.height * 0.005 * Math.pow(1 - pos, 3);
       cloud.current.position.y = 0;
       cloud.current.position.z = -1000 * Math.pow(1 - pos, 5) + 85;
       cloud.current.rotation.y = Math.PI * 0.5 * pos;
       cloud.current.rotation.z = Math.PI * 5 * pos;
-      // cloud.current.rotation.y = Math.PI * 0.5 * (1 - Math.pow(1 - pos, 2));
+
       const scale = 1 + Math.min(pos * 1.8, 1) * 5;
       cloud.current.scale.x = scale;
       cloud.current.scale.y = scale;
@@ -43,18 +42,9 @@ export default function SkyAndStars({ scrollPos }: any) {
           />
         )}
       </group>
-      <group position={[0, 100, -10000]} ref={cloud}>
-        {/* <Cloud seed={99} scale={0.3} volume={400} /> */}
-        {/* <group position={[-1, -1, -1]}>
-          <Cloud seed={5} scale={2.3} volume={3} />
-        </group>
-        <group position={[-1, 1, 1]}>
-          <Cloud seed={7} scale={2.1} volume={2} />
-        </group> */}
-      </group>
+      <group position={[0, 100, -10000]} ref={cloud}></group>
 
-      <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade />
-      {/* {scrollPos >= 0.056 && <Sparkles count={100} colors={["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff", "#00ffff"]} size={1} fade animated fadeOut />} */}
+      <Stars radius={100} depth={50} count={4000} factor={4} saturation={0} fade />
     </>
   );
 }

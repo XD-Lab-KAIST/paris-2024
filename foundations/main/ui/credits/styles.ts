@@ -33,6 +33,7 @@ export const Section = styled.div`
 
     span {
       pointer-events: default;
+      transition: all 1s;
     }
   }
 `;

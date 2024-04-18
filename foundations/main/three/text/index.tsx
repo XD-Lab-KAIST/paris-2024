@@ -6,8 +6,6 @@ import { textGenerator, TEXTS } from "./constant";
 
 import { useControls } from "leva";
 
-import useMousePos from "@/utils/hooks/useMousePos";
-
 const FONT_PATH = "/fonts/Poiret.json";
 
 const material = new THREE.MeshStandardMaterial({ color: new THREE.Color("hsl(180, 10%, 95%)"), roughness: 0, metalness: 1 });
@@ -16,9 +14,6 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
   const { viewport } = useThree();
   const groupPosition = useMemo(() => [0, -scrollPos * 100 * viewport.height * 0.3, 0], [scrollPos, viewport.height]);
 
-  // textGenerator();
-
-  const mousePos = useMousePos();
   const controlParams = useControls({
     bevelSize: {
       value: 0.05,

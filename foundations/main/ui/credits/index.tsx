@@ -15,7 +15,7 @@ export default function Credits({ showCredits = true, setShowCredits = () => {} 
       <S.Section>
         <h1>
           {"Uncharted Territory".split("").map((letter: string, idx: number) => (
-            <Item key={idx} letter={letter} />
+            <Item key={idx} letter={letter} idx={idx} />
           ))}
         </h1>
         <p style={{ marginTop: "6vw" }}>Experience Design Lab, ID KAIST</p>
@@ -31,7 +31,7 @@ export default function Credits({ showCredits = true, setShowCredits = () => {} 
         X
       </S.Cancel>
 
-      <MouseTrackingEl />
+      {showCredits && <MouseTrackingEl />}
     </S.Container>
   );
 }
@@ -51,14 +51,27 @@ function MouseTrackingEl() {
   );
 }
 
-function Item({ letter }: any) {
+function Item({ letter, idx }: any) {
   const [show, setShow] = useState(false);
+  const cycleTime = useMemo(() => 2000, [idx]);
+
+  //interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShow((b) => !b);
+    }, cycleTime);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [cycleTime]);
 
   return (
     <span
       style={{
         opacity: show ? 1 : 0,
         transform: show ? "translateY(0)" : "translateY(100%)",
+        transitionDelay: `${idx * 0.07}s`,
       }}
       onMouseEnter={() => {
         setTimeout(() => {

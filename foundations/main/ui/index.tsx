@@ -64,26 +64,32 @@ export default function UI({ uiState, handleReset }: any) {
   const [showCredits, setShowCredits] = useState(false);
 
   return (
-    <S.UIContainer>
-      <S.UIText
-        style={{
-          opacity: isChanging ? 0 : 1,
-          transform: isChanging ? "translateY(10px)" : "translateY(0)",
-          transition: "all 0.5s",
-        }}
-      >
-        {displayText}
-      </S.UIText>
-      <Sidebar />
-      {uiState === 5 ||
-        (true && (
-          <>
-            <S.InfoIcon onClick={() => setShowCredits(true)}>
-              <span className="material-symbols-outlined">info</span>
-            </S.InfoIcon>
-            <Credits showCredits={showCredits} setShowCredits={setShowCredits} />
-          </>
-        ))}
-    </S.UIContainer>
+    <>
+      <S.UIContainer>
+        <S.UIText
+          style={{
+            opacity: isChanging ? 0 : 1,
+            transform: isChanging ? "translateY(10px)" : "translateY(0)",
+            transition: "all 0.5s",
+          }}
+        >
+          {displayText}
+        </S.UIText>
+        <Sidebar />
+      </S.UIContainer>
+
+      {uiState === 5 && (
+        <>
+          <S.InfoIcon
+            onClick={() => {
+              setShowCredits((t) => !t);
+            }}
+          >
+            <span className="material-symbols-outlined">info</span>
+          </S.InfoIcon>
+          <Credits showCredits={showCredits} setShowCredits={setShowCredits} />
+        </>
+      )}
+    </>
   );
 }
