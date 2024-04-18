@@ -32,6 +32,19 @@ export const InfoIcon = styled.div`
   z-index: 50;
   ${FlexCenterStyle}
 
+  @keyframes appear {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  animation: appear 1s;
+
   span {
     font-size: 3vw;
     font-weight: normal;

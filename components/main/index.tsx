@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, createContext, useContext } from "react";
+import { useRef, useMemo, useState, useEffect, createContext, useContext } from "react";
 import useRefs from "react-use-refs";
 import * as S from "./styles";
 
@@ -95,6 +95,17 @@ export default function MainComp() {
     }, 3000);
   }
 
+  const scollerLength = useMemo(() => {
+    try {
+      //detect device, if macos
+      const isMac = window.navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+      return isMac ? 150 : 75;
+    } catch (e) {
+      console.log(e);
+      return 150;
+    }
+  }, [navigator]);
+
   return (
     <ScrollContext.Provider value={contextValue}>
       <S.Container>
@@ -106,7 +117,7 @@ export default function MainComp() {
             camera={{ near: 0.01, far: 1000 }}
           >
             <ScrollControls
-              pages={150}
+              pages={scollerLength}
               //stylye scrollbar hide
               style={{
                 scrollbarWidth: "none",
