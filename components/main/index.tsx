@@ -98,8 +98,14 @@ export default function MainComp() {
   const scollerLength = useMemo(() => {
     try {
       //detect device, if macos
-      const isMac = window.navigator.platform.toUpperCase().indexOf("MAC") >= 0;
-      return isMac ? 150 : 75;
+
+      if (typeof window !== "undefined" && window.navigator) {
+        const isMac = window.navigator.platform.toUpperCase().includes("MAC");
+        return isMac ? 150 : 75;
+      } else {
+        // Default value if window or navigator is not available
+        return 150;
+      }
     } catch (e) {
       console.log(e);
       return 150;
