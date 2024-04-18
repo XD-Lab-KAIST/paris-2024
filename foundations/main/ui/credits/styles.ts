@@ -6,13 +6,13 @@ export const Container = styled.div`
   ${FlexCenterStyle}
   pointer-events: default;
   z-index: 40;
-  backdrop-filter: blur(1vw);
-  -webkit-backdrop-filter: blur(1vw);
+  backdrop-filter: blur(0.15vw);
+  -webkit-backdrop-filter: blur(0.15vw);
 
   color: white;
   font-weight: 300;
   font-size: 1.2vw;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0);
   // mix-blend-mode: difference;
 
   transition: all 0.5s;
@@ -46,9 +46,11 @@ export const MouseEl = styled.div`
   z-index: 50;
 
   border-radius: 50%;
+  background: white;
   mix-blend-mode: difference;
+
   transform: translate(-50%, -50%);
-  backdrop-filter: invert(100%);
+  // backdrop-filter: brightness(1.5);
 `;
 
 export const Cancel = styled.div`

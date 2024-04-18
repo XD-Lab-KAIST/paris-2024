@@ -155,8 +155,6 @@ export default function GPGPUParticles() {
     const deltaTime = elapsedTime - previousTimeRef.current;
     previousTimeRef.current = elapsedTime;
 
-    console.log(elapsedTime);
-
     // GPGPU Update
     if (!gpgpu) return;
     gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;

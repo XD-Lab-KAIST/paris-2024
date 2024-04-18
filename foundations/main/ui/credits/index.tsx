@@ -71,7 +71,7 @@ function Item({ letter, idx }: any) {
       style={{
         opacity: show ? 1 : 0,
         transform: show ? "translateY(0)" : "translateY(100%)",
-        transitionDelay: `${idx * 0.07}s`,
+        transitionDelay: `${idx * 0.05}s`,
       }}
       onMouseEnter={() => {
         setTimeout(() => {

@@ -11,8 +11,11 @@ export default function UI({ uiState, handleReset }: any) {
   const [isChanging, setIsChanging] = useState(false);
   const [displayText, setDisplayText] = useState("Move Around the Trackpad");
 
+  console.log(targetText, isChanging, displayText);
+
   useEffect(() => {
-    if (targetText !== "Move Around the Trackpad") setIsChanging(true);
+    if (uiState !== 0) setIsChanging(true);
+    console.log(targetText, isChanging, displayText);
     const timeout1 = setTimeout(() => {
       setDisplayText(targetText);
     }, 500);
@@ -29,13 +32,11 @@ export default function UI({ uiState, handleReset }: any) {
   const resetRef = useRef<any>(null);
 
   const mousePos = useMousePosThrottle();
-  console.log(mousePos);
 
   useEffect(() => {
     //scrolling detection: when scrolling ischanging true, when not scrolling for more than 10s ischanging false
     //focus on performance
-
-    if (uiState < 2) return;
+    if (uiState !== 3) return;
     const handleScroll = () => {
       setIsChanging(true);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
@@ -79,7 +80,7 @@ export default function UI({ uiState, handleReset }: any) {
         <Sidebar />
       </S.UIContainer>
 
-      {uiState === 5 && (
+      {uiState === 4 && (
         <>
           <S.InfoIcon
             onClick={() => {

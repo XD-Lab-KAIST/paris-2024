@@ -30,6 +30,8 @@ export default function MainComp() {
   const [isIntro, setIsIntro] = useState(true);
   const [uiState, setUIState] = useState(0);
 
+  console.log(uiState);
+
   function handleReset() {
     //page reload
     setVideoIdx(-1);

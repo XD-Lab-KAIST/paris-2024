@@ -29,7 +29,7 @@ export const InfoIcon = styled.div`
   height: 3vw;
   cursor: pointer;
   pointer-events: default !important;
-  z-index: 100;
+  z-index: 50;
   ${FlexCenterStyle}
 
   span {
