@@ -11,11 +11,8 @@ export default function UI({ uiState, handleReset }: any) {
   const [isChanging, setIsChanging] = useState(false);
   const [displayText, setDisplayText] = useState("Move Around the Trackpad");
 
-  console.log(targetText, isChanging, displayText);
-
   useEffect(() => {
     if (uiState !== 0) setIsChanging(true);
-    console.log(targetText, isChanging, displayText);
     const timeout1 = setTimeout(() => {
       setDisplayText(targetText);
     }, 500);

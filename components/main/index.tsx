@@ -30,8 +30,6 @@ export default function MainComp() {
   const [isIntro, setIsIntro] = useState(true);
   const [uiState, setUIState] = useState(0);
 
-  console.log(uiState);
-
   function handleReset() {
     //page reload
     setVideoIdx(-1);
@@ -94,7 +92,7 @@ export default function MainComp() {
       <S.Container>
         <Intro isIntro={isIntro} setIsIntro={setIsIntro} uiState={uiState} setUIState={setUIState} />
         <S.ThreeContainer>
-          <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} />
+          <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} uiState={uiState} />
           <Canvas
             //camera near far
             camera={{ near: 0.01, far: 1000 }}

@@ -1,5 +1,27 @@
 import Script from "next/script";
+
+import type { Metadata } from "next";
+
 import StyledComponentsRegistry from "@/lib/registry";
+
+export const metadata: Metadata = {
+  title: "Uncharted Territory",
+  description: "Experimental Interactive Artwork by Experience Design Lab (Yiyun Kang, Jeanyoon Choi), Department of Industrial Design, KAIST.",
+  openGraph: {
+    type: "website",
+    locale: "en_UK",
+    url: "paris-xdlab-2024.vercel.app",
+    siteName: "Uncharted Territory",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
