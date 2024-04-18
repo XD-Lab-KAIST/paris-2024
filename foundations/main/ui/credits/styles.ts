@@ -5,13 +5,15 @@ export const Container = styled.div`
   ${WholeContainer}
   ${FlexCenterStyle}
   pointer-events: default;
-  z-index: 30;
-  background: black;
+  z-index: 40;
+  backdrop-filter: blur(1vw);
+  -webkit-backdrop-filter: blur(1vw);
 
   color: white;
   font-weight: 300;
   font-size: 1.2vw;
-  mix-blend-mode: difference;
+  background: rgba(255, 255, 255, 0.2);
+  // mix-blend-mode: difference;
 
   transition: all 0.5s;
 
@@ -28,7 +30,6 @@ export const Section = styled.div`
   h1 {
     font-family: "BebasNeue";
     font-size: 5vw;
-    z-index: 40;
 
     span {
       pointer-events: default;

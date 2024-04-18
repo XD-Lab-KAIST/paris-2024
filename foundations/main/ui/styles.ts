@@ -19,3 +19,22 @@ export const UIText = styled.div`
   bottom: 5vh;
   text-align: center;
 `;
+
+export const InfoIcon = styled.div`
+  position: absolute;
+  bottom: 2vw;
+  left: 2vw;
+  color: white;
+  width: 3vw;
+  height: 3vw;
+  cursor: pointer;
+  ${FlexCenterStyle}
+  z-index: 100;
+
+  span {
+    font-size: 3vw;
+    font-weight: normal;
+    cursor: pointer;
+    pointer-events: default !important;
+  }
+`;

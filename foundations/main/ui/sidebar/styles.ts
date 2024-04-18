@@ -17,10 +17,10 @@ export const Element = styled.div`
   mix-blend-mode: normal;
   position: absolute;
   top: 0;
-  width: 1.5vw;
+  width: 0.5vw;
+  // left: -0.5vw;
   height: 1.5vw;
-  left: -0.5vw;
   box-shadow: 0 0 0.5vw rgba(255, 255, 255, 1), 0 0 1vw rgba(255, 255, 255, 1);
-  border-radius: 50%;
+  border-radius: 0.25vw;
   background: rgba(255, 255, 255, 1);
 `;

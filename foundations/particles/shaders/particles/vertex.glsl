@@ -33,7 +33,7 @@ void main()
     float timeAdjuster = min(uTime, 5.0) * 0.2;
 
 
-    gl_PointSize *= (0.5 * timeAdjuster);
+    gl_PointSize *= (0.7 * timeAdjuster);
     vColor = vec3(aColor * (0.6) + 0.3 * cos(uTime * 1.0 + particle.x) * timeAdjuster);
     vColor = vec3(aColor * 0.3 * timeAdjuster);
 

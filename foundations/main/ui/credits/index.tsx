@@ -9,6 +9,7 @@ export default function Credits({ showCredits = true, setShowCredits = () => {} 
     <S.Container
       style={{
         opacity: showCredits ? 1 : 0,
+        pointerEvents: showCredits ? "auto" : "none",
       }}
     >
       <S.Section>

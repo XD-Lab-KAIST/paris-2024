@@ -1,6 +1,8 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
 import Sidebar from "./sidebar";
+import Credits from "./credits";
+import useMousePos from "@/utils/hooks/useMousePos";
 
 const TEXTS = ["Move Around the Trackpad", "Click to Enter", "Scroll Up and Down", "Scroll Up and Down", "Move around the Trackpad"];
 
@@ -26,6 +28,8 @@ export default function UI({ uiState, handleReset }: any) {
   const scrollTimeoutRef = useRef<any>(null);
   const resetRef = useRef<any>(null);
 
+  const mousePos = useMousePos();
+
   useEffect(() => {
     //scrolling detection: when scrolling ischanging true, when not scrolling for more than 10s ischanging false
     //focus on performance
@@ -45,11 +49,19 @@ export default function UI({ uiState, handleReset }: any) {
     };
 
     document.addEventListener("wheel", handleScroll);
-
     return () => {
       document.removeEventListener("wheel", handleScroll);
     };
   }, [uiState]);
+
+  useEffect(() => {
+    if (resetRef.current) clearTimeout(resetRef.current);
+    resetRef.current = setTimeout(() => {
+      handleReset();
+    }, 100 * 1000);
+  }, [mousePos]);
+
+  const [showCredits, setShowCredits] = useState(false);
 
   return (
     <S.UIContainer>
@@ -63,6 +75,15 @@ export default function UI({ uiState, handleReset }: any) {
         {displayText}
       </S.UIText>
       <Sidebar />
+      {uiState === 5 ||
+        (true && (
+          <>
+            <S.InfoIcon onClick={() => setShowCredits(true)}>
+              <span className="material-symbols-outlined">info</span>
+            </S.InfoIcon>
+            <Credits showCredits={showCredits} setShowCredits={setShowCredits} />
+          </>
+        ))}
     </S.UIContainer>
   );
 }
