@@ -104,7 +104,7 @@ export default function MainComp() {
       console.log(e);
       return 150;
     }
-  }, [navigator]);
+  }, []);
 
   return (
     <ScrollContext.Provider value={contextValue}>
