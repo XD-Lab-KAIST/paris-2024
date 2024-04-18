@@ -2,6 +2,8 @@ import * as S from "./styles";
 import { useState, useEffect, useMemo } from "react";
 import useMousePos from "@/utils/hooks/useMousePos";
 
+import Loading from "./loading";
+
 export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any) {
   const [shownLetters, setShownLetters] = useState(0);
 
@@ -24,21 +26,24 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
   }
 
   return (
-    <S.Intro
-      onClick={handleClick}
-      style={{
-        opacity: isIntro ? 1 : 0,
-        pointerEvents: isIntro ? "all" : "none",
-        cursor: uiState === 1 ? "pointer" : "none",
-      }}
-    >
-      <h1>
-        {"Uncharted Territory".split("").map((letter: string, idx: number) => (
-          <Item fadeOut={fadeOut} idx={idx} key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
-        ))}
-      </h1>
-      <MouseTrackingEl />
-    </S.Intro>
+    <>
+      <S.Intro
+        onClick={handleClick}
+        style={{
+          opacity: isIntro ? 1 : 0,
+          pointerEvents: isIntro ? "all" : "none",
+          cursor: uiState === 1 ? "pointer" : "none",
+        }}
+      >
+        <h1>
+          {"Uncharted Territory".split("").map((letter: string, idx: number) => (
+            <Item fadeOut={fadeOut} idx={idx} key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
+          ))}
+        </h1>
+        <MouseTrackingEl />
+      </S.Intro>
+      <Loading />
+    </>
   );
 }
 

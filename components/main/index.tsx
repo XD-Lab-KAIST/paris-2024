@@ -30,12 +30,6 @@ export default function MainComp() {
   const [isIntro, setIsIntro] = useState(true);
   const [uiState, setUIState] = useState(0);
 
-  function handleReset() {
-    //page reload
-    setVideoIdx(-1);
-    window.location.reload();
-  }
-
   const [audioRef1, audioRef2, audioRef3] = useRefs<any>();
   const [playAudioIntervalRef, pauseAudioIntervalRef] = useRefs<any>();
 
@@ -86,6 +80,20 @@ export default function MainComp() {
       console.log(e);
     }
   }, [uiState]);
+
+  function handleReset() {
+    //first pause all audioel
+    if (audioRef1.current) pauseAudioEl(audioRef1.current);
+    if (audioRef2.current) pauseAudioEl(audioRef2.current);
+    if (audioRef3.current) pauseAudioEl(audioRef3.current);
+
+    //timeout 3s
+    setTimeout(() => {
+      //page reload
+      setVideoIdx(-1);
+      window.location.reload();
+    }, 3000);
+  }
 
   return (
     <ScrollContext.Provider value={contextValue}>
