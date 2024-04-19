@@ -63,10 +63,12 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
       let idx = CUT_IDX - (scrollPos - START_IDX) * (CUT_IDX / (CUT_IDX - START_IDX));
       const x = Math.floor(Math.log2(1 / idx));
       setCycleIdx(x);
+
       let vidIdx = Math.floor((idx - Math.pow(0.5, x + 1)) * Math.pow(2, x + 1) * 3);
       setVideoIdx(2 - vidIdx);
     } else {
       const idx = (scrollPos - CUT_IDX) * 1000000;
+
       setVideoIdx(Math.floor(idx % 3));
       setCycleIdx(10);
     }

@@ -67,7 +67,14 @@ function SingleVideoEl({ i, videoIdx, setVideoIdx, vidRef0, vidRef1, vidRef2, cy
         autoPlay
         // loop
         onEnded={() => {
-          setVideoIdx((prev: number) => (prev === -1 ? -1 : (prev + 1) % 3));
+          if (i === videoIdx && videoIdx !== -1) {
+            const nextVideoIdx = (videoIdx + 1) % 3;
+            //next vid ref
+            if (nextVideoIdx === 0) vidRef0.current.currentTime = 0;
+            if (nextVideoIdx === 1) vidRef1.current.currentTime = 0;
+            if (nextVideoIdx === 2) vidRef2.current.currentTime = 0;
+            setVideoIdx(nextVideoIdx);
+          }
         }}
         ref={i === 0 ? vidRef0 : i === 1 ? vidRef1 : vidRef2}
         style={{
