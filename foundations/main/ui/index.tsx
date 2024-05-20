@@ -85,7 +85,9 @@ export default function UI({ uiState, handleReset }: any) {
               setShowCredits((t) => !t);
             }}
           >
-            <span className="material-symbols-outlined">info</span>
+            {/* <span className="material-symbols-outlined">info</span> */}
+
+            <img src="/logos/info_white.svg" />
           </S.InfoIcon>
           <Credits showCredits={showCredits} setShowCredits={setShowCredits} setIsChanging={setIsChanging} />
         </>

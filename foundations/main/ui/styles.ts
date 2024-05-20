@@ -45,6 +45,13 @@ export const InfoIcon = styled.div`
 
   animation: appear 1s;
 
+  img {
+    width: 3vw;
+    height: 3vw;
+    cursor: pointer;
+    pointer-events: default !important;
+  }
+
   span {
     font-size: 3vw;
     font-weight: normal;

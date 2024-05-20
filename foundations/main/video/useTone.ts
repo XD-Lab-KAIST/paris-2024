@@ -42,7 +42,7 @@ export default function useTone({ videoIdx, cycleIdx, uiState }: any) {
         // for (let i = 0; i < 7; i++) {
         //   synth.triggerAttackRelease(`C${i + 1}`, 0.5, now + 0.05 * i);
         // }
-        synth.triggerAttackRelease("C6", 0.5, now);
+        synth.triggerAttackRelease("C4", 1, now);
       }
     } catch (e) {
       console.log(e);
