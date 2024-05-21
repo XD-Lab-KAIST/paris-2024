@@ -84,10 +84,21 @@ export default function UI({ uiState, handleReset }: any) {
             onClick={() => {
               setShowCredits((t) => !t);
             }}
+            style={{
+              left: "2vw",
+            }}
           >
-            {/* <span className="material-symbols-outlined">info</span> */}
-
             <img src="/logos/info_white.svg" />
+            <p>Info</p>
+          </S.InfoIcon>
+          <S.InfoIcon
+            onClick={() => handleReset(100)}
+            style={{
+              right: "2vw",
+            }}
+          >
+            <img src="/logos/home.svg" />
+            <p>Home</p>
           </S.InfoIcon>
           <Credits showCredits={showCredits} setShowCredits={setShowCredits} setIsChanging={setIsChanging} />
         </>

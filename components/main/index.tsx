@@ -81,7 +81,7 @@ export default function MainComp() {
     }
   }, [uiState]);
 
-  function handleReset() {
+  function handleReset(timeoutSec = 3000) {
     //first pause all audioel
     if (audioRef1.current) pauseAudioEl(audioRef1.current);
     if (audioRef2.current) pauseAudioEl(audioRef2.current);
@@ -92,7 +92,7 @@ export default function MainComp() {
       //page reload
       setVideoIdx(-1);
       window.location.reload();
-    }, 3000);
+    }, timeoutSec);
   }
 
   const scollerLength = useMemo(() => {

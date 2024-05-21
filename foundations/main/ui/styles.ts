@@ -21,9 +21,9 @@ export const UIText = styled.div`
 `;
 
 export const InfoIcon = styled.div`
+  font-family: Raleway;
   position: absolute;
-  bottom: 2vw;
-  left: 2vw;
+  bottom: 2.5vw;
   color: white;
   width: 3vw;
   height: 3vw;
@@ -31,6 +31,12 @@ export const InfoIcon = styled.div`
   pointer-events: default !important;
   z-index: 50;
   ${FlexCenterStyle}
+  flex-direction: column;
+
+  p {
+    margin-top: 0.5vw;
+    font-weight: 300;
+  }
 
   @keyframes appear {
     0% {
@@ -46,8 +52,8 @@ export const InfoIcon = styled.div`
   animation: appear 1s;
 
   img {
-    width: 3vw;
-    height: 3vw;
+    width: 2.5vw;
+    height: 2.5vw;
     cursor: pointer;
     pointer-events: default !important;
   }
