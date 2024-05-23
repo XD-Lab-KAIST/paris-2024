@@ -28,13 +28,14 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
 
   return (
     <>
-      <Background />
+      {uiState < 2 && <Background isIntro={isIntro} />}
       <S.Intro
         onClick={handleClick}
         style={{
           opacity: isIntro ? 1 : 0,
           pointerEvents: isIntro ? "all" : "none",
           cursor: uiState === 1 ? "pointer" : "none",
+          background: isIntro ? "transparent" : "black",
         }}
       >
         <h1>

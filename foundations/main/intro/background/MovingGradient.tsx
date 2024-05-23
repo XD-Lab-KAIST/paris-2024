@@ -3,7 +3,7 @@ import Particle from "./Particle";
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
 
-const MovingGradient: React.FC = () => {
+const MovingGradient: React.FC = ({ uiState }: any) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const particlesRef = useRef<Particle[]>([]);
 
