@@ -17,7 +17,7 @@ import gpgpuParticlesShader from "./shaders/gpgpu/particles.glsl";
 //useResize
 import useResize from "@/utils/hooks/useResize";
 
-const SCALE = 3;
+const SCALE = 3.9;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -126,7 +126,7 @@ export default function GPGPUParticles() {
       vertexShader: particlesVertexShader,
       fragmentShader: particlesFragmentShader,
       uniforms: {
-        uSize: new THREE.Uniform(0.013),
+        uSize: new THREE.Uniform(0.018),
         uResolution: new THREE.Uniform(new THREE.Vector2(size.width * gl.getPixelRatio(), size.height * gl.getPixelRatio())),
         uParticlesTexture: new THREE.Uniform(0),
         uTime: new THREE.Uniform(0),

@@ -91,6 +91,7 @@ export default function MainComp() {
     setTimeout(() => {
       //page reload
       setVideoIdx(-1);
+
       window.location.reload();
     }, timeoutSec);
   }

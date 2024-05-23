@@ -4,7 +4,9 @@ import Sidebar from "./sidebar";
 import Credits from "./credits";
 import { useMousePosThrottle } from "@/utils/hooks/useMousePos";
 
-const TEXTS = ["TOUCH THE PAD TO START", "Click to Enter", "Drag two fingers to scroll", "Drag two fingers to scroll", "Move around the Trackpad"];
+const TEXTS = ["TOUCH THE PAD TO START", "Click to Enter", "Drag with two fingers to scroll", "Drag with two fingers to scroll", "Move around the Trackpad"];
+
+const RESET_SEC = 1000;
 
 export default function UI({ uiState, handleReset }: any) {
   const targetText = useMemo(() => TEXTS[uiState], [uiState]);
@@ -39,12 +41,13 @@ export default function UI({ uiState, handleReset }: any) {
         if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
         scrollTimeoutRef.current = setTimeout(() => {
           setIsChanging(false);
-        }, 10000);
+        }, 10 * 1000);
 
         if (resetRef.current) clearTimeout(resetRef.current);
+
         resetRef.current = setTimeout(() => {
           handleReset();
-        }, 100 * 1000);
+        }, RESET_SEC * 1000);
       };
 
       document.addEventListener("wheel", handleScroll);
@@ -58,7 +61,7 @@ export default function UI({ uiState, handleReset }: any) {
     if (resetRef.current) clearTimeout(resetRef.current);
     resetRef.current = setTimeout(() => {
       handleReset();
-    }, 100 * 1000);
+    }, RESET_SEC * 1000);
   }, [mousePos]);
 
   const [showCredits, setShowCredits] = useState(false);
