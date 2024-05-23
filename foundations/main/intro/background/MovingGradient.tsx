@@ -28,10 +28,10 @@ const MovingGradient: React.FC = () => {
         const radius = canvas.width * getRandom(0.2, 0.4);
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const color = `hsl(${getRandom(180, 360)}, 100%, ${getRandom(9, 24)}%)`;
+        const color = `hsl(${getRandom(180, 360)}, 100%, ${getRandom(11, 24)}%)`;
         const speed = {
-          x: (Math.random() - 0.5) * 2,
-          y: (Math.random() - 0.5) * 2,
+          x: (Math.random() - 0.5) * 1.8,
+          y: (Math.random() - 0.5) * 1.8,
         };
 
         particles.push(new Particle(x, y, radius, color, speed));
