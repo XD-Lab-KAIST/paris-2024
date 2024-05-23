@@ -6,6 +6,14 @@ export const Background = styled.div`
   ${WholeContainer}
   background: black;
   z-index: 3;
+  pointer-events: none !important;
+
+  transition: all 4s;
+`;
+
+export const CanvasStyle = styled.div`
+  ${WholeContainer}
+  transition: opacity 3.5s;
 
   canvas {
     position: absolute;

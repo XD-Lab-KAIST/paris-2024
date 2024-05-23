@@ -28,14 +28,13 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
 
   return (
     <>
-      {uiState < 2 && <Background isIntro={isIntro} />}
+      <Background isIntro={isIntro} fadeOut={fadeOut} />
       <S.Intro
         onClick={handleClick}
         style={{
           opacity: isIntro ? 1 : 0,
           pointerEvents: isIntro ? "all" : "none",
           cursor: uiState === 1 ? "pointer" : "none",
-          background: isIntro ? "transparent" : "black",
         }}
       >
         <h1>
@@ -95,7 +94,7 @@ function Item({ fadeOut, idx, letter, showed }: any) {
           opacity: show ? 1 : 0.4,
           // transform: show ? "translateY(0)" : "translateY(100%)",
           color: show ? "white" : "black",
-          textShadow: show ? "none" : textShadow ? "0px 0px .4vw rgba(255, 255, 255, 0.3)" : "none",
+          textShadow: show ? "none" : textShadow ? "0px 0px .5vw rgba(255, 255, 255, 0.6)" : "none",
         }}
         onMouseEnter={() => {
           setTimeout(() => {

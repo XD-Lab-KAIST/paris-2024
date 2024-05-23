@@ -17,7 +17,7 @@ import gpgpuParticlesShader from "./shaders/gpgpu/particles.glsl";
 //useResize
 import useResize from "@/utils/hooks/useResize";
 
-const SCALE = 3.9;
+const SCALE = 3.95;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
