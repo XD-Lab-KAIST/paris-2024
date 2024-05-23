@@ -7,7 +7,7 @@ export const Container = styled.div`
   background: black;
 
   overflow-y: scroll !important;
-  cursor: none;
+  // cursor: none;
   font-family: Raleway;
 
   canvas {

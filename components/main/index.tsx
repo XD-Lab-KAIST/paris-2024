@@ -114,7 +114,11 @@ export default function MainComp() {
 
   return (
     <ScrollContext.Provider value={contextValue}>
-      <S.Container>
+      <S.Container
+        style={{
+          cursor: uiState == 4 ? "crosshair" : "none",
+        }}
+      >
         <Intro isIntro={isIntro} setIsIntro={setIsIntro} uiState={uiState} setUIState={setUIState} />
         <S.ThreeContainer>
           <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} uiState={uiState} />

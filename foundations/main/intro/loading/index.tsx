@@ -1,6 +1,5 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
-import useMousePos from "@/utils/hooks/useMousePos";
 
 const getRandomInt = (max: number) => {
   return Math.floor(Math.random() * max);

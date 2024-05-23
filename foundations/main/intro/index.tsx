@@ -64,12 +64,14 @@ function MouseTrackingEl() {
 
 function Item({ fadeOut, idx, letter, showed }: any) {
   const [show, setShow] = useState(false);
+  const [textShadow, setTextShadow] = useState(true);
 
   useEffect(() => {
     let timeout: any = null;
     if (fadeOut) {
       const timeout = setTimeout(() => {
         setShow(false);
+        setTextShadow(false);
       }, idx * 50);
     }
     return () => {
@@ -84,21 +86,25 @@ function Item({ fadeOut, idx, letter, showed }: any) {
   }, [show]);
 
   return (
-    <span
-      style={{
-        opacity: show ? 1 : 0,
-        transform: show ? "translateY(0)" : "translateY(100%)",
-      }}
-      onMouseEnter={() => {
-        setTimeout(() => {
-          setShow(true);
-        }, 250);
-      }}
-      onMouseLeave={() => {
-        setShow(false);
-      }}
-    >
-      {letter}
-    </span>
+    <>
+      <span
+        style={{
+          // opacity: show ? 1 : 0,
+          // transform: show ? "translateY(0)" : "translateY(100%)",
+          textShadow: show ? "none" : textShadow ? "0px 0px 1vw rgba(255, 255, 255, 0.5)" : "none",
+          color: show ? "white" : "black",
+        }}
+        onMouseEnter={() => {
+          setTimeout(() => {
+            setShow(true);
+          }, 250);
+        }}
+        onMouseLeave={() => {
+          setShow(false);
+        }}
+      >
+        {letter}
+      </span>
+    </>
   );
 }

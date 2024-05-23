@@ -2,7 +2,8 @@
 import * as S from "./styles";
 
 import GPGPUParticles from "@/foundations/particles";
-import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
+import useMousePos from "@/utils/hooks/useMousePos";
 
 export default function Container() {
   return (
@@ -13,10 +14,25 @@ export default function Container() {
         camera={{ position: [0, 0, 3] }}
       >
         <ambientLight />
-
-        {/* <OrbitControls /> */}
         <GPGPUParticles />
       </Canvas>
+      <MouseTrackingEl />
     </S.Container>
+  );
+}
+
+function MouseTrackingEl() {
+  const mousePos = useMousePos();
+  console.log(mousePos);
+
+  return (
+    <>
+      <S.MouseEl
+        style={{
+          left: `${mousePos.x * 100}%`,
+          top: `${mousePos.y * 100}%`,
+        }}
+      />
+    </>
   );
 }

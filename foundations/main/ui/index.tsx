@@ -63,9 +63,17 @@ export default function UI({ uiState, handleReset }: any) {
 
   const [showCredits, setShowCredits] = useState(false);
 
+  console.log(uiState);
+
   return (
     <>
-      <S.UIContainer>
+      <S.UIContainer
+        style={
+          {
+            // cursor: uiState >= 3 ? "pointer !important" : "none",
+          }
+        }
+      >
         <S.UIText
           style={{
             opacity: isChanging ? 0 : 1,
