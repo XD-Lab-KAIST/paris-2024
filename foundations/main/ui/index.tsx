@@ -6,7 +6,7 @@ import { useMousePosThrottle } from "@/utils/hooks/useMousePos";
 
 const TEXTS = ["TOUCH THE PAD TO START", "Click to Enter", "Drag with two fingers to scroll", "Drag with two fingers to scroll", "Move around the Trackpad"];
 
-const RESET_SEC = 1000;
+const RESET_SEC = 100;
 
 export default function UI({ uiState, handleReset }: any) {
   const targetText = useMemo(() => TEXTS[uiState], [uiState]);

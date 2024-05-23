@@ -5,9 +5,9 @@ export const Intro = styled.div`
   ${FlexCenterStyle}
   ${WholeContainer}
   z-index: 10;
-  background: black;
   color: white;
 
+  background: black;
   text-align: center;
   transition: all 2.5s;
 

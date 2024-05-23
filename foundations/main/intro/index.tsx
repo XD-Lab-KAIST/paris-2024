@@ -2,6 +2,7 @@ import * as S from "./styles";
 import { useState, useEffect, useMemo } from "react";
 import useMousePos from "@/utils/hooks/useMousePos";
 
+import Background from "./background";
 import Loading from "./loading";
 
 export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any) {
@@ -27,6 +28,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
 
   return (
     <>
+      {/* <Background /> */}
       <S.Intro
         onClick={handleClick}
         style={{
