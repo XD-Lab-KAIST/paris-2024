@@ -28,7 +28,7 @@ export default class Particle {
 
   draw(ctx: CanvasRenderingContext2D) {
     const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
-    gradient.addColorStop(0, this.color);
+    gradient.addColorStop(0.2, this.color);
     gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
     ctx.fillStyle = gradient;

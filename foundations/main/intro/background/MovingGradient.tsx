@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import Particle from "./Particle";
 
+const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
+
 const MovingGradient: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const particlesRef = useRef<Particle[]>([]);
@@ -21,13 +23,12 @@ const MovingGradient: React.FC = () => {
 
     const createParticles = () => {
       const particles: Particle[] = [];
-      const colors = ["#ffeb3b", "#e91e63", "#3f51b5", "#00bcd4", "#4caf50", "#ff9800"];
 
-      for (let i = 0; i < 15; i++) {
-        const radius = Math.random() * 50 + 50;
+      for (let i = 0; i < 25; i++) {
+        const radius = canvas.width * getRandom(0.2, 0.4);
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const color = colors[Math.floor(Math.random() * colors.length)];
+        const color = `hsl(${getRandom(180, 360)}, 100%, ${getRandom(8, 15)}%)`;
         const speed = {
           x: (Math.random() - 0.5) * 2,
           y: (Math.random() - 0.5) * 2,

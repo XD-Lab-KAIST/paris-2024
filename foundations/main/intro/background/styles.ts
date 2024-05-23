@@ -5,6 +5,7 @@ export const Background = styled.div`
   ${FlexCenterStyle}
   ${WholeContainer}
   background: black;
+  z-index: 3;
 
   canvas {
     position: absolute;
@@ -12,6 +13,5 @@ export const Background = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 3;
   }
 `;

@@ -28,7 +28,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
 
   return (
     <>
-      {/* <Background /> */}
+      <Background />
       <S.Intro
         onClick={handleClick}
         style={{
@@ -91,10 +91,10 @@ function Item({ fadeOut, idx, letter, showed }: any) {
     <>
       <span
         style={{
-          // opacity: show ? 1 : 0,
+          opacity: show ? 1 : 0.4,
           // transform: show ? "translateY(0)" : "translateY(100%)",
-          textShadow: show ? "none" : textShadow ? "0px 0px 1vw rgba(255, 255, 255, 0.5)" : "none",
           color: show ? "white" : "black",
+          textShadow: show ? "none" : textShadow ? "0px 0px .4vw rgba(255, 255, 255, 0.3)" : "none",
         }}
         onMouseEnter={() => {
           setTimeout(() => {
