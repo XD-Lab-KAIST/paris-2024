@@ -4,12 +4,12 @@ import Sidebar from "./sidebar";
 import Credits from "./credits";
 import { useMousePosThrottle } from "@/utils/hooks/useMousePos";
 
-const TEXTS = ["Move Around the Trackpad", "Click to Enter", "Scroll Up and Down", "Scroll Up and Down", "Move around the Trackpad"];
+const TEXTS = ["TOUCH THE PAD TO START", "Click to Enter", "Drag two fingers to scroll", "Drag two fingers to scroll", "Move around the Trackpad"];
 
 export default function UI({ uiState, handleReset }: any) {
   const targetText = useMemo(() => TEXTS[uiState], [uiState]);
   const [isChanging, setIsChanging] = useState(false);
-  const [displayText, setDisplayText] = useState("Move Around the Trackpad");
+  const [displayText, setDisplayText] = useState("TOUCH THE PAD TO START");
 
   useEffect(() => {
     if (uiState !== 0) setIsChanging(true);
