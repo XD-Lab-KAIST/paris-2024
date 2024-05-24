@@ -4,7 +4,7 @@ import Sidebar from "./sidebar";
 import Credits from "./credits";
 import { useMousePosThrottle } from "@/utils/hooks/useMousePos";
 
-const TEXTS = ["TOUCH THE PAD TO START", "Click to Enter", "Drag with two fingers to scroll", "Drag with two fingers to scroll", "Move around the Trackpad"];
+const TEXTS = ["Move the Mouse to Start", "Click to Enter", "Scroll Your Mouse Wheel Up", "Scroll Your Mouse Wheel Up and Down", "Move around the Mouse"];
 
 const RESET_SEC = 100;
 
