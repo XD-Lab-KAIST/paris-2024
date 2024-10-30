@@ -6,8 +6,8 @@ import * as S from "./styles";
 const LINK = "https://uncharted-territory-xdlab.vercel.app/";
 
 export default function MainComp() {
-  const [heightVh, setHeightVh] = useState(50);
-  const [topVh, setTopVh] = useState(25);
+  const [heightVh, setHeightVh] = useState(60);
+  const [topVh, setTopVh] = useState(2);
 
   return (
     <S.Wrapper>
