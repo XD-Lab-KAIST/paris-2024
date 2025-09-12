@@ -52,7 +52,7 @@ const TextComponent = React.memo(({ scrollPos }: any) => {
       step: 0.01,
     },
     letterSpacing: {
-      value: -0.2,
+      value: -0.1,
       min: -1,
       max: 1,
       step: 0.01,
