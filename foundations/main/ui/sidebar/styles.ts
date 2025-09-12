@@ -7,9 +7,9 @@ export const Sidebar = styled.div`
   height: 50vh;
   width: 0.5vw;
   mix-blend-mode: normal;
-  //   background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.25vw;
-  box-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5), 0 0 1vw rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+  // border-radius: 0.25vw;
+  // box-shadow: 0 0 0.5vw rgba(255, 255, 255, 0.5), 0 0 1vw rgba(255, 255, 255, 0.3);
 `;
 
 export const Element = styled.div`
@@ -19,7 +19,7 @@ export const Element = styled.div`
   top: 0;
   width: 0.5vw;
   // left: -0.5vw;
-  height: 1.5vw;
+  height: 1vw;
   box-shadow: 0 0 0.5vw rgba(255, 255, 255, 1), 0 0 1vw rgba(255, 255, 255, 1);
   border-radius: 0.25vw;
   background: rgba(255, 255, 255, 1);

@@ -8,7 +8,7 @@ export const Background = styled.div`
   z-index: 3;
   pointer-events: none !important;
 
-  transition: all 4s;
+  transition: opacity 4s;
 `;
 
 export const CanvasStyle = styled.div`
