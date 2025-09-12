@@ -30,6 +30,7 @@ export default function GPGPUParticles() {
 
   const { gl, scene, camera, size } = useThree();
   const [gpgpu, setGpgpu] = useState<any>(null);
+  const controlsRef = useRef<any>(null);
 
   const baseGeometryRef = useRef<any>();
   const particlesRef = useRef();
@@ -240,14 +241,21 @@ export default function GPGPUParticles() {
     if (!material) return;
     material.uniforms.uParticlesTexture.value = gpgpu.computation.getCurrentRenderTarget(gpgpu.particlesVariable).texture;
     material.uniforms.uTime.value = elapsedTime;
+
+    // Update controls for damping
+    if (controlsRef.current) {
+      controlsRef.current.update();
+    }
   });
 
   return (
     <>
       <Stars factor={1} size={10} />
       <OrbitControls
-        minDistance={1}
-        maxDistance={10}
+        ref={controlsRef}
+        minDistance={1.7}
+        maxDistance={50}
+ 
       />
       {geometry && material && (
         <>
