@@ -8,13 +8,17 @@ import * as S from "./styles";
 const VID_ARR = ["wireframe.mp4", "color.mp4"];
 const SINGLE_CYLCE = 4;
 const SPEED = 30; // percent per second
-const MIN_RADIUS = 1;
-const MAX_RADIUS = 80;
+const MIN_RADIUS = 2;
+const INIT_RADIUS = 15;
+const MAX_RADIUS = 90;
+const SPEED_MULTIPLIER = 1.2;
+const SPEED_MAX = 2000;
+const SPEED_MAX_LOOPS = 10;
 
-const IntroComponent = ({ onEnter }: { onEnter: () => void }) => {
+const IntroComponent = ({ onEnter, isExiting }: { onEnter: () => void; isExiting: boolean }) => {
   return (
-    <S.IntroContainer>
-      <S.EnterButton onClick={onEnter}>START</S.EnterButton>
+    <S.IntroContainer onClick={onEnter} isExiting={isExiting}>
+      <S.EnterButton isExiting={isExiting}>START</S.EnterButton>
     </S.IntroContainer>
   );
 };
@@ -53,12 +57,15 @@ function useMouseDownCount({ isStarted }: { isStarted: boolean }) {
 export default function MainComp() {
   const [showIntro, setShowIntro] = useState(true);
   const [isStarted, setIsStarted] = useState(false);
+  const [isExitingIntro, setIsExitingIntro] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const videoRef1 = useRef<HTMLVideoElement>(null);
   const videoRef2 = useRef<HTMLVideoElement>(null);
 
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const [radius, setRadius] = useState<number>(MIN_RADIUS);
+  const [radius, setRadius] = useState<number>(INIT_RADIUS);
+  const [currentSpeed, setCurrentSpeed] = useState(SPEED);
+  const [maxSpeedLoopCount, setMaxSpeedLoopCount] = useState(0);
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
 
@@ -100,9 +107,42 @@ export default function MainComp() {
       if (lastTsRef.current == null) lastTsRef.current = ts;
       const dt = (ts - lastTsRef.current) / 1000;
       lastTsRef.current = ts;
-      setRadius(prev => {
-        const delta = SPEED * dt * (isIncreasing ? 1 : -1);
-        const next = Math.max(MIN_RADIUS, Math.min(MAX_RADIUS, prev + delta));
+      setRadius((prev) => {
+        const delta = currentSpeed * dt * (isIncreasing ? 1 : -1);
+        let next = prev + delta;
+
+        if (next < MIN_RADIUS) {
+          next = MAX_RADIUS;
+          setCurrentSpeed((s) => {
+            if (s >= SPEED_MAX) {
+              const nextCount = maxSpeedLoopCount + 1;
+              if (nextCount >= SPEED_MAX_LOOPS) {
+                setMaxSpeedLoopCount(0);
+                return SPEED;
+              }
+              setMaxSpeedLoopCount(nextCount);
+              return s;
+            }
+            const nextSpeed = s * SPEED_MULTIPLIER;
+            return Math.min(SPEED_MAX, nextSpeed);
+          });
+        } else if (next > MAX_RADIUS) {
+          next = MIN_RADIUS;
+          setCurrentSpeed((s) => {
+            if (s >= SPEED_MAX) {
+              const nextCount = maxSpeedLoopCount + 1;
+              if (nextCount >= SPEED_MAX_LOOPS) {
+                setMaxSpeedLoopCount(0);
+                return SPEED;
+              }
+              setMaxSpeedLoopCount(nextCount);
+              return s;
+            }
+            const nextSpeed = s * SPEED_MULTIPLIER;
+            return Math.min(SPEED_MAX, nextSpeed);
+          });
+        }
+
         return next;
       });
       rafRef.current = requestAnimationFrame(step);
@@ -114,7 +154,7 @@ export default function MainComp() {
       rafRef.current = null;
       lastTsRef.current = null;
     };
-  }, [isMouseDown, mouseDownCount]);
+  }, [isMouseDown, mouseDownCount, currentSpeed, maxSpeedLoopCount]);
 
   
   const handleEnter = useCallback(() => {
@@ -123,8 +163,13 @@ export default function MainComp() {
       console.log("handleEnter blocked: already started.");
       return;
     }
-    setIsStarted(true);
-    setShowIntro(false);
+
+    setIsExitingIntro(true); // Start fade out
+    setIsStarted(true); // Start fade in and enable interactions
+
+    setTimeout(() => {
+      setShowIntro(false); // Remove from DOM after animation
+    }, 10 * 1000);
 
     if (videoRef1.current) {
       console.log("Playing video 1");
@@ -177,13 +222,22 @@ export default function MainComp() {
 
   //to do: 파동 함수. Big cycle, small cycle.
   const optionGenerator = () => {
-    const r = radius;
+    let r = radius;
+
 
     let edge = Math.min(100, r  ** 1.07);
+    if(mouseDownCount % 4 === 0) {
+      r = radius/ 2;
+      edge = Math.min(100, radius * 1.5);
+    } else if(mouseDownCount % 4 === 1) {
+      r = radius;
+      edge = Math.min(100, Math.min(radius * 1.4, radius ** 1.05));
+    }
     if(mouseDownCount % 4 === 2 ) {
-      edge = Math.min(100, r  ** 1.5);
+      r = radius ** 1.05;
+      edge = Math.min(100, radius  ** 1.28);
     } else if(mouseDownCount % 4 === 3) {
-      edge = Math.min(100, r  ** 1.4);
+      edge = Math.min(100, radius  ** 1.2);
     }
     
     return `white 0%, white ${r}%, transparent ${edge}%`;
@@ -192,8 +246,8 @@ export default function MainComp() {
 
   return (
     <S.Container>
-      {showIntro && <IntroComponent onEnter={handleEnter} />}
-      <S.VideoWrapper>
+      {showIntro && <IntroComponent onEnter={handleEnter} isExiting={isExitingIntro} />}
+      <S.VideoWrapper isStarted={isStarted}>
         <S.StyledVideo ref={videoRef1} loop muted playsInline key={0}>
           <source src={`/video/superposition/${VID_ARR[0]}`} type="video/mp4" />
         </S.StyledVideo>
@@ -209,9 +263,11 @@ export default function MainComp() {
             }px, ${optionGenerator()})`,
             // No transition for rAF updates
             filter:
+            // mouseDownCount % 4 === 0 || mouseDownCount % 4 === 1
+            // ? "grayscale(100%)" : "none",
               mouseDownCount % 4 === 0
                 ? "grayscale(100%)"
-                : mouseDownCount % 4 === 1
+                : (mouseDownCount % 4 === 1 || mouseDownCount % 4 === 3)
                 ? "invert(1)"
                 : "none",
           }}

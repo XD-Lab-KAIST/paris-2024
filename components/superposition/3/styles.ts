@@ -11,13 +11,15 @@ export const Container = styled.div`
   `
   
 
-export const VideoWrapper = styled.div`
+export const VideoWrapper = styled.div<{ isStarted: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
+  opacity: ${({ isStarted }) => (isStarted ? 1 : 0)};
+  transition: opacity 2s ease-in;
 `;
 
 export const StyledVideo = styled.video`
@@ -32,22 +34,25 @@ export const StyledVideo = styled.video`
 `;
 
 
-export const IntroContainer = styled.div`
+export const IntroContainer = styled.div<{ isExiting: boolean }>`
   ${FlexCenterStyle}
   ${WholeContainer}
   background: black;
   z-index: 10;
+  opacity: ${({ isExiting }) => (isExiting ? 0 : 1)};
+  transition: opacity 8s ease-out;
+  pointer-events: ${({ isExiting }) => (isExiting ? "none" : "auto")};
 `;
 
-export const EnterButton = styled.div`
+export const EnterButton = styled.div<{ isExiting: boolean }>`
   ${FlexCenterStyle}
   position: relative;
-  width: 5rem;
-  height: 5rem;
+  width: 20vw;
+  height: 20vw;
   border-radius: 50%;
   // border: 0.1rem solid white;
   color: white;
-  font-size: 1rem;
+  font-size: 3vw;
   font-family: Helvetica, sans-serif;
   cursor: pointer;
   transition: all 0.3s;
@@ -60,7 +65,7 @@ export const EnterButton = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
+    opacity: ${({ isExiting }) => (!isExiting ? 0 : 1)};
     transition: opacity 0.3s;
   }
 
