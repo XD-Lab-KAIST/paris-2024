@@ -1,11 +1,13 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF , Stars} from "@react-three/drei";
 
 import useMousePos from "@/utils/hooks/useMousePos";
 
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer";
 import * as THREE from "three";
+import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 
 
 // Import shaders
@@ -17,6 +19,7 @@ import gpgpuParticlesShader from "./shaders/gpgpu/particles.glsl";
 import useResize from "@/utils/hooks/useResize";
 
 const SCALE = 3.95;
+const PARTICLE_COUNT = 150000;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -28,20 +31,58 @@ export default function GPGPUParticles() {
   const { gl, scene, camera, size } = useThree();
   const [gpgpu, setGpgpu] = useState<any>(null);
 
-  const baseGeometryRef = useRef();
+  const baseGeometryRef = useRef<any>();
   const particlesRef = useRef();
+  const raycastMeshRef = useRef<THREE.Mesh | null>(null);
+  const raycasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster());
+  const ndcRef = useRef<THREE.Vector2>(new THREE.Vector2());
 
   const gltf = useGLTF("/3d/EarthShell_vertexColor.gltf");
+
+  // Track mouse relative to the canvas, convert to NDC
+  useEffect(() => {
+    const el = gl.domElement as HTMLCanvasElement;
+    const handleMove = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      ndcRef.current.set(x, y);
+    };
+    el.addEventListener('pointermove', handleMove);
+    return () => el.removeEventListener('pointermove', handleMove);
+  }, [gl]);
 
   useEffect(() => {
     if (!gltf) return;
 
     const baseGeometry: any = {};
+    const originalMesh = gltf.scene.children[0] as THREE.Mesh;
+    const originalGeometry = originalMesh.geometry;
 
-    //scale up
-    baseGeometry.instance = (gltf.scene.children[0] as any).geometry;
-    baseGeometry.count = baseGeometry.instance.attributes.position.count;
+    // Create invisible mesh for precise raycasting on the actual surface (scaled)
+    const rayMesh = new THREE.Mesh(originalGeometry, new THREE.MeshBasicMaterial({ visible: false }));
+    rayMesh.scale.set(SCALE, SCALE, SCALE);
+    rayMesh.visible = false;
+    scene.add(rayMesh);
+    raycastMeshRef.current = rayMesh;
 
+    // --- Sample a higher density of points for the particles ---
+    const sampler = new MeshSurfaceSampler(originalMesh).build();
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const colors = new Float32Array(PARTICLE_COUNT * 3);
+    const _position = new THREE.Vector3();
+    const _color = new THREE.Color();
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      sampler.sample(_position, undefined, _color);
+      positions.set([_position.x, _position.y, _position.z], i * 3);
+      colors.set([_color.r, _color.g, _color.b], i * 3);
+    }
+    // --- End sampling ---
+
+    baseGeometry.count = PARTICLE_COUNT;
+    baseGeometry.positions = positions;
+    baseGeometry.colors = colors;
     baseGeometryRef.current = baseGeometry;
 
     // Initialize GPUComputationRenderer
@@ -57,15 +98,10 @@ export default function GPGPUParticles() {
       const i4 = i * 4;
 
       // Position based on geometry
-      baseParticlesTexture.image.data[i4 + 0] = baseGeometry.instance.attributes.position.array[i3 + 0] * SCALE;
-      baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
-      baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
+      baseParticlesTexture.image.data[i4 + 0] = baseGeometry.positions[i3 + 0] * SCALE;
+      baseParticlesTexture.image.data[i4 + 1] = baseGeometry.positions[i3 + 1] * SCALE;
+      baseParticlesTexture.image.data[i4 + 2] = baseGeometry.positions[i3 + 2] * SCALE;
       baseParticlesTexture.image.data[i4 + 3] = Math.random() * 10;
-
-      // baseParticlesTexture.image.data[i4 + 4] = (baseGeometry.instance.attributes.position.array[i3 + 0] + 0.01) * SCALE;
-      // baseParticlesTexture.image.data[i4 + 5] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
-      // baseParticlesTexture.image.data[i4 + 6] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
-      // baseParticlesTexture.image.data[i4 + 7] = Math.random() * 2;
     }
 
     // Particles variable
@@ -79,11 +115,20 @@ export default function GPGPUParticles() {
     gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(0.5);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(10.0);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(2.0);
-    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3());
+    gpgpu.particlesVariable.material.uniforms.uModelCursors = { value: Array.from({ length: 8 }, () => new THREE.Vector3()) } as any;
+    gpgpu.particlesVariable.material.uniforms.uCursorCount = { value: 0 } as any;
+    gpgpu.particlesVariable.material.uniforms.uCursorForceStrength = new THREE.Uniform(18.0);
 
     gpgpu.computation.init();
 
     setGpgpu(gpgpu);
+
+    return () => {
+      if (raycastMeshRef.current) {
+        scene.remove(raycastMeshRef.current);
+        raycastMeshRef.current = null;
+      }
+    };
   }, []);
 
   const { geometry, material } = useMemo(() => {
@@ -116,9 +161,9 @@ export default function GPGPUParticles() {
 
     const geometry = new THREE.BufferGeometry();
     geometry.setDrawRange(0, baseGeometry.count);
-    geometry.setAttribute("position", baseGeometry.instance.attributes.position);
+    geometry.setAttribute("position", new THREE.BufferAttribute(baseGeometry.positions, 3));
     geometry.setAttribute("aParticlesUv", new THREE.BufferAttribute(particlesUvArray, 2));
-    geometry.setAttribute("aColor", baseGeometry.instance.attributes.color);
+    geometry.setAttribute("aColor", new THREE.BufferAttribute(baseGeometry.colors, 3));
     geometry.setAttribute("aSize", new THREE.BufferAttribute(sizesArray, 1));
 
     const material = new THREE.ShaderMaterial({
@@ -142,6 +187,7 @@ export default function GPGPUParticles() {
   const [startingTimeRecorded, setStartingTimeRecorded] = useState(false);
   let startingTimeRef = useRef(0);
   let previousTimeRef = useRef(0);
+  const tmpVec = useRef(new THREE.Vector3());
 
   //get the starting time
 
@@ -158,7 +204,37 @@ export default function GPGPUParticles() {
     if (!gpgpu) return;
     gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;
     gpgpu.particlesVariable.material.uniforms.uDeltaTime.value = deltaTime;
-    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3(mousePos.x, 1 - mousePos.y, 0));
+
+    const ndc = ndcRef.current;
+    const raycaster = raycasterRef.current;
+    raycaster.setFromCamera(ndc as any, camera);
+
+    const maxCursors = 8;
+    let count = 0;
+    if (raycastMeshRef.current) {
+      const intersects = raycaster.intersectObject(raycastMeshRef.current, true);
+      if (intersects.length > 0) {
+        (gpgpu.particlesVariable.material.uniforms.uModelCursors.value[0] as THREE.Vector3).copy(intersects[0].point);
+        count = 1;
+      }
+    }
+    if (count === 0) {
+      const origin = raycaster.ray.origin;
+      const dir = raycaster.ray.direction.clone();
+      const center = new THREE.Vector3(0, 0, 0);
+      const t = origin.distanceTo(center);
+      (gpgpu.particlesVariable.material.uniforms.uModelCursors.value[0] as THREE.Vector3).copy(origin.clone().add(dir.multiplyScalar(t)));
+      count = 1;
+    }
+    gpgpu.particlesVariable.material.uniforms.uCursorCount.value = count;
+
+    // Also provide screen-space cursor to mimic particles-1 immediacy
+    if (!gpgpu.particlesVariable.material.uniforms.uScreenCursor) {
+      gpgpu.particlesVariable.material.uniforms.uScreenCursor = new THREE.Uniform(new THREE.Vector2());
+    }
+    const screenCursor = gpgpu.particlesVariable.material.uniforms.uScreenCursor.value as THREE.Vector2;
+    screenCursor.set((ndc.x + 1) * 0.5, (ndc.y + 1) * 0.5);
+
     gpgpu.computation.compute();
 
     if (!material) return;
@@ -166,5 +242,15 @@ export default function GPGPUParticles() {
     material.uniforms.uTime.value = elapsedTime;
   });
 
-  return <>{geometry && material && <points args={[geometry, material]} />}</>;
+  return (
+    <>
+    <Stars 
+    factor={1}
+    //size
+    size={10}
+    />
+      <OrbitControls />
+      {geometry && material && <points args={[geometry, material]} />}
+    </>
+  );
 }

@@ -106,7 +106,15 @@ uniform float uFlowFieldInfluence;
 uniform float uFlowFieldStrength;
 uniform float uFlowFieldFrequency;
 
-uniform vec3 uModelCursor;
+// Support multiple cursor points on the model surface
+#define MAX_CURSORS 8
+uniform vec3 uModelCursors[MAX_CURSORS];
+uniform int uCursorCount;
+uniform float uCursorForceStrength;
+// Match original immediacy
+const float K_INFLUENCE_SCALE = -3.0;
+const float K_BLEND = 0.5;
+const float K_POW = 1.2;
 
 
 void main(){
@@ -117,9 +125,15 @@ void main(){
     vec4 base = texture(uBase, uv);
 
 
-    float displacementIntensity = distance(particle.xy * 0.35, (uModelCursor.xy) * 2.0 - 1.0);
+    // Compute displacement intensity from nearest 3D model-space cursor (raycast hit)
     float radius = 0.20 + 0.05 * (sin(time * 17.7) + cos(time * 21.3 + 4.7));
-    displacementIntensity = smoothstep(0.0, radius, pow(displacementIntensity, 1.2));
+    float minD = 1e9;
+    for (int i = 0; i < MAX_CURSORS; i++) {
+      if (i >= uCursorCount) break;
+      float d = length(particle.xyz - uModelCursors[i]);
+      if (d < minD) minD = d;
+    }
+    float displacementIntensity = 1.0 - smoothstep(0.0, radius, pow(minD, K_POW));
 
     //Dead & Alive
     if(particle.a >= 1.0){
@@ -130,10 +144,8 @@ void main(){
         float strength = simplexNoise4d(vec4(base.xyz * 0.2, time + 1.0));
         float influence = 1.0;
         if(displacementIntensity < 1.0){
-          influence = (uFlowFieldInfluence) * (-3.0) * displacementIntensity;
-        } 
-
-        // float influence = (uFlowFieldInfluence - 0.5) * (-2.0);
+          influence = (uFlowFieldInfluence) * (K_INFLUENCE_SCALE) * displacementIntensity;
+        }
         strength = smoothstep(influence, 1.0, strength);
 
         //Flow Field
@@ -144,11 +156,9 @@ void main(){
         );
         flowField = normalize(flowField);
 
-
+        // Match original update and blend for immediate response
         copiedParticle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
-        particle.xyz = mix(particle.xyz, copiedParticle.xyz, 0.5);
-
-        // particle.xyz += flowField * uDeltaTime * strength * uFlowFieldStrength;
+        particle.xyz = mix(particle.xyz, copiedParticle.xyz, K_BLEND);
 
         //Decay
         particle.a += uDeltaTime * 0.7;

@@ -7,6 +7,9 @@ export const Container = styled.div`
 
   background: black;
 
+  //crosshair
+  cursor: crosshair;
+  
   canvas {
     width: 100%;
     height: 100%;

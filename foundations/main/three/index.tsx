@@ -9,7 +9,7 @@ import { Fisheye, useScroll, Stars, useGLTF, CameraShake, Text3D, Center, FaceLa
 import SkyAndStars from "./sky-and-stars";
 import PostProcessing from "./post-processing";
 import Text from "./text";
-import GPGPUParticles from "@/foundations/particles";
+import GPGPUParticles from "@/foundations/particles-4";
 
 import useMousePos from "@/utils/hooks/useMousePos";
 

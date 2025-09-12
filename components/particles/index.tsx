@@ -1,7 +1,7 @@
 "use client";
 import * as S from "./styles";
 
-import GPGPUParticles from "@/foundations/particles";
+import GPGPUParticles from "@/foundations/particles-4";
 import { Canvas } from "@react-three/fiber";
 import useMousePos from "@/utils/hooks/useMousePos";
 
@@ -27,12 +27,14 @@ function MouseTrackingEl() {
 
   return (
     <>
-      <S.MouseEl
+      {/* <S.MouseEl
         style={{
           left: `${mousePos.x * 100}%`,
           top: `${mousePos.y * 100}%`,
         }}
-      />
+      /> */}
+
+
     </>
   );
 }

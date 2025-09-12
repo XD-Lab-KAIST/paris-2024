@@ -28,10 +28,26 @@ export default function GPGPUParticles() {
   const { gl, scene, camera, size } = useThree();
   const [gpgpu, setGpgpu] = useState<any>(null);
 
-  const baseGeometryRef = useRef();
+  const baseGeometryRef = useRef<any>();
   const particlesRef = useRef();
+  const raycastMeshRef = useRef<THREE.Mesh | null>(null);
+  const raycasterRef = useRef<THREE.Raycaster>(new THREE.Raycaster());
+  const ndcRef = useRef<THREE.Vector2>(new THREE.Vector2());
 
   const gltf = useGLTF("/3d/EarthShell_vertexColor.gltf");
+
+  // Track mouse relative to the canvas, convert to NDC
+  useEffect(() => {
+    const el = gl.domElement as HTMLCanvasElement;
+    const handleMove = (e: PointerEvent) => {
+      const rect = el.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      ndcRef.current.set(x, y);
+    };
+    el.addEventListener('pointermove', handleMove);
+    return () => el.removeEventListener('pointermove', handleMove);
+  }, [gl]);
 
   useEffect(() => {
     if (!gltf) return;
@@ -41,6 +57,13 @@ export default function GPGPUParticles() {
     //scale up
     baseGeometry.instance = (gltf.scene.children[0] as any).geometry;
     baseGeometry.count = baseGeometry.instance.attributes.position.count;
+
+    // Create invisible mesh for precise raycasting on the actual surface (scaled)
+    const rayMesh = new THREE.Mesh(baseGeometry.instance, new THREE.MeshBasicMaterial({ visible: false }));
+    rayMesh.scale.set(SCALE, SCALE, SCALE);
+    rayMesh.visible = false;
+    scene.add(rayMesh);
+    raycastMeshRef.current = rayMesh;
 
     baseGeometryRef.current = baseGeometry;
 
@@ -61,11 +84,6 @@ export default function GPGPUParticles() {
       baseParticlesTexture.image.data[i4 + 1] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
       baseParticlesTexture.image.data[i4 + 2] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
       baseParticlesTexture.image.data[i4 + 3] = Math.random() * 10;
-
-      // baseParticlesTexture.image.data[i4 + 4] = (baseGeometry.instance.attributes.position.array[i3 + 0] + 0.01) * SCALE;
-      // baseParticlesTexture.image.data[i4 + 5] = baseGeometry.instance.attributes.position.array[i3 + 1] * SCALE;
-      // baseParticlesTexture.image.data[i4 + 6] = baseGeometry.instance.attributes.position.array[i3 + 2] * SCALE;
-      // baseParticlesTexture.image.data[i4 + 7] = Math.random() * 2;
     }
 
     // Particles variable
@@ -79,11 +97,20 @@ export default function GPGPUParticles() {
     gpgpu.particlesVariable.material.uniforms.uFlowFieldInfluence = new THREE.Uniform(0.5);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldStrength = new THREE.Uniform(10.0);
     gpgpu.particlesVariable.material.uniforms.uFlowFieldFrequency = new THREE.Uniform(2.0);
-    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3());
+    gpgpu.particlesVariable.material.uniforms.uModelCursors = { value: Array.from({ length: 8 }, () => new THREE.Vector3()) } as any;
+    gpgpu.particlesVariable.material.uniforms.uCursorCount = { value: 0 } as any;
+    gpgpu.particlesVariable.material.uniforms.uCursorForceStrength = new THREE.Uniform(18.0);
 
     gpgpu.computation.init();
 
     setGpgpu(gpgpu);
+
+    return () => {
+      if (raycastMeshRef.current) {
+        scene.remove(raycastMeshRef.current);
+        raycastMeshRef.current = null;
+      }
+    };
   }, []);
 
   const { geometry, material } = useMemo(() => {
@@ -142,6 +169,7 @@ export default function GPGPUParticles() {
   const [startingTimeRecorded, setStartingTimeRecorded] = useState(false);
   let startingTimeRef = useRef(0);
   let previousTimeRef = useRef(0);
+  const tmpVec = useRef(new THREE.Vector3());
 
   //get the starting time
 
@@ -158,7 +186,37 @@ export default function GPGPUParticles() {
     if (!gpgpu) return;
     gpgpu.particlesVariable.material.uniforms.uTime.value = elapsedTime;
     gpgpu.particlesVariable.material.uniforms.uDeltaTime.value = deltaTime;
-    gpgpu.particlesVariable.material.uniforms.uModelCursor = new THREE.Uniform(new THREE.Vector3(mousePos.x, 1 - mousePos.y, 0));
+
+    const ndc = ndcRef.current;
+    const raycaster = raycasterRef.current;
+    raycaster.setFromCamera(ndc as any, camera);
+
+    const maxCursors = 8;
+    let count = 0;
+    if (raycastMeshRef.current) {
+      const intersects = raycaster.intersectObject(raycastMeshRef.current, true);
+      if (intersects.length > 0) {
+        (gpgpu.particlesVariable.material.uniforms.uModelCursors.value[0] as THREE.Vector3).copy(intersects[0].point);
+        count = 1;
+      }
+    }
+    if (count === 0) {
+      const origin = raycaster.ray.origin;
+      const dir = raycaster.ray.direction.clone();
+      const center = new THREE.Vector3(0, 0, 0);
+      const t = origin.distanceTo(center);
+      (gpgpu.particlesVariable.material.uniforms.uModelCursors.value[0] as THREE.Vector3).copy(origin.clone().add(dir.multiplyScalar(t)));
+      count = 1;
+    }
+    gpgpu.particlesVariable.material.uniforms.uCursorCount.value = count;
+
+    // Also provide screen-space cursor to mimic particles-1 immediacy
+    if (!gpgpu.particlesVariable.material.uniforms.uScreenCursor) {
+      gpgpu.particlesVariable.material.uniforms.uScreenCursor = new THREE.Uniform(new THREE.Vector2());
+    }
+    const screenCursor = gpgpu.particlesVariable.material.uniforms.uScreenCursor.value as THREE.Vector2;
+    screenCursor.set((ndc.x + 1) * 0.5, (ndc.y + 1) * 0.5);
+
     gpgpu.computation.compute();
 
     if (!material) return;
@@ -166,5 +224,10 @@ export default function GPGPUParticles() {
     material.uniforms.uTime.value = elapsedTime;
   });
 
-  return <>{geometry && material && <points args={[geometry, material]} />}</>;
+  return (
+    <>
+      <OrbitControls enableZoom={false} />
+      {geometry && material && <points args={[geometry, material]} />}
+    </>
+  );
 }
