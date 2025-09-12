@@ -28,7 +28,7 @@ const MovingGradient: React.FC = () => {
         const radius = canvas.width * getRandom(0.1, 0.5);
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const color = `hsl(${getRandom(0, 360)}, ${getRandom(30, 60)}%, ${getRandom(10, 20)}%)`;
+        const color = `hsl(${getRandom(180, 360)}, ${getRandom(30, 100)}%, ${getRandom(10, 20)}%)`;
         const speed = {
           x: (Math.random() - 0.5) * 1.8,
           y: (Math.random() - 0.5) * 1.8,

@@ -1,10 +1,10 @@
 import React, { forwardRef, useRef, useState, useEffect, useMemo, useContext } from "react";
 import { ScrollContext } from "@/components/main";
 import useRefs from "react-use-refs";
+import * as THREE from "three";
 
 import { Canvas, useThree, extend, useFrame, useLoader } from "@react-three/fiber";
 import { Fisheye, useScroll, Stars, useGLTF, CameraShake, Text3D, Center, FaceLandmarker, FaceControls, Sparkles, Environment, Cloud } from "@react-three/drei";
-import * as THREE from "three";
 
 import SkyAndStars from "./sky-and-stars";
 import PostProcessing from "./post-processing";
@@ -33,7 +33,7 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
     setScrollPos(pos);
     const s1 = scroll.range(1 / 20, 1 / 7);
     const s2 = scroll.range(1 / 7, 0.23);
-    let s = (s1 - s2 * 0.75) * 13;
+    let s = (s1 - s2 * 0.82) * 13;
 
     group.current.scale.x = group.current.scale.y = group.current.scale.z = s;
 
@@ -46,8 +46,12 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
     const y = pos > 0.25 ? (pos > 0.35 ? 1 : (pos - 0.25) * 10) : 0;
     group.current.position.y = -y * height * 0.4;
 
-    group.current.rotation.y = (mousePos.x - 0.5) * Math.PI;
-    group.current.rotation.x = (mousePos.y - 0.5) * Math.PI;
+    // Smooth rotation using lerp
+    const targetRotationY = (mousePos.x - 0.5) * Math.PI;
+    const targetRotationX = (mousePos.y - 0.5) * Math.PI;
+
+    group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetRotationY, 0.07);
+    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetRotationX, 0.07);
   });
 
   const START_IDX = 2 / 5;

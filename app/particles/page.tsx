@@ -1,4 +1,4 @@
-import ParticlesComp from "@/components/particles";
+import ParticlesComp from "@/foundations/particles";
 
 export default function Home() {
   return <ParticlesComp />;
