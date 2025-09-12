@@ -102,9 +102,9 @@ export default function UI({ uiState, handleReset }: any) {
             }}
           >
             <img src="/logos/info_white.svg" />
-            <p>Info</p>
+            {/* <p>Info</p> */}
           </S.InfoIcon>
-          <S.InfoIcon
+          {/* <S.InfoIcon
             onClick={() => handleReset(100)}
             style={{
               right: "2vw",
@@ -112,7 +112,7 @@ export default function UI({ uiState, handleReset }: any) {
           >
             <img src="/logos/home.svg" />
             <p>Home</p>
-          </S.InfoIcon>
+          </S.InfoIcon> */}
           <Credits showCredits={showCredits} setShowCredits={setShowCredits} setIsChanging={setIsChanging} />
         </>
       )}
