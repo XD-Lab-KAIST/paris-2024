@@ -11,6 +11,7 @@ export const Container = styled.div`
   color: white;
   z-index: 1000 !important;
   transition: opacity 1s;
+    cursor: pointer;
 `;
 
 export const Button = styled.div`
@@ -27,10 +28,10 @@ export const Button = styled.div`
   transition: all 0.3s;
   text-align: center;
 
-  &:hover {
-    background: #ddd;
-    color: black;
-  }
+  // &:hover {
+  //   background: #ddd;
+  //   color: black;
+  // }
 `;
 
 export const LoadingBar = styled.div`
