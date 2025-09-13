@@ -9,7 +9,7 @@ export const Intro = styled.div`
 
   // background: black;
   text-align: center;
-  transition: all 2.5s;
+  transition: opacity 2.5s;
 
   h1 {
     font-family: BebasNeue, sans-serif;
