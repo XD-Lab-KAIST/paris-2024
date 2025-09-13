@@ -14,6 +14,7 @@ import GPGPUParticles from "@/foundations/particles-4";
 import useMousePos from "@/utils/hooks/useMousePos";
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
+const THRESHOLD = 0.997;
 
 export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUIState }: any) {
   const { scrollPos, setScrollPos } = useContext(ScrollContext);
@@ -29,7 +30,7 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
   useFrame((state, delta) => {
     if (!group.current) return;
-    const pos = scroll.range(0, 1);
+    const pos = scroll.range(0, THRESHOLD);
     setScrollPos(pos);
     const s1 = scroll.range(1 / 20, 1 / 7);
     const s2 = scroll.range(1 / 7, 0.23);
@@ -37,7 +38,7 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
     group.current.scale.x = group.current.scale.y = group.current.scale.z = s;
 
-    let r = scroll.range(0, 1);
+    let r = scroll.range(0, THRESHOLD);
     if (scrollPos > 0.9) {
       r += (scrollPos - 0.9) * 100;
     }
@@ -59,9 +60,9 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
   useEffect(() => {
     if (scrollPos > 0.01) setUIState(3);
-    if (scrollPos === 1) setUIState(4);
+    if (scrollPos === THRESHOLD) setUIState(4);
 
-    if (scrollPos < START_IDX || scrollPos == 1) {
+    if (scrollPos < START_IDX || scrollPos >= THRESHOLD) {
       setVideoIdx(-1);
     } else if (scrollPos <= CUT_IDX) {
       let idx = CUT_IDX - (scrollPos - START_IDX) * (CUT_IDX / (CUT_IDX - START_IDX));
@@ -82,12 +83,12 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
   return (
     <>
-      <group ref={group}>{scrollPos < 0.995 ? <primitive object={gltf.scene} /> : <></>}</group>
+      <group ref={group}>{scrollPos < THRESHOLD ? <primitive object={gltf.scene} /> : <></>}</group>
 
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} isIntro={isIntro} />
       <Text scrollPos={scrollPos} />
-      {scrollPos >= 0.995 && <GPGPUParticles />}
+      {scrollPos >= THRESHOLD && <GPGPUParticles />}
     </>
   );
 }
