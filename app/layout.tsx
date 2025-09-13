@@ -3,6 +3,8 @@ import Script from "next/script";
 import type { Metadata } from "next";
 
 import StyledComponentsRegistry from "@/lib/registry";
+import NoRightClick from "../utils/hoc/NoRightClick";
+import NoZoom from "../utils/hoc/NoZoom";
 
 export const metadata: Metadata = {
   title: "Uncharted Territory",
@@ -49,12 +51,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         </head>
 
-        <body suppressHydrationWarning={true}>
-          <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KGLLKKBZ" height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe>
-          </noscript>
-
-          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <body>
+          <StyledComponentsRegistry>
+            {children}
+          </StyledComponentsRegistry>
+          <NoRightClick />
+          <NoZoom />
         </body>
       </html>
     </>
