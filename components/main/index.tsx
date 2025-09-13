@@ -3,6 +3,7 @@
 import { useRef, useMemo, useState, useEffect, createContext, useContext } from "react";
 import useRefs from "react-use-refs";
 import * as S from "./styles";
+import usePageVisibility from "@/utils/hooks/usePageVisibility";
 
 import ThreeScene from "@/foundations/main/three";
 import VideoComp from "@/foundations/main/video";
@@ -32,10 +33,15 @@ export default function MainComp() {
 
   const [audioRef1, audioRef2, audioRef3] = useRefs<any>();
   const [playAudioIntervalRef, pauseAudioIntervalRef] = useRefs<any>();
+  const isVisible = usePageVisibility();
+
+  function handleIntroClick() {
+    playAudioEl(audioRef1.current);
+  }
 
   function playAudioEl(audioEl: any) {
     if (!audioEl) return;
-    audioEl.play();
+    audioEl.play().catch((err) => console.error("Audio play failed:", err));
     //incrementally increase the volume
     if (playAudioIntervalRef.current) clearInterval(playAudioIntervalRef.current);
     playAudioIntervalRef.current = setInterval(() => {
@@ -62,13 +68,11 @@ export default function MainComp() {
   useEffect(() => {
     try {
       if (uiState <= 1) {
-        playAudioEl(audioRef1.current);
-        if (audioRef1.current) audioRef1.current.currentTime = 0;
+        // audioRef1 is now handled by user click
         pauseAudioEl(audioRef2.current);
         pauseAudioEl(audioRef3.current);
       } else if (uiState >= 2 && uiState <= 3) {
         playAudioEl(audioRef2.current);
-
         pauseAudioEl(audioRef1.current);
         pauseAudioEl(audioRef3.current);
       } else if (uiState === 4) {
@@ -80,6 +84,12 @@ export default function MainComp() {
       console.log(e);
     }
   }, [uiState]);
+
+  useEffect(() => {
+    if (!isVisible) {
+      handleReset(0); // Reset immediately
+    }
+  }, [isVisible]);
 
   function handleReset(timeoutSec = 3000) {
     //first pause all audioel
@@ -120,7 +130,13 @@ export default function MainComp() {
           cursor: uiState == 4 ? "crosshair" : "none",
         }}
       >
-        <Intro isIntro={isIntro} setIsIntro={setIsIntro} uiState={uiState} setUIState={setUIState} />
+        <Intro
+          isIntro={isIntro}
+          setIsIntro={setIsIntro}
+          uiState={uiState}
+          setUIState={setUIState}
+          handleIntroClick={handleIntroClick}
+        />
         <S.ThreeContainer>
           <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} uiState={uiState} />
           <Canvas
@@ -142,6 +158,7 @@ export default function MainComp() {
 
         <UI uiState={uiState} handleReset={handleReset} />
 
+        {/* ORDER MATTERS FOR REFS */}
         <audio ref={audioRef1} src="/audio/audio1.mp3" loop />
         <audio ref={audioRef2} src="/audio/audio2.mp3" loop />
         <audio ref={audioRef3} src="/audio/audio3.mp3" loop />

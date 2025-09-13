@@ -5,7 +5,7 @@ import useMousePos from "@/utils/hooks/useMousePos";
 import Background from "./background";
 import Loading from "./loading";
 
-export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any) {
+export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handleIntroClick }: any) {
   const [shownLetters, setShownLetters] = useState(0);
 
   //if shownletters is equal to the length of the string, then set isIntro to false
@@ -44,7 +44,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState }: any)
         </h1>
         <MouseTrackingEl />
       </S.Intro>
-      <Loading />
+      <Loading handleIntroClick={handleIntroClick} />
     </>
   );
 }

@@ -13,6 +13,26 @@ export const Container = styled.div`
   transition: opacity 1s;
 `;
 
+export const Button = styled.div`
+  width: 10vw;
+  height: 4vw;
+  border: 1px solid white;
+  color: white;
+  ${FlexCenterStyle}
+  flex-direction: column;
+  font-size: 1vw;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.3s;
+  mix-blend-mode: difference;
+  text-align: center;
+
+  &:hover {
+    background: white;
+    color: black;
+  }
+`;
+
 export const LoadingBar = styled.div`
   width: 30vw;
   height: 2vw;
