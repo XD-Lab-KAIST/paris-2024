@@ -16,11 +16,7 @@ export default function Loading({ handleIntroClick }: { handleIntroClick: (e: Re
 
   return (
     <S.Container onClick={handleClick}>
-      <S.Button>
-        START
-        <br />
-        시작
-      </S.Button>
+      <S.Button>▶</S.Button>
     </S.Container>
   );
 }

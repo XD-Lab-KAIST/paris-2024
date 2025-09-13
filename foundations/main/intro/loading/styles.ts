@@ -21,9 +21,9 @@ export const Button = styled.div`
   color: white;
   ${FlexCenterStyle}
   flex-direction: column;
-  font-size: 2.5vw;
+  font-size: 5vw;
   font-family: Helvetica, sans-serif;
-  line-height: 1.3;
+  line-height: 1;
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
