@@ -44,7 +44,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
         </h1>
         <MouseTrackingEl />
       </S.Intro>
-      <Loading handleIntroClick={handleIntroClick} />
+      {isIntro && <Loading handleIntroClick={handleIntroClick} />}
     </>
   );
 }

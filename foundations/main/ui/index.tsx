@@ -93,7 +93,7 @@ export default function UI({ uiState, handleReset }: any) {
 
       {uiState === 4 && (
         <>
-          <S.InfoIcon
+          {/* <S.InfoIcon
             onClick={() => {
               setShowCredits((t) => !t);
             }}
@@ -102,8 +102,8 @@ export default function UI({ uiState, handleReset }: any) {
             }}
           >
             <img src="/logos/info_white.svg" />
-            {/* <p>Info</p> */}
-          </S.InfoIcon>
+            <p>Info</p>
+          </S.InfoIcon> */}
           {/* <S.InfoIcon
             onClick={() => handleReset(100)}
             style={{
