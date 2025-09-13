@@ -51,9 +51,9 @@ export default function Loading({ handleIntroClick }: { handleIntroClick: () => 
     >
       {step === 0 && (
         <S.Button>
-          Enter
+          START
           <br />
-          들어가기
+          시작
         </S.Button>
       )}
       {step === 1 && (

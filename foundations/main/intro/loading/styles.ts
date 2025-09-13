@@ -14,21 +14,21 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.div`
-  width: 10vw;
-  height: 4vw;
-  border: 1px solid white;
+  width: 25vw;
+  height: 15vw;
+  // border: 0.1rem solid white;
   color: white;
   ${FlexCenterStyle}
   flex-direction: column;
-  font-size: 1vw;
-  line-height: 1.2;
+  font-size: 2.5vw;
+  font-family: Helvetica, sans-serif;
+  line-height: 1.3;
   cursor: pointer;
   transition: all 0.3s;
-  mix-blend-mode: difference;
   text-align: center;
 
   &:hover {
-    background: white;
+    background: #ddd;
     color: black;
   }
 `;
