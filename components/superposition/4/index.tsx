@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import useResize from "@/utils/hooks/useResize";
 import * as S from "./styles";
-import usePageVisibility from "@/utils/hooks/usePageVisibility";
+import usePageVisibilityAndReset from "@/utils/hooks/usePageVisibility";
  
 // const VID_ARR = ["color.mp4", "wireframe.mp4"];
 const VID_ARR = ["wireframe.mp4", "color.mp4"];
@@ -71,7 +71,7 @@ export default function MainComp() {
   const rafRef = useRef<number | null>(null);
   const lastTsRef = useRef<number | null>(null);
 
-  const isVisible = usePageVisibility();
+  usePageVisibilityAndReset();
 
   const currentSpeed = Math.min(virtualSpeed, SPEED_MAX);
 
@@ -95,12 +95,6 @@ export default function MainComp() {
       window.removeEventListener('mouseup', onUp);
     };
   }, [isStarted]);
-
-  useEffect(() => {
-    if (!isVisible) {
-      window.location.reload();
-    }
-  }, [isVisible]);
 
   useEffect(() => {
     if (!isStarted) return;

@@ -3,7 +3,7 @@
 import { useRef, useMemo, useState, useEffect, createContext, useContext } from "react";
 import useRefs from "react-use-refs";
 import * as S from "./styles";
-import usePageVisibility from "@/utils/hooks/usePageVisibility";
+import usePageVisibilityAndReset from "@/utils/hooks/usePageVisibility";
 
 import ThreeScene from "@/foundations/main/three";
 import VideoComp from "@/foundations/main/video";
@@ -33,7 +33,7 @@ export default function MainComp() {
 
   const [audioRef1, audioRef2, audioRef3] = useRefs<any>();
   const [playAudioIntervalRef, pauseAudioIntervalRef] = useRefs<any>();
-  const isVisible = usePageVisibility();
+  usePageVisibilityAndReset();
 
   function handleIntroClick() {
     playAudioEl(audioRef1.current);
@@ -84,12 +84,6 @@ export default function MainComp() {
       console.log(e);
     }
   }, [uiState]);
-
-  useEffect(() => {
-    if (!isVisible) {
-      handleReset(0); // Reset immediately
-    }
-  }, [isVisible]);
 
   function handleReset(timeoutSec = 3000) {
     //first pause all audioel
