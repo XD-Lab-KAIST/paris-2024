@@ -82,12 +82,12 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
   return (
     <>
-      <group ref={group}>{scrollPos < 1 ? <primitive object={gltf.scene} /> : <></>}</group>
+      <group ref={group}>{scrollPos < 0.995 ? <primitive object={gltf.scene} /> : <></>}</group>
 
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} isIntro={isIntro} />
       <Text scrollPos={scrollPos} />
-      {scrollPos >= 0.99 && <GPGPUParticles />}
+      {scrollPos >= 0.995 && <GPGPUParticles />}
     </>
   );
 }
