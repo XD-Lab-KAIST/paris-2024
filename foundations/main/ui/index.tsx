@@ -79,7 +79,7 @@ export default function UI({ uiState, handleReset }: any) {
           }
         }
       >
-        <S.UIText
+        {/* <S.UIText
           style={{
             opacity: isChanging ? 0 : 1,
             transform: isChanging ? "translateY(10px)" : "translateY(0)",
@@ -87,7 +87,7 @@ export default function UI({ uiState, handleReset }: any) {
           }}
         >
           {displayText}
-        </S.UIText>
+        </S.UIText> */}
         <Sidebar />
       </S.UIContainer>
 
