@@ -14,7 +14,7 @@ import GPGPUParticles from "@/foundations/particles-4";
 import useMousePos from "@/utils/hooks/useMousePos";
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
-const THRESHOLD = 0.997;
+const THRESHOLD = 0.9995;
 
 export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUIState }: any) {
   const { scrollPos, setScrollPos } = useContext(ScrollContext);
