@@ -87,7 +87,7 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} isIntro={isIntro} />
       <Text scrollPos={scrollPos} />
-      {scrollPos === 1 && <GPGPUParticles />}
+      {scrollPos >= 0.99 && <GPGPUParticles />}
     </>
   );
 }
