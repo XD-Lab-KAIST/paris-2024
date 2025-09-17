@@ -8,7 +8,7 @@ import usePageVisibilityAndReset from "@/utils/hooks/usePageVisibility";
 // const VID_ARR = ["color.mp4", "wireframe.mp4"];
 const VID_ARR = ["wireframe.mp4", "color.mp4"];
 const SINGLE_CYLCE = 4;
-const SPEED = 30; // percent per second
+const SPEED = 30; // percent per second <-- SPEED
 const MIN_RADIUS = 2;
 const INIT_RADIUS = 15;
 const MAX_RADIUS = 90;
