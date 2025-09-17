@@ -273,9 +273,9 @@ export default function MainComp() {
               mousePos.y
             }px, ${optionGenerator()})`,
             // No transition for rAF updates
-            filter:
-            mouseDownCount % 4 === 0 
-            ? "grayscale(100%)" : "none",
+            // filter:
+            // mouseDownCount % 4 === 0 
+            // ? "grayscale(100%)" : "none",
               // mouseDownCount % 4 === 0
               //   ? "grayscale(100%)"
               //   : (mouseDownCount % 4 === 1 || mouseDownCount % 4 === 3)
