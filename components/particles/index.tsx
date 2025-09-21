@@ -12,7 +12,7 @@ export default function Container() {
         gl={{ antialias: true }}
         //camera location
         camera={{ position: [0, 0, 3]
-, near: 0.01, far: 10000 }}
+, near: 0.01, far: 100000 }}
 
         
       >

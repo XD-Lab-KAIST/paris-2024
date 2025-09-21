@@ -137,7 +137,7 @@ export default function MainComp() {
           <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} uiState={uiState} />
           <Canvas
             //camera near far
-            camera={{ near: 0.01, far: 10000 }}
+            camera={{ near: 0.01, far: 100000 }}
           >
             <ScrollControls
               pages={scollerLength}

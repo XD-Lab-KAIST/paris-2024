@@ -19,7 +19,7 @@ import useResize from "@/utils/hooks/useResize";
 
 const SCALE = 3.95;
 const PARTICLE_COUNT = 150000;
-const SCALES = [0.1, 1, 10, 100, 1000];
+const SCALES = [0.1, 1, 10, 100, 1000, 10000];
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -257,7 +257,7 @@ export default function GPGPUParticles() {
       <OrbitControls
         ref={controlsRef}
         minDistance={1.7}
-        maxDistance={1000}
+        maxDistance={5000}
       />
       {geometry && material && (
         <>
