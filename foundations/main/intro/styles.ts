@@ -22,7 +22,7 @@ export const Intro = styled.div`
   }
 `;
 
-export const MouseEl = styled.div`
+export const IntroMouse = styled.div`
   position: absolute;
   pointer-events: none;
   width: 10vw;

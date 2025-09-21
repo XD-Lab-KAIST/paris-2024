@@ -27,6 +27,8 @@ export default function Background({ isIntro, fadeOut }: any) {
       <S.CanvasStyle
         style={{
           opacity: fadeOut ? 0 : 1,
+          transitionDelay: "0.3s",
+          transitionDuration: '3s'
         }}
       >
         {!cancelGradientEl && <MovingGradient />}

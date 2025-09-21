@@ -23,7 +23,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
     setTimeout(() => {
       setIsIntro(false);
       setUIState(2);
-    }, 1800);
+    }, 2000);
   }
 
   return (
@@ -37,24 +37,29 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
           cursor: uiState === 1 ? "pointer" : "none",
         }}
       >
-        <h1>
+        <h1
+        style={{
+          opacity: fadeOut ? 0 : 1,
+          transition: "opacity 1.5s",
+        }}
+        >
           {"Uncharted Territory".split("").map((letter: string, idx: number) => (
             <Item fadeOut={fadeOut} idx={idx} key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
           ))}
         </h1>
-        <MouseTrackingEl />
+        <IntroMouseEl />
       </S.Intro>
       {isIntro && <Loading handleIntroClick={handleIntroClick} />}
     </>
   );
 }
 
-function MouseTrackingEl() {
+export function IntroMouseEl({ uiState }: any) {
   const mousePos = useMousePos();
 
   return (
     <>
-      <S.MouseEl
+      <S.IntroMouse
         style={{
           left: `${mousePos.x * 100}%`,
           top: `${mousePos.y * 100}%`,

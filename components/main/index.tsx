@@ -14,6 +14,8 @@ import Intro from "@/foundations/main/intro";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 
+import {MouseTrackingEl} from "@/foundations/main/intro";
+
 import { Leva } from "leva";
 
 export const ScrollContext = createContext({
@@ -121,7 +123,7 @@ export default function MainComp() {
     <ScrollContext.Provider value={contextValue}>
       <S.Container
         style={{
-          cursor: uiState == 4 ? "crosshair" : "none",
+          cursor: 'none'
         }}
       >
         <Intro
@@ -151,6 +153,7 @@ export default function MainComp() {
         </S.ThreeContainer>
 
         <UI uiState={uiState} handleReset={handleReset} />
+        {!isIntro && uiState &&  uiState === 4 && <MouseTrackingEl uiState={uiState} />}
 
         {/* ORDER MATTERS FOR REFS */}
         <audio ref={audioRef1} src="/audio/audio1.mp3" loop />

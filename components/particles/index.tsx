@@ -16,25 +16,8 @@ export default function Container() {
         <ambientLight />
         <GPGPUParticles />
       </Canvas>
-      <MouseTrackingEl />
+
     </S.Container>
   );
 }
 
-function MouseTrackingEl() {
-  const mousePos = useMousePos();
-  console.log(mousePos);
-
-  return (
-    <>
-      {/* <S.MouseEl
-        style={{
-          left: `${mousePos.x * 100}%`,
-          top: `${mousePos.y * 100}%`,
-        }}
-      /> */}
-
-
-    </>
-  );
-}

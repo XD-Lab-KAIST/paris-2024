@@ -8,7 +8,7 @@ export const Container = styled.div`
   background: black;
 
   //crosshair
-  cursor: crosshair;
+  cursor: crosshair !important;
   
   canvas {
     width: 100%;
@@ -25,8 +25,8 @@ export const MouseEl = styled.div`
 
   border-radius: 50%;
   background: white;
-  // mix-blend-mode: difference;
+  mix-blend-mode: difference;
 
   transform: translate(-50%, -50%);
-  // backdrop-filter: brightness(1.5);
+  backdrop-filter: brightness(1.5);
 `;
