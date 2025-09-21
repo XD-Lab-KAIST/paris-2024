@@ -44,7 +44,7 @@ export default function SkyAndStars({ isIntro, scrollPos }: any) {
       </group>
       <group position={[0, 100, -10000]} ref={cloud}></group>
 
-      {scrollPos >= 0.95 && <Stars radius={100} depth={50} count={2000} factor={2} saturation={0} fade />}
+      {scrollPos <= 0.95 && <Stars radius={100} depth={50} count={2000} factor={2} saturation={0} fade />}
     </>
   );
 }

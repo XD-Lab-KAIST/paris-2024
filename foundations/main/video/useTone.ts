@@ -22,7 +22,7 @@ export default function useTone({ videoIdx, cycleIdx, uiState }: any) {
   useEffect(() => {
     try {
       if (!synth) return;
-      if (videoIdx >= 0) {
+      if (videoIdx >= 0 && cycleIdx >= 5) {
         //simple video changing sound, depencing on the video index
         const code = cycleIdx >= 5 ? `C2` : `C1`;
         const time = cycleIdx >= 5 ? 0.2 : 0.05;
