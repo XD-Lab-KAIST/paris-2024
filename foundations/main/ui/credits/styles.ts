@@ -41,16 +41,36 @@ export const Section = styled.div`
 export const MouseEl = styled.div`
   position: absolute;
   pointer-events: none;
-  width: 10vw;
-  height: 10vw;
+  width: 2.5vw;
+  height: 2.5vw;
   z-index: 50;
 
-  border-radius: 50%;
-  background: white;
   mix-blend-mode: difference;
 
   transform: translate(-50%, -50%);
-  // backdrop-filter: brightness(1.5);
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    background: white;
+  }
+
+  &::before {
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+
+  &::after {
+    left: 0;
+    top: 50%;
+    height: 1px;
+    width: 100%;
+    transform: translateY(-50%);
+  }
 `;
 
 export const Cancel = styled.div`

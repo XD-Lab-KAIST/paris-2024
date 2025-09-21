@@ -34,7 +34,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
         style={{
           opacity: isIntro ? 1 : 0,
           pointerEvents: isIntro ? "all" : "none",
-          cursor: uiState === 1 ? "pointer" : "none",
+          cursor: uiState === 1 ? "none" : "none",
         }}
       >
         <h1
@@ -54,7 +54,7 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
   );
 }
 
-export function IntroMouseEl({ uiState }: any) {
+export function IntroMouseEl() {
   const mousePos = useMousePos();
 
   return (

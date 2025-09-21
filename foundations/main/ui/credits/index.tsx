@@ -42,12 +42,14 @@ export default function Credits({ showCredits = true, setShowCredits = () => {},
         X
       </S.Cancel>
 
-      <MouseTrackingEl mousePos={mousePos} />
+
     </S.Container>
   );
 }
 
-function MouseTrackingEl({ mousePos }: any) {
+export function MouseTrackingEl() {
+  const mousePos = useMousePos();
+
   return (
     <>
       <S.MouseEl
