@@ -65,7 +65,7 @@ export const EnterButton = styled.div<{ isExiting: boolean }>`
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: ${({ isExiting }) => (!isExiting ? 0 : 1)};
+    opacity: ${({ isExiting }) => (isExiting ? 0 : 1)};
     transition: opacity 0.3s;
   }
 
@@ -74,7 +74,7 @@ export const EnterButton = styled.div<{ isExiting: boolean }>`
     color: black;
 
     &::after {
-      opacity: 1;
+      opacity: 0;
     }
   }
 `;

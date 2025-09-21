@@ -36,12 +36,12 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
         style={{
           opacity: isIntro ? 1 : 0,
           pointerEvents: isIntro ? "all" : "none",
-          cursor: uiState === 1 ? "none" : "none",
+          cursor: "none",
         }}
       >
         <h1
         style={{
-          opacity: fadeOut ? 0 : 1,
+          opacity: fadeOut || showPlayButton ? 0 : 1,
           transition: "opacity 1.5s",
         }}
         >
