@@ -25,7 +25,7 @@ export default function useTone({ videoIdx, cycleIdx, uiState }: any) {
       if (videoIdx >= 0) {
         //simple video changing sound, depencing on the video index
         const code = cycleIdx >= 5 ? `C2` : `C1`;
-        const time = cycleIdx >= 5 ? 0.2 : 0.1;
+        const time = cycleIdx >= 5 ? 0.2 : 0.05;
         synth.triggerAttackRelease(code, time);
       }
     } catch (e) {
