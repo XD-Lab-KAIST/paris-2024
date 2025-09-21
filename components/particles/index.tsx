@@ -11,7 +11,10 @@ export default function Container() {
       <Canvas
         gl={{ antialias: true }}
         //camera location
-        camera={{ position: [0, 0, 3] }}
+        camera={{ position: [0, 0, 3]
+, near: 0.01, far: 10000 }}
+
+        
       >
         <ambientLight />
         <GPGPUParticles />

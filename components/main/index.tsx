@@ -137,7 +137,7 @@ export default function MainComp() {
           <VideoComp videoIdx={videoIdx} setVideoIdx={setVideoIdx} cycleIdx={cycleIdx} uiState={uiState} />
           <Canvas
             //camera near far
-            camera={{ near: 0.01, far: 1000 }}
+            camera={{ near: 0.01, far: 10000 }}
           >
             <ScrollControls
               pages={scollerLength}
@@ -153,7 +153,7 @@ export default function MainComp() {
         </S.ThreeContainer>
 
         <UI uiState={uiState} handleReset={handleReset} />
-        {uiState &&  uiState === 4 && <MouseTrackingEl uiState={uiState} />}
+        {uiState &&  uiState === 4 && <MouseTrackingEl />}
 
         {/* ORDER MATTERS FOR REFS */}
         <audio ref={audioRef1} src="/audio/audio1.mp3" loop />

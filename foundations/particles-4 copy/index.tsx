@@ -6,7 +6,6 @@ import useMousePos from "@/utils/hooks/useMousePos";
 
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer";
 import * as THREE from "three";
-import * as BufferGeometryUtils from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler.js";
 
 
@@ -20,6 +19,7 @@ import useResize from "@/utils/hooks/useResize";
 
 const SCALE = 3.95;
 const PARTICLE_COUNT = 150000;
+const OUTER_SCALE = 10;
 
 // Extend useThree with OrbitControls
 extend({ OrbitControls });
@@ -30,6 +30,7 @@ export default function GPGPUParticles() {
 
   const { gl, scene, camera, size } = useThree();
   const [gpgpu, setGpgpu] = useState<any>(null);
+  const controlsRef = useRef<any>(null);
 
   const baseGeometryRef = useRef<any>();
   const particlesRef = useRef();
@@ -240,17 +241,31 @@ export default function GPGPUParticles() {
     if (!material) return;
     material.uniforms.uParticlesTexture.value = gpgpu.computation.getCurrentRenderTarget(gpgpu.particlesVariable).texture;
     material.uniforms.uTime.value = elapsedTime;
+
+    // Update controls for damping
+    if (controlsRef.current) {
+      controlsRef.current.update();
+    }
   });
 
   return (
     <>
-    <Stars 
-    factor={1}
-    //size
-    size={10}
-    />
-      <OrbitControls />
-      {geometry && material && <points args={[geometry, material]} />}
+      {/* <Stars factor={1} size={1}
+      //smaller number of stars
+      count={1000}
+      /> */}
+      <OrbitControls
+        ref={controlsRef}
+        minDistance={1.7}
+        maxDistance={50}
+ 
+      />
+      {geometry && material && (
+        <>
+          <points args={[geometry, material]} />
+          <points args={[geometry, material]} scale={OUTER_SCALE} />
+        </>
+      )}
     </>
   );
 }
