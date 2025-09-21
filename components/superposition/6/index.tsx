@@ -239,7 +239,7 @@ export default function MainComp() {
       r = radius;
     }
     if(mouseDownCount % 4 === 2 ) {
-      r = radius * 1.2;
+      r = radius * 1.25;
       edge = r * 1.01;
     } else if(mouseDownCount % 4 === 3) {
       r = radius;

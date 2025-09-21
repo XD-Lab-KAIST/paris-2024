@@ -250,7 +250,10 @@ export default function GPGPUParticles() {
 
   return (
     <>
-      <Stars factor={1} size={10} />
+      {/* <Stars factor={1} size={1}
+      //smaller number of stars
+      count={1000}
+      /> */}
       <OrbitControls
         ref={controlsRef}
         minDistance={1.7}
