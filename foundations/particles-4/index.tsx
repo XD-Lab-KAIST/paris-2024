@@ -256,7 +256,7 @@ export default function GPGPUParticles() {
       /> */}
       <OrbitControls
         ref={controlsRef}
-        minDistance={1.7}
+        minDistance={2}
         maxDistance={5000}
       />
       {geometry && material && (
