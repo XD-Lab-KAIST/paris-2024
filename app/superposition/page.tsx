@@ -16,7 +16,7 @@ export default async function SuperpositionTestPage() {
 
 
   try {
-    const TestComponent = dynamic(() => import(`@/components/superposition/5`), {
+    const TestComponent = dynamic(() => import(`@/components/superposition/6`), {
       ssr: false,
       loading: () => <p>Loading...</p>,
     });

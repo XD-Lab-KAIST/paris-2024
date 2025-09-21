@@ -228,28 +228,24 @@ export default function MainComp() {
   //to do: 파동 함수. Big cycle, small cycle.
   const optionGenerator = () => {
     let r = radius;
+    let edge = r * 1.25;
 
-    let edge = Math.min(100, r  ** 1.07);
+
+
     if(mouseDownCount % 4 === 0) {
-      r = radius/ 2;
-      edge = Math.min(100, radius * 1.5);
+      r = radius * 0.9;
+      edge = r * 1.05;
     } else if(mouseDownCount % 4 === 1) {
       r = radius;
-      edge = Math.min(100, Math.min(radius * 1.4, radius ** 1.05));
     }
     if(mouseDownCount % 4 === 2 ) {
-      r = radius ** 1.05;
-      edge = Math.min(100, radius  ** 1.28);
+      r = radius * 1.2;
+      edge = r * 1.01;
     } else if(mouseDownCount % 4 === 3) {
-      edge = Math.min(100, radius  ** 1.2);
+      r = radius;
     }
-
-
-
-
     
-    
-    return `white 0%, white ${r}%, transparent ${r * 1.1}%`;
+    return `white 0%, white ${r}%, transparent ${edge}%`;
   }
 
 
@@ -276,15 +272,8 @@ export default function MainComp() {
             mask: `radial-gradient(circle at ${mousePos.x}px ${
               mousePos.y
             }px, ${optionGenerator()})`,
-            // No transition for rAF updates
-            // filter:
-            // mouseDownCount % 4 === 0 
-            // ? "grayscale(100%)" : "none",
-              // mouseDownCount % 4 === 0
-              //   ? "grayscale(100%)"
-              //   : (mouseDownCount % 4 === 1 || mouseDownCount % 4 === 3)
-              //   ? "invert(1)"
-              //   : "none",
+
+            
           }}
         >
           <source src={`/video/superposition/${VID_ARR[1]}`} type="video/mp4" />
