@@ -1,7 +1,7 @@
 import * as S from "./styles";
 import { useState, useEffect, useMemo, useRef } from "react";
 
-export default function Loading({ handleIntroClick }: { handleIntroClick: (e: React.MouseEvent) => void }) {
+export default function Loading({ handleIntroClick, showPlayButton, setShowPlayButton }: { handleIntroClick: (e: React.MouseEvent) => void, showPlayButton: boolean, setShowPlayButton: (show: boolean) => void }) {
   const [show, setShow] = useState(true);
 
   function handleClick(e: React.MouseEvent) {
@@ -10,6 +10,7 @@ export default function Loading({ handleIntroClick }: { handleIntroClick: (e: Re
       handleIntroClick(e);
     }
     setShow(false);
+    setShowPlayButton(false);
   }
 
   if (!show) return null;

@@ -7,6 +7,8 @@ export const Intro = styled.div`
   z-index: 10;
   color: white;
 
+  cursor: none !important;
+  
   // background: black;
   text-align: center;
   transition: opacity 2.5s;

@@ -26,6 +26,8 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
     }, 2000);
   }
 
+  const [showPlayButton, setShowPlayButton] = useState(true);
+
   return (
     <>
       <Background isIntro={isIntro} fadeOut={fadeOut} />
@@ -47,9 +49,9 @@ export default function Intro({ isIntro, setIsIntro, uiState, setUIState, handle
             <Item fadeOut={fadeOut} idx={idx} key={idx} letter={letter} showed={() => setShownLetters((s) => s + 1)} />
           ))}
         </h1>
-        <IntroMouseEl />
+        {!showPlayButton && <IntroMouseEl />}
       </S.Intro>
-      {isIntro && <Loading handleIntroClick={handleIntroClick} />}
+      {isIntro && <Loading handleIntroClick={handleIntroClick} showPlayButton={showPlayButton} setShowPlayButton={setShowPlayButton} />}
     </>
   );
 }

@@ -7,11 +7,10 @@ export const Container = styled.div`
   flex-direction: column;
   pointer-events: all;
 
-  background: black;
+
   color: white;
   z-index: 1000 !important;
   transition: opacity 1s;
-    cursor: pointer;
 `;
 
 export const Button = styled.div`
