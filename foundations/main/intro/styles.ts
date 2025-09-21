@@ -25,8 +25,8 @@ export const Intro = styled.div`
 export const IntroMouse = styled.div`
   position: absolute;
   pointer-events: none;
-  width: 18vw;
-  height: 18vw;
+  width: 13vw;
+  height: 13vw;
   // border: 1px solid white;
   // box-shadow: 0 0 1vw white;
   border-radius: 50%;
