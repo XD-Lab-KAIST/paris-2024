@@ -87,8 +87,7 @@ export default function ThreeScene({ isIntro, setVideoIdx, setCycleIdx, setUISta
 
       <PostProcessing scrollPos={scrollPos} />
       <SkyAndStars scrollPos={scrollPos} isIntro={isIntro}
-      
-        uiState={uiState}
+    
       />
       <Text scrollPos={scrollPos} />
       {scrollPos >= THRESHOLD && <GPGPUParticles />}

@@ -9,7 +9,7 @@ import { Fisheye, useScroll, Stars, useGLTF, CameraShake, Text3D, Center, FaceLa
 const START = 0.28;
 const END = 0.577;
 
-export default function SkyAndStars({ isIntro, scrollPos, uiState }: any) {
+export default function SkyAndStars({ isIntro, scrollPos }: any) {
   const [group, cloud] = useRefs<any>();
   const { size } = useThree();
 
@@ -44,7 +44,7 @@ export default function SkyAndStars({ isIntro, scrollPos, uiState }: any) {
       </group>
       <group position={[0, 100, -10000]} ref={cloud}></group>
 
-      {uiState !== 4 && <Stars radius={100} depth={50} count={2000} factor={2} saturation={0} fade />}
+      {scrollPos >= 0.95 && <Stars radius={100} depth={50} count={2000} factor={2} saturation={0} fade />}
     </>
   );
 }
